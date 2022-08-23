@@ -11,6 +11,9 @@ struct ContentView: View {
     var body: some View {
         Text("News App")
             .padding()
+            .onAppear(
+                perform: API.shared.getNews
+            )
     }
 }
 

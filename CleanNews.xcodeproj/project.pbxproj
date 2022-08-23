@@ -14,6 +14,7 @@
 		7669ED7C28A520FF001385B0 /* CleanNewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669ED7B28A520FF001385B0 /* CleanNewsTests.swift */; };
 		7669ED8628A520FF001385B0 /* CleanNewsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669ED8528A520FF001385B0 /* CleanNewsUITests.swift */; };
 		7669ED8828A520FF001385B0 /* CleanNewsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669ED8728A520FF001385B0 /* CleanNewsUITestsLaunchTests.swift */; };
+		76DCE7E628ABA9DD00DD973B /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DCE7E528ABA9DD00DD973B /* API.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		7669ED8128A520FF001385B0 /* CleanNewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleanNewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7669ED8528A520FF001385B0 /* CleanNewsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanNewsUITests.swift; sourceTree = "<group>"; };
 		7669ED8728A520FF001385B0 /* CleanNewsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanNewsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		76DCE7E528ABA9DD00DD973B /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				7669ED6C28A520FE001385B0 /* ContentView.swift */,
 				7669ED6E28A520FF001385B0 /* Assets.xcassets */,
 				7669ED7028A520FF001385B0 /* Preview Content */,
+				76DCE7E528ABA9DD00DD973B /* API.swift */,
 			);
 			path = CleanNews;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7669ED6D28A520FE001385B0 /* ContentView.swift in Sources */,
+				76DCE7E628ABA9DD00DD973B /* API.swift in Sources */,
 				7669ED6B28A520FE001385B0 /* CleanNewsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
