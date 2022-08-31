@@ -8,7 +8,6 @@
 import Foundation
 
 class API {
-    
     static let shared = API()
     
     let client = URLSession.shared
@@ -39,13 +38,5 @@ class API {
             }
         }
         .resume()
-    }
-}
-
-struct News: Codable {
-    let articles: [Article]
-    
-    struct Article: Codable {
-        let title: String
     }
 }
