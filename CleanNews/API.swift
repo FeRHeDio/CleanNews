@@ -16,22 +16,36 @@ class API {
     var request = URLRequest(url: URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=d08988aa3d4247f5b37c1a712f884148")!)
         
     func getNews() {
+        let decoder = JSONDecoder()
         request.httpMethod = "GET"
 
         client.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Heads Up! We receive an error with this description: \(error.localizedDescription)")
             }
-
+            
             if let response = response as? HTTPURLResponse {
-                print("The response is: \(response.statusCode)")
+                print("The response from the server is: \(response.statusCode)")
             }
             
             if let data = data {
                 print("Here comes the news!")
-                print(String(data: data, encoding: .utf8)!)
+                do {
+                    let news = try decoder.decode(News.self, from: data)
+                    print(news.articles)
+                } catch let error {
+                    print(error)
+                }
             }
         }
         .resume()
+    }
+}
+
+struct News: Codable {
+    let articles: [Article]
+    
+    struct Article: Codable {
+        let title: String
     }
 }
