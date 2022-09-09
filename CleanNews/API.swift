@@ -14,7 +14,7 @@ class API {
     let apiSecret = "d08988aa3d4247f5b37c1a712f884148"
     var request = URLRequest(url: URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=d08988aa3d4247f5b37c1a712f884148")!)
         
-    func getNews() {
+    func getNews(completion: @escaping (News) -> Void) {
         let decoder = JSONDecoder()
         request.httpMethod = "GET"
 
@@ -31,7 +31,7 @@ class API {
                 print("Here comes the news!")
                 do {
                     let news = try decoder.decode(News.self, from: data)
-                    print(news.articles)
+                    completion(news)
                 } catch let error {
                     print(error)
                 }

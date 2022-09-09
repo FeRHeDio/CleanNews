@@ -8,12 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var articles = [Article]()
+    
     var body: some View {
-        Text("News App")
-            .padding()
-            .onAppear(
-                perform: API.shared.getNews
-            )
+        List {
+            ForEach(articles) { article in
+                Text(article.title)
+            }
+        }
+        .onAppear {
+            API.shared.getNews { news in
+                articles = news.articles
+            }
+        }
     }
 }
 
