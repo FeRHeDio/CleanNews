@@ -11,11 +11,18 @@ struct News: Decodable {
     let articles: [Article]
 }
 
-struct Article: Decodable, Identifiable {
-    var id = UUID().uuidString
+public struct Article: Decodable, Identifiable {
+    public var id = UUID().uuidString
     let title: String
 
     enum CodingKeys: String, CodingKey {
         case title = "title"
     }
+}
+
+public struct NewsItem: Equatable {
+    let id: UUID
+    let title: String
+    let description: String
+    let content: String
 }
