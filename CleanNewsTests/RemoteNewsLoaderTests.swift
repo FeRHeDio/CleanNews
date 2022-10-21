@@ -37,7 +37,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         
-        expect(sut, completeWithError: .connectivity) {
+        expect(sut, completeWith: .failure(.connectivity)) {
             let clientError = NSError(domain: "Test", code: 0)
             client.complete(with: clientError)
         }
@@ -49,7 +49,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
         let samples = [199, 201, 300, 400, 500].enumerated()
         
         samples.forEach { index,code in
-            expect(sut, completeWithError: .invalidData) {
+            expect(sut, completeWith: .failure(.invalidData)) {
                 client.complete(withStatusCode: code, at: index)
             }
         }
@@ -58,7 +58,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
     func test_load_deliversErrorOn200HTTPResponseWithInvalidJson() {
         let (sut, client) = makeSUT()
         
-        expect(sut, completeWithError: .invalidData) {
+        expect(sut, completeWith: .failure(.invalidData)) {
             let invalidData = Data("invalid json".utf8)
             client.complete(withStatusCode: 200, data: invalidData)
         }
@@ -67,16 +67,11 @@ final class RemoteNewsLoaderTests: XCTestCase {
     func test_load_deliversNoItemsOn200HTTPResponseWithEmptyJsonList() {
         let (sut, client) = makeSUT()
         
-        var capturedResults = [RemoteNewsLoader.Result]()
-        sut.load { capturedResults.append($0) }
-        
-        let emptyJsonList = Data("{\"articles\": []}".utf8)
-        client.complete(withStatusCode: 200, data: emptyJsonList)
-        
-        XCTAssertEqual(capturedResults, [.success([])])
+        expect(sut, completeWith: .success([])) {
+            let emptyJsonList = Data("{\"articles\": []}".utf8)
+            client.complete(withStatusCode: 200, data: emptyJsonList)
+        }
     }
-    
-     
     
     //MARK: Helpers
     
@@ -87,14 +82,14 @@ final class RemoteNewsLoaderTests: XCTestCase {
         return (sut, client)
     }
     
-    private func expect(_ sut: RemoteNewsLoader, completeWithError error: RemoteNewsLoader.Error, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+    private func expect(_ sut: RemoteNewsLoader, completeWith result: RemoteNewsLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         
         var capturedResults = [RemoteNewsLoader.Result]()
         sut.load { capturedResults.append($0) }
         
         action()
         
-        XCTAssertEqual(capturedResults, [.failure(error)], file: file, line: line)
+        XCTAssertEqual(capturedResults, [result], file: file, line: line)
     }
     
     private class HTTPClientSpy: HTTPClient {
