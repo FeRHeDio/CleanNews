@@ -73,6 +73,45 @@ final class RemoteNewsLoaderTests: XCTestCase {
         }
     }
     
+    //Happy Path
+    
+    func test_load_deliversItemsOn200HTTPResponseWithJsonItems() {
+        let (sut, client) = makeSUT()
+        
+        let item1 = NewsItem(
+            title: "some news title",
+            description: "Some description",
+            content: "some content for the first article"
+        )
+        
+        let item1Json = [
+            "title": item1.title,
+            "description": item1.description,
+            "content": item1.content
+        ]
+        
+        let item2 = NewsItem(
+            title: "Another title",
+            description: "Another description for second article",
+            content: "More content for the second article"
+        )
+        
+        let item2Json = [
+            "title": item2.title,
+            "description": item2.description,
+            "content": item2.content
+        ]
+        
+        let articles = [
+            "articles": [item1Json, item2Json]
+        ]
+        
+        expect(sut, completeWith: .success([item1, item2])) {
+            let json = try! JSONSerialization.data(withJSONObject: articles)
+            client.complete(withStatusCode: 200, data: json)
+        }
+    }
+    
     //MARK: Helpers
     
     private func makeSUT(url: URL = URL(string: "a_Super_URL")!) -> (sut: RemoteNewsLoader, client: HTTPClientSpy)  {

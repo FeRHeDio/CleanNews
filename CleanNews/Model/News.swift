@@ -20,9 +20,18 @@ public struct Article: Decodable, Identifiable {
     }
 }
 
-public struct NewsItem: Equatable {
-    let id: UUID
-    let title: String
-    let description: String
-    let content: String
+public struct NewsItem: Equatable, Decodable {
+    public let title: String
+    public let description: String
+    public let content: String
+    
+    public init(title: String, description: String, content: String) {
+        self.title = title
+        self.description = description
+        self.content = content
+    }
+}
+
+public struct Root: Decodable {
+    let articles: [NewsItem]
 }
