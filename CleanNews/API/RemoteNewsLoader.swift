@@ -53,6 +53,6 @@ public class RemoteNewsLoader {
     }
 }
 
-public struct Root: Decodable {
+private struct Root: Decodable {
     let articles: [NewsItem]
 }
