@@ -58,8 +58,10 @@ private class NewsItemsMapper {
         let articles: [NewsItem]
     }
     
+    static var OK_200: Int { return 200 }
+    
     static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [NewsItem] {
-        guard response.statusCode == 200 else {
+        guard response.statusCode == OK_200 else {
             throw RemoteNewsLoader.Error.invalidData
         }
         
