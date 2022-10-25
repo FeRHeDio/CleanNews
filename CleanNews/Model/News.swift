@@ -31,7 +31,3 @@ public struct NewsItem: Equatable, Decodable {
         self.content = content
     }
 }
-
-public struct Root: Decodable {
-    let articles: [NewsItem]
-}

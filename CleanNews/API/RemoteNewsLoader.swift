@@ -52,3 +52,7 @@ public class RemoteNewsLoader {
         }
     }
 }
+
+public struct Root: Decodable {
+    let articles: [NewsItem]
+}
