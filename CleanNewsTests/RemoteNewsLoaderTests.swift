@@ -78,36 +78,22 @@ final class RemoteNewsLoaderTests: XCTestCase {
     func test_load_deliversItemsOn200HTTPResponseWithJsonItems() {
         let (sut, client) = makeSUT()
         
-        let item1 = NewsItem(
+        let item1 = makeItem(
             title: "some news title",
             description: "Some description",
             content: "some content for the first article"
         )
         
-        let item1Json = [
-            "title": item1.title,
-            "description": item1.description,
-            "content": item1.content
-        ]
-        
-        let item2 = NewsItem(
+        let item2 = makeItem(
             title: "Another title",
             description: "Another description for second article",
             content: "More content for the second article"
         )
+     
+        let items = [item1.model, item2.model]
         
-        let item2Json = [
-            "title": item2.title,
-            "description": item2.description,
-            "content": item2.content
-        ]
-        
-        let articles = [
-            "articles": [item1Json, item2Json]
-        ]
-        
-        expect(sut, completeWith: .success([item1, item2])) {
-            let json = try! JSONSerialization.data(withJSONObject: articles)
+        expect(sut, completeWith: .success(items)) {
+            let json = makeItemsJson([item1.json, item2.json])
             client.complete(withStatusCode: 200, data: json)
         }
     }
@@ -129,6 +115,28 @@ final class RemoteNewsLoaderTests: XCTestCase {
         action()
         
         XCTAssertEqual(capturedResults, [result], file: file, line: line)
+    }
+    
+    private func makeItem(title: String, description: String, content: String) -> (model: NewsItem, json: [String: Any]) {
+        
+        let item = NewsItem(
+            title: title,
+            description: description,
+            content: content
+        )
+        
+        let json = [
+            "title": title,
+            "description": description,
+            "content": content
+        ]
+        
+        return (item, json)
+    }
+    
+    private func makeItemsJson(_ items: [[String: Any]]) -> Data {
+        let json = ["articles": items]
+        return try! JSONSerialization.data(withJSONObject: json)
     }
     
     private class HTTPClientSpy: HTTPClient {
