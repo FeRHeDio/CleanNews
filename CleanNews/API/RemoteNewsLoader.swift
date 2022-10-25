@@ -40,8 +40,8 @@ public class RemoteNewsLoader {
             switch result {
                 
             case let .success(data, response):
-                if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
-                    completion(.success(root.articles))
+                if let items = try? NewsItemsMapper.map(data, response) {
+                    completion(.success(items))
                 } else {
                     completion(.failure(.invalidData))
                 }
@@ -53,6 +53,18 @@ public class RemoteNewsLoader {
     }
 }
 
-private struct Root: Decodable {
-    let articles: [NewsItem]
+private class NewsItemsMapper {
+    private struct Root: Decodable {
+        let articles: [NewsItem]
+    }
+    
+    static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [NewsItem] {
+        guard response.statusCode == 200 else {
+            throw RemoteNewsLoader.Error.invalidData
+        }
+        
+        return try JSONDecoder().decode(Root.self, from: data).articles
+    }
 }
+
+
