@@ -43,21 +43,3 @@ public class RemoteNewsLoader {
         }
     }
 }
-
-private class NewsItemsMapper {
-    private struct Root: Decodable {
-        let articles: [NewsItem]
-    }
-    
-    static var OK_200: Int { return 200 }
-    
-    static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [NewsItem] {
-        guard response.statusCode == OK_200 else {
-            throw RemoteNewsLoader.Error.invalidData
-        }
-        
-        return try JSONDecoder().decode(Root.self, from: data).articles
-    }
-}
-
-
