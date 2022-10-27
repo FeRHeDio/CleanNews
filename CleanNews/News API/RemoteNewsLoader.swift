@@ -30,9 +30,10 @@ public class RemoteNewsLoader {
         client.get(from: url) { result in
             switch result {
             case let .success(data, response):
-                if let items = try? NewsItemsMapper.map(data, response) {
+                do {
+                    let items = try NewsItemsMapper.map(data, response)
                     completion(.success(items))
-                } else {
+                } catch {
                     completion(.failure(.invalidData))
                 }
             case .failure:

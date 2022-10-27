@@ -101,11 +101,20 @@ final class RemoteNewsLoaderTests: XCTestCase {
     
     //MARK: Helpers
     
-    private func makeSUT(url: URL = URL(string: "a_Super_URL")!) -> (sut: RemoteNewsLoader, client: HTTPClientSpy)  {
+    private func makeSUT(url: URL = URL(string: "a_Super_URL")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteNewsLoader, client: HTTPClientSpy)  {
         let client = HTTPClientSpy()
         let sut = RemoteNewsLoader(url: url, client: client)
         
+        checkForMemoryLeaks(client, file: file, line: line)
+        checkForMemoryLeaks(sut, file: file, line: line)
+        
         return (sut, client)
+    }
+    
+    private func checkForMemoryLeaks(_ instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should be deallocated. Potential memory leak.", file: file, line: line)
+        }
     }
     
     private func expect(_ sut: RemoteNewsLoader, completeWith result: RemoteNewsLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
