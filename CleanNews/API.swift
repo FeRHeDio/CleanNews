@@ -38,8 +38,3 @@ class API: NewsLoader {
         .resume()
     }
 }
-
-
-protocol NewsLoader {
-    func loadNews(completion: @escaping (News) -> Void)
-}
