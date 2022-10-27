@@ -19,15 +19,3 @@ public struct Article: Decodable, Identifiable {
         case title = "title"
     }
 }
-
-public struct NewsItem: Equatable, Decodable {
-    public let title: String
-    public let description: String
-    public let content: String
-    
-    public init(title: String, description: String, content: String) {
-        self.title = title
-        self.description = description
-        self.content = content
-    }
-}
