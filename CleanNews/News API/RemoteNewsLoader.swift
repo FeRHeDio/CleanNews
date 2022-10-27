@@ -27,15 +27,12 @@ public class RemoteNewsLoader {
     }
     
     public func load(completion: @escaping (Result) -> Void) {
-        client.get(from: url) { result in
+        client.get(from: url) { [weak self] result in
+            guard self != nil else { return }
+            
             switch result {
             case let .success(data, response):
-                do {
-                    let items = try NewsItemsMapper.map(data, response)
-                    completion(.success(items))
-                } catch {
-                    completion(.failure(.invalidData))
-                }
+                completion(NewsItemsMapper.map(data, from: response))
             case .failure:
                 completion(.failure(.connectivity))
             }

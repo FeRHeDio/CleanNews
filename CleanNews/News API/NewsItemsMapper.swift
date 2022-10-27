@@ -13,13 +13,19 @@ internal final class NewsItemsMapper {
     }
     
     private static var OK_200: Int { return 200 }
-    
-    internal static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [NewsItem] {
+   
+    internal static func map(_ data: Data, from response: HTTPURLResponse) -> RemoteNewsLoader.Result {
         guard response.statusCode == OK_200 else {
-            throw RemoteNewsLoader.Error.invalidData
+            return .failure(.invalidData)
         }
         
-        return try JSONDecoder().decode(Root.self, from: data).articles
+        do {
+            let root = try JSONDecoder().decode(Root.self, from: data)
+            let items = root.articles.map { $0 }
+            return .success(items)
+        } catch {
+            return .failure(.invalidData)
+        }
     }
 }
 
