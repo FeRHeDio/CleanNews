@@ -37,7 +37,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         
-        expect(sut, completeWith: .failure(RemoteNewsLoader.Error.connectivity)) {
+        expect(sut, completeWith: failure(.connectivity)) {
             let clientError = NSError(domain: "Test", code: 0)
             client.complete(with: clientError)
         }
@@ -49,7 +49,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
         let samples = [199, 201, 300, 400, 500].enumerated()
         
         samples.forEach { index,code in
-            expect(sut, completeWith: .failure(RemoteNewsLoader.Error.invalidData)) {
+            expect(sut, completeWith: failure(.invalidData)) {
                 let json = makeItemsJson([])
                 client.complete(withStatusCode: code, data: json, at: index)
             }
@@ -59,7 +59,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
     func test_load_deliversErrorOn200HTTPResponseWithInvalidJson() {
         let (sut, client) = makeSUT()
         
-        expect(sut, completeWith: .failure(RemoteNewsLoader.Error.invalidData)) {
+        expect(sut, completeWith: failure(.invalidData)) {
             let invalidData = Data("invalid json".utf8)
             client.complete(withStatusCode: 200, data: invalidData)
         }
@@ -124,6 +124,10 @@ final class RemoteNewsLoaderTests: XCTestCase {
         checkForMemoryLeaks(sut, file: file, line: line)
         
         return (sut, client)
+    }
+    
+    private func failure(_ error: RemoteNewsLoader.Error) -> RemoteNewsLoader.Result {
+        .failure(error)
     }
     
     private func checkForMemoryLeaks(_ instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
