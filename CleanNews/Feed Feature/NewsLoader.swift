@@ -12,8 +12,6 @@ public enum NewsLoaderResult<Error: Swift.Error> {
     case failure(Error)
 }
 
-extension NewsLoaderResult: Equatable where Error: Equatable {}
-
 protocol NewsLoader {
     associatedtype Error: Swift.Error
     

@@ -132,14 +132,29 @@ final class RemoteNewsLoaderTests: XCTestCase {
         }
     }
     
-    private func expect(_ sut: RemoteNewsLoader, completeWith result: RemoteNewsLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+    private func expect(_ sut: RemoteNewsLoader, completeWith expectedResult: RemoteNewsLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+        let exp = expectation(description: "Wait for load completion")
         
-        var capturedResults = [RemoteNewsLoader.Result]()
-        sut.load { capturedResults.append($0) }
+        sut.load { receivedResult in
+            switch (receivedResult, expectedResult) {
+                
+            case let (.success(receivedItems), .success(expectedItems)):
+                XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
+                
+            case let (.failure(receievedErrors), .failure(expectedErrors)):
+                XCTAssertEqual(receievedErrors, expectedErrors, file: file, line: line)
+                
+                
+            default:
+                XCTFail("Expected result \(expectedResult) got \(receivedResult)")
+            }
         
+            exp.fulfill()
+            
+        }
         action()
         
-        XCTAssertEqual(capturedResults, [result], file: file, line: line)
+        wait(for: [exp], timeout: 1.0)
     }
     
     private func makeItem(title: String, description: String, content: String) -> (model: NewsItem, json: [String: Any]) {
