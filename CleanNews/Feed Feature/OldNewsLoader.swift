@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol NewsLoader {
+protocol OldNewsLoader {
     func loadNews(completion: @escaping (News) -> Void)
 }

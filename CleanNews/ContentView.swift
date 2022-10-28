@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    var loader: NewsLoader!
+    var loader: OldNewsLoader!
     
     @State var articles = [Article]()
     
