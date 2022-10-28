@@ -7,11 +7,15 @@
 
 import Foundation
 
-enum NewsLoaderResult {
+public enum NewsLoaderResult<Error: Swift.Error> {
     case success([NewsItem])
     case failure(Error)
 }
 
+extension NewsLoaderResult: Equatable where Error: Equatable {}
+
 protocol NewsLoader {
-    func load(completion: @escaping (NewsLoaderResult) -> Void)
+    associatedtype Error: Swift.Error
+    
+    func load(completion: @escaping (NewsLoaderResult<Error>) -> Void)
 }
