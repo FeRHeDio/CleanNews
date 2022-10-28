@@ -37,7 +37,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         
-        expect(sut, completeWith: .failure(.connectivity)) {
+        expect(sut, completeWith: .failure(RemoteNewsLoader.Error.connectivity)) {
             let clientError = NSError(domain: "Test", code: 0)
             client.complete(with: clientError)
         }
@@ -49,7 +49,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
         let samples = [199, 201, 300, 400, 500].enumerated()
         
         samples.forEach { index,code in
-            expect(sut, completeWith: .failure(.invalidData)) {
+            expect(sut, completeWith: .failure(RemoteNewsLoader.Error.invalidData)) {
                 let json = makeItemsJson([])
                 client.complete(withStatusCode: code, data: json, at: index)
             }
@@ -59,7 +59,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
     func test_load_deliversErrorOn200HTTPResponseWithInvalidJson() {
         let (sut, client) = makeSUT()
         
-        expect(sut, completeWith: .failure(.invalidData)) {
+        expect(sut, completeWith: .failure(RemoteNewsLoader.Error.invalidData)) {
             let invalidData = Data("invalid json".utf8)
             client.complete(withStatusCode: 200, data: invalidData)
         }
@@ -141,8 +141,8 @@ final class RemoteNewsLoaderTests: XCTestCase {
             case let (.success(receivedItems), .success(expectedItems)):
                 XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
                 
-            case let (.failure(receievedErrors), .failure(expectedErrors)):
-                XCTAssertEqual(receievedErrors, expectedErrors, file: file, line: line)
+            case let (.failure(receievedError as RemoteNewsLoader.Error), .failure(expectedError as RemoteNewsLoader.Error)):
+                XCTAssertEqual(receievedError, expectedError, file: file, line: line)
                 
                 
             default:

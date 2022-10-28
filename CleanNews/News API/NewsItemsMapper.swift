@@ -16,7 +16,7 @@ internal final class NewsItemsMapper {
    
     internal static func map(_ data: Data, from response: HTTPURLResponse) -> RemoteNewsLoader.Result {
         guard response.statusCode == OK_200 else {
-            return .failure(.invalidData)
+            return .failure(RemoteNewsLoader.Error.invalidData)
         }
         
         do {
@@ -24,7 +24,7 @@ internal final class NewsItemsMapper {
             let items = root.articles.map { $0 }
             return .success(items)
         } catch {
-            return .failure(.invalidData)
+            return .failure(RemoteNewsLoader.Error.invalidData)
         }
     }
 }
