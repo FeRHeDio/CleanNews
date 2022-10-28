@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76287D47290C0787002C7130 /* NewsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76287D46290C0787002C7130 /* NewsLoader.swift */; };
 		7669ED6B28A520FE001385B0 /* CleanNewsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669ED6A28A520FE001385B0 /* CleanNewsApp.swift */; };
 		7669ED6D28A520FE001385B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669ED6C28A520FE001385B0 /* ContentView.swift */; };
 		7669ED6F28A520FF001385B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7669ED6E28A520FF001385B0 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		76287D46290C0787002C7130 /* NewsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsLoader.swift; sourceTree = "<group>"; };
 		7669ED6728A520FE001385B0 /* CleanNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7669ED6A28A520FE001385B0 /* CleanNewsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanNewsApp.swift; sourceTree = "<group>"; };
 		7669ED6C28A520FE001385B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 			children = (
 				769AB912290B208300AF03F0 /* OldNewsLoader.swift */,
 				769AB914290B22F700AF03F0 /* NewsItem.swift */,
+				76287D46290C0787002C7130 /* NewsLoader.swift */,
 			);
 			path = "Feed Feature";
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				769AB90C29096A9B00AF03F0 /* NewsItemsMapper.swift in Sources */,
 				7669ED6D28A520FE001385B0 /* ContentView.swift in Sources */,
 				76DCE7E628ABA9DD00DD973B /* API.swift in Sources */,
+				76287D47290C0787002C7130 /* NewsLoader.swift in Sources */,
 				769AB90A29096A2900AF03F0 /* HTTPClient.swift in Sources */,
 				76FACD9728BF85AF000186E2 /* News.swift in Sources */,
 				76EE4D1228E3149A00FB8F68 /* RemoteNewsLoader.swift in Sources */,
