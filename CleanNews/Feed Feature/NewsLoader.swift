@@ -12,6 +12,6 @@ public enum NewsLoaderResult {
     case failure(Error)
 }
 
-protocol NewsLoader {
+public protocol NewsLoader {
     func load(completion: @escaping (NewsLoaderResult) -> Void)
 }
