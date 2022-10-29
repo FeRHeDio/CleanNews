@@ -114,7 +114,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
         XCTAssertTrue(capturedResults.isEmpty)
     }
     
-    //MARK: Helpers
+    //MARK: - Helpers
     
     private func makeSUT(url: URL = URL(string: "a_Super_URL")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteNewsLoader, client: HTTPClientSpy)  {
         let client = HTTPClientSpy()
