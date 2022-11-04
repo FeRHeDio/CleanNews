@@ -120,6 +120,7 @@
 		7669ED7A28A520FF001385B0 /* CleanNewsTests */ = {
 			isa = PBXGroup;
 			children = (
+				76B2D1A1291008D600F1BA77 /* Helpers */,
 				76C77D742914418200D0FA47 /* News Cache */,
 				769AB90D290B0EBD00AF03F0 /* News API */,
 			);
@@ -129,7 +130,6 @@
 		769AB90D290B0EBD00AF03F0 /* News API */ = {
 			isa = PBXGroup;
 			children = (
-				76B2D1A1291008D600F1BA77 /* Helpers */,
 				76EE4D0E28E2612400FB8F68 /* RemoteNewsLoaderTests.swift */,
 				76B2D19F290D391B00F1BA77 /* URLSessionHTTPClientTests.swift */,
 			);
