@@ -22,9 +22,14 @@ class LocalNewsLoader {
 
 class NewsStore {
     var deleteCachedNewsCallCount = 0
+    var insertCallCount = 0
     
     func deleteCachedNews() {
         deleteCachedNewsCallCount += 1
+    }
+    
+    func completeDeletion(with error: Error, at index: Int = 0) {
+        
     }
 }
 
@@ -45,6 +50,17 @@ class CacheNewsUseCaseTests: XCTestCase {
         XCTAssertEqual(store.deleteCachedNewsCallCount, 1)
     }
     
+    func test_save_doesNotRequestCacheInsertionOnDeletionError() {
+        let (sut, store) = makeSUT()
+        let items = [uniqueItem(), uniqueItem()]
+        let deletionError = anyNSError()
+        
+        sut.save(items)
+        store.completeDeletion(with: deletionError)
+        
+        XCTAssertEqual(store.insertCallCount, 0)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalNewsLoader, store: NewsStore) {
@@ -59,5 +75,9 @@ class CacheNewsUseCaseTests: XCTestCase {
     
     private func uniqueItem() -> NewsItem {
         NewsItem(title: "some title", description: "some descri", content: "some content")
+    }
+    
+    private func anyNSError() -> NSError {
+        NSError(domain: "any", code: 0)
     }
 }
