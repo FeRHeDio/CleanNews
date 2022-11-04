@@ -31,15 +31,13 @@ class NewsStore {
 class CacheNewsUseCaseTests: XCTestCase {
     
     func test_init_doesNotDeleteCacheUponCreation() {
-        let store = NewsStore()
-        _ = LocalNewsLoader(store: store)
+        let (_, store) = makeSUT()
         
         XCTAssertEqual(store.deleteCachedNewsCallCount, 0)
     }
     
     func test_save_requestCacheDeletion() {
-        let store = NewsStore()
-        let sut = LocalNewsLoader(store: store)
+        let (sut, store) = makeSUT()
         let items = [uniqueItem(), uniqueItem()]
         
         sut.save(items)
@@ -48,6 +46,13 @@ class CacheNewsUseCaseTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func makeSUT() -> (sut: LocalNewsLoader, store: NewsStore) {
+        let store = NewsStore()
+        let sut = LocalNewsLoader(store: store)
+        
+        return (sut, store)
+    }
     
     private func uniqueItem() -> NewsItem {
         NewsItem(title: "some title", description: "some descri", content: "some content")
