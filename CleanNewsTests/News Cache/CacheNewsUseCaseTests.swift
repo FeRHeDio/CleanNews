@@ -9,16 +9,18 @@ import XCTest
 import CleanNews
 
 class LocalNewsLoader {
-    let store: NewsStore
+    private let store: NewsStore
+    private let currentDate: () -> Date
     
-    init(store: NewsStore) {
+    init(store: NewsStore, currentDate: @escaping () -> Date) {
         self.store = store
+        self.currentDate = currentDate
     }
     
     func save(_ items: [NewsItem]) {
         store.deleteCachedNews { [unowned self] error in
             if error == nil {
-                self.store.insert(items)
+                self.store.insert(items, timestamp: self.currentDate())
             }
         }
     }
@@ -29,6 +31,7 @@ class NewsStore {
     
     var deleteCachedNewsCallCount = 0
     var insertCallCount = 0
+    var insertions = [(items: [NewsItem], timestamp: Date)]()
     
     var deletionCompletions = [DeletionCompletion]()
     
@@ -45,8 +48,9 @@ class NewsStore {
         deletionCompletions[index](nil)
     }
     
-    func insert(_ items: [NewsItem]) {
+    func insert(_ items: [NewsItem], timestamp: Date) {
         insertCallCount += 1
+        insertions.append((items, timestamp))
     }
 }
 
@@ -88,11 +92,24 @@ class CacheNewsUseCaseTests: XCTestCase {
         XCTAssertEqual(store.insertCallCount, 1)
     }
     
+    func test_save_requestNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
+        let timestamp = Date()
+        let (sut, store) = makeSUT(currentDate: { timestamp })
+        let items = [uniqueItem(), uniqueItem()]
+        
+        sut.save(items)
+        store.completeDeletionSuccessfully()
+        
+        XCTAssertEqual(store.insertions.count, 1)
+        XCTAssertEqual(store.insertions.first?.items, items)
+        XCTAssertEqual(store.insertions.first?.timestamp, timestamp)
+    }
+    
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalNewsLoader, store: NewsStore) {
+    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalNewsLoader, store: NewsStore) {
         let store = NewsStore()
-        let sut = LocalNewsLoader(store: store)
+        let sut = LocalNewsLoader(store: store, currentDate: currentDate)
         
         checkForMemoryLeaks(store, file: file, line: line)
         checkForMemoryLeaks(sut, file: file, line: line)
