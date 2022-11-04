@@ -70,7 +70,7 @@ class CacheNewsUseCaseTests: XCTestCase {
         
         sut.save(items)
         
-        XCTAssertEqual(store.deleteCachedNewsCallCount, 1)
+        XCTAssertEqual(store.receivedMessages, [.deleteCachedNews])
     }
     
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
