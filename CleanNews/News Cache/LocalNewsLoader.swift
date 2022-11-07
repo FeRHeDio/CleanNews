@@ -36,12 +36,3 @@ public final class LocalNewsLoader {
         }
     }
 }
-
-
-public protocol NewsStore {
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) -> Void
-    
-    func deleteCachedNews(completion: @escaping DeletionCompletion)
-    func insert(_ items: [NewsItem], timestamp: Date, completion: @escaping InsertionCompletion)
-}
