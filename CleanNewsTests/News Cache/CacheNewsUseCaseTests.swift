@@ -79,7 +79,7 @@ class CacheNewsUseCaseTests: XCTestCase {
         let store = NewsStoreSpy()
         var sut: LocalNewsLoader? = LocalNewsLoader(store: store, currentDate: Date.init)
         
-        var receivedResults = [Error?]()
+        var receivedResults = [LocalNewsLoader.SaveResult]()
         sut?.save([uniqueItem()], completion: { receivedResults.append($0) })
         
         sut = nil
@@ -92,7 +92,7 @@ class CacheNewsUseCaseTests: XCTestCase {
         let store = NewsStoreSpy()
         var sut: LocalNewsLoader? = LocalNewsLoader(store: store, currentDate: Date.init)
         
-        var receivedResults = [Error?]()
+        var receivedResults = [LocalNewsLoader.SaveResult]()
         sut?.save([uniqueItem()], completion: { receivedResults.append($0) })
         
         store.completeDeletionSuccessfully()
