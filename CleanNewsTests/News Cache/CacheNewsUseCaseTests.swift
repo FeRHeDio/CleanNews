@@ -40,11 +40,13 @@ class CacheNewsUseCaseTests: XCTestCase {
         let timestamp = Date()
         let (sut, store) = makeSUT(currentDate: { timestamp })
         let items = [uniqueItem(), uniqueItem()]
+
+        let localItems = items.map { LocalNewsItem(title: $0.title, description: $0.description, content: $0.content) }
         
         sut.save(items) { _ in }
         store.completeDeletionSuccessfully()
         
-        XCTAssertEqual(store.receivedMessages, [.deleteCachedNews, .insert(items, timestamp)])
+        XCTAssertEqual(store.receivedMessages, [.deleteCachedNews, .insert(localItems, timestamp)])
     }
     
     func test_save_failsOnDeletionError() {
@@ -131,7 +133,7 @@ class CacheNewsUseCaseTests: XCTestCase {
     private class NewsStoreSpy: NewsStore {
         enum ReceivedMessage: Equatable {
             case deleteCachedNews
-            case insert([NewsItem], Date)
+            case insert([LocalNewsItem], Date)
         }
         
         private(set) var receivedMessages = [ReceivedMessage]()
@@ -152,7 +154,7 @@ class CacheNewsUseCaseTests: XCTestCase {
             deletionCompletions[index](nil)
         }
         
-        func insert(_ items: [NewsItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+        func insert(_ items: [LocalNewsItem], timestamp: Date, completion: @escaping InsertionCompletion) {
             insertionCompletions.append(completion)
             receivedMessages.append(.insert(items, timestamp))
         }

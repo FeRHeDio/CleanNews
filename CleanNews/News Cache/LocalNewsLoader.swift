@@ -31,10 +31,16 @@ public final class LocalNewsLoader {
     }
     
     private func cache(_ items: [NewsItem], with completion: @escaping (SaveResult) -> Void ) {
-        store.insert(items, timestamp: currentDate()) { [weak self] error in
+        store.insert(items.toLocal(), timestamp: currentDate()) { [weak self] error in
             guard self != nil else { return }
             
             completion(error)
         }
+    }
+}
+
+private extension Array where Element == NewsItem {
+    func toLocal() -> [LocalNewsItem] {
+        return map { LocalNewsItem(title: $0.title, description: $0.description, content: $0.content) }
     }
 }
