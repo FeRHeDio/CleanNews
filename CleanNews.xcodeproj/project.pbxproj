@@ -20,6 +20,7 @@
 		76B2D1A0290D391B00F1BA77 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B2D19F290D391B00F1BA77 /* URLSessionHTTPClientTests.swift */; };
 		76B2D1A329100D8000F1BA77 /* XCtestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B2D1A229100D8000F1BA77 /* XCtestCase+MemoryLeakTracking.swift */; };
 		76C77D76291441C500D0FA47 /* CacheNewsUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C77D75291441C500D0FA47 /* CacheNewsUseCaseTests.swift */; };
+		76C77D792919207600D0FA47 /* LocalNewsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C77D782919207600D0FA47 /* LocalNewsLoader.swift */; };
 		76DCE7E628ABA9DD00DD973B /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DCE7E528ABA9DD00DD973B /* API.swift */; };
 		76EE4D0F28E2612400FB8F68 /* RemoteNewsLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EE4D0E28E2612400FB8F68 /* RemoteNewsLoaderTests.swift */; };
 		76EE4D1228E3149A00FB8F68 /* RemoteNewsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EE4D1128E3149A00FB8F68 /* RemoteNewsLoader.swift */; };
@@ -52,6 +53,7 @@
 		76B2D19F290D391B00F1BA77 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		76B2D1A229100D8000F1BA77 /* XCtestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCtestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		76C77D75291441C500D0FA47 /* CacheNewsUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheNewsUseCaseTests.swift; sourceTree = "<group>"; };
+		76C77D782919207600D0FA47 /* LocalNewsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNewsLoader.swift; sourceTree = "<group>"; };
 		76DCE7E528ABA9DD00DD973B /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		76EE4D0E28E2612400FB8F68 /* RemoteNewsLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNewsLoaderTests.swift; sourceTree = "<group>"; };
 		76EE4D1128E3149A00FB8F68 /* RemoteNewsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNewsLoader.swift; sourceTree = "<group>"; };
@@ -97,7 +99,8 @@
 		7669ED6928A520FE001385B0 /* CleanNews */ = {
 			isa = PBXGroup;
 			children = (
-				769AB911290B206D00AF03F0 /* Feed Feature */,
+				76C77D772919204B00D0FA47 /* News Cache */,
+				769AB911290B206D00AF03F0 /* News Feature */,
 				76EE4D1028E3148300FB8F68 /* News API */,
 				76FACD9528BF84D0000186E2 /* Model */,
 				76DCE7E528ABA9DD00DD973B /* API.swift */,
@@ -136,14 +139,14 @@
 			path = "News API";
 			sourceTree = "<group>";
 		};
-		769AB911290B206D00AF03F0 /* Feed Feature */ = {
+		769AB911290B206D00AF03F0 /* News Feature */ = {
 			isa = PBXGroup;
 			children = (
 				769AB912290B208300AF03F0 /* OldNewsLoader.swift */,
 				769AB914290B22F700AF03F0 /* NewsItem.swift */,
 				76287D46290C0787002C7130 /* NewsLoader.swift */,
 			);
-			path = "Feed Feature";
+			path = "News Feature";
 			sourceTree = "<group>";
 		};
 		76B2D1A1291008D600F1BA77 /* Helpers */ = {
@@ -158,6 +161,14 @@
 			isa = PBXGroup;
 			children = (
 				76C77D75291441C500D0FA47 /* CacheNewsUseCaseTests.swift */,
+			);
+			path = "News Cache";
+			sourceTree = "<group>";
+		};
+		76C77D772919204B00D0FA47 /* News Cache */ = {
+			isa = PBXGroup;
+			children = (
+				76C77D782919207600D0FA47 /* LocalNewsLoader.swift */,
 			);
 			path = "News Cache";
 			sourceTree = "<group>";
@@ -293,6 +304,7 @@
 				7669ED6B28A520FE001385B0 /* CleanNewsApp.swift in Sources */,
 				769AB915290B22F700AF03F0 /* NewsItem.swift in Sources */,
 				769AB913290B208300AF03F0 /* OldNewsLoader.swift in Sources */,
+				76C77D792919207600D0FA47 /* LocalNewsLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
