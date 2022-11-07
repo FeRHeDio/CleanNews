@@ -18,7 +18,9 @@ class LocalNewsLoader {
     }
     
     func save(_ items: [NewsItem], completion: @escaping (Error?) -> Void) {
-        store.deleteCachedNews { [unowned self] error in
+        store.deleteCachedNews { [weak self] error in
+            guard let self = self else { return }
+            
             if error == nil {
                 self.store.insert(items, timestamp: self.currentDate(), completion: completion)
             } else {
@@ -101,6 +103,19 @@ class CacheNewsUseCaseTests: XCTestCase {
             store.completeDeletionSuccessfully()
             store.completeInsertionSuccessfully()
         })
+    }
+    
+    func test_save_doesNotDeliverDeletionErrorAfterSUTHasBeenDeallocated() {
+        let store = NewsStoreSpy()
+        var sut: LocalNewsLoader? = LocalNewsLoader(store: store, currentDate: Date.init)
+        
+        var receivedResults = [Error?]()
+        sut?.save([uniqueItem()], completion: { receivedResults.append($0) })
+        
+        sut = nil
+        store.completeDeletion(with: anyNSError())
+        
+        XCTAssertTrue(receivedResults.isEmpty)
     }
     
     // MARK: - Helpers
