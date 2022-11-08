@@ -29,10 +29,26 @@ public class RemoteNewsLoader: NewsLoader {
             
             switch result {
             case let .success(data, response):
-                completion(NewsItemsMapper.map(data, from: response))
+                completion(RemoteNewsLoader.map(data, from: response))
+            
             case .failure:
                 completion(.failure(Error.connectivity))
             }
         }
+    }
+    
+    private static func map(_ data: Data, from response: HTTPURLResponse) -> Result {
+        do {
+            let items = try NewsItemsMapper.map(data, from: response)
+            return .success(items.toModels())
+        } catch {
+            return .failure(error)
+        }
+    }
+}
+
+private extension Array where Element == RemoteNewsItem {
+    func toModels() -> [NewsItem] {
+        return map { NewsItem(title: $0.title, description: $0.description, content: $0.content) }
     }
 }

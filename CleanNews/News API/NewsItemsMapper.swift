@@ -7,25 +7,26 @@
 
 import Foundation
 
+internal class RemoteNewsItem: Decodable {
+    internal let title: String
+    internal let description: String
+    internal let content: String
+}
+
 internal final class NewsItemsMapper {
     private struct Root: Decodable {
-        let articles: [NewsItem]
+        let articles: [RemoteNewsItem]
     }
     
     private static var OK_200: Int { return 200 }
    
-    internal static func map(_ data: Data, from response: HTTPURLResponse) -> RemoteNewsLoader.Result {
-        guard response.statusCode == OK_200 else {
-            return .failure(RemoteNewsLoader.Error.invalidData)
+    internal static func map(_ data: Data, from response: HTTPURLResponse) throws -> [RemoteNewsItem] {
+        guard response.statusCode == OK_200,
+            let root = try? JSONDecoder().decode(Root.self, from: data) else {
+            throw RemoteNewsLoader.Error.invalidData
         }
         
-        do {
-            let root = try JSONDecoder().decode(Root.self, from: data)
-            let items = root.articles.map { $0 }
-            return .success(items)
-        } catch {
-            return .failure(RemoteNewsLoader.Error.invalidData)
-        }
+        return root.articles
     }
 }
 

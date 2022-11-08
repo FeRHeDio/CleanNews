@@ -170,7 +170,7 @@ class CacheNewsUseCaseTests: XCTestCase {
     
     private func uniqueItems() -> (models: [NewsItem], local: [LocalNewsItem]) {
         let models = [uniqueItem(), uniqueItem()]
-        let local = models.map { LocalNewsItem(title: $0.title, description: $0.description, content: $0.content) }
+        let local = models.map { LocalNewsItem(title: $0.title, description: $0.description, content: $0.content) }
         
         return (models, local)
     }
