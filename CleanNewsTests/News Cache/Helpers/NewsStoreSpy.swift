@@ -53,10 +53,14 @@ class NewsStoreSpy: NewsStore {
     }
     
     func completeRetrieval(with error: Error, at index: Int = 0) {
-        retrievalCompletions[index](error)
+        retrievalCompletions[index](.failure(error))
     }
     
     func completeRetrievalWithEmptyCache(at index: Int = 0) {
-        retrievalCompletions[index](nil)
+        retrievalCompletions[index](.empty)
+    }
+    
+    func completeRetrieval(with items: [LocalNewsItem], timestamp: Date, at index: Int = 0) {
+        retrievalCompletions[index](.found(items: items, timestamp: timestamp))
     }
 }

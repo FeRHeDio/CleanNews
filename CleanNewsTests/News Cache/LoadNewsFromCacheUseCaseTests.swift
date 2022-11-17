@@ -41,6 +41,17 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
         }
     }
     
+    func test_load_deliversCacheItemsOnLessThanSevenDaysOldCache() {
+        let news = uniqueItems()
+        let fixedCurrentDate = Date()
+        let lessThanSevenDaysOldTimeStamp = fixedCurrentDate.adding(days: -7).adding(seconds: 1)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        
+        expect(sut, toCompleteWith: .success(news.models)) {
+            store.completeRetrieval(with: news.local, timestamp: lessThanSevenDaysOldTimeStamp)
+        }
+    }
+    
     //MARK: - Helpers
     
     private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalNewsLoader, store: NewsStoreSpy) {
@@ -79,5 +90,24 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
         NSError(domain: "any", code: 0)
     }
     
+    private func uniqueItem() -> NewsItem {
+        NewsItem(title: "some title", description: "some descri", content: "some content")
+    }
+    
+    private func uniqueItems() -> (models: [NewsItem], local: [LocalNewsItem]) {
+        let models = [uniqueItem(), uniqueItem()]
+        let local = models.map { LocalNewsItem(title: $0.title, description: $0.description, content: $0.content) }
+        
+        return (models, local)
+    }
+}
 
+private extension Date {
+    func adding(days: Int) -> Date {
+        return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
+    }
+    
+    func adding(seconds: TimeInterval) -> Date {
+        return self + seconds
+    }
 }
