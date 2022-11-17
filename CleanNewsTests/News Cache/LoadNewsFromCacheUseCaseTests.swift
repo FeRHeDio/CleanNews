@@ -48,6 +48,30 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(receivedError as NSError?, retrievalError)
     }
     
+    func test_load_deliversNoImageOnEmptyCache() {
+        let (sut, store) = makeSUT()
+
+        var receivedItems: [NewsItem]?
+
+
+        let exp = expectation(description: "Wait for load completion")
+
+        sut.load { result in
+            switch result {
+            case let .success(items):
+                receivedItems = items
+            default:
+                XCTFail("Waiting for success, received \(result) instead")
+            }
+            exp.fulfill()
+        }
+
+        store.completeRetrievalWithEmptyCache()
+        wait(for: [exp], timeout: 1.0)
+
+        XCTAssertEqual(receivedItems, [])
+    }
+    
     //MARK: - Helpers
     
     private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalNewsLoader, store: NewsStoreSpy) {
