@@ -52,6 +52,17 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
         }
     }
     
+    func test_load_deliversNoItemsOnSevenDaysOldCache() {
+        let news = uniqueItems()
+        let fixedCurrentDate = Date()
+        let sevenDaysOldTimeStamp = fixedCurrentDate.adding(days: -7)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        
+        expect(sut, toCompleteWith: .success([])) {
+            store.completeRetrieval(with: news.local, timestamp: sevenDaysOldTimeStamp)
+        }
+    }
+    
     //MARK: - Helpers
     
     private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalNewsLoader, store: NewsStoreSpy) {
