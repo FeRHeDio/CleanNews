@@ -128,7 +128,19 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedNews])
     }
         
-    
+    func test_load_doesNotDeliversResultAfterSUTHaveBeenDeallocated() {
+        let store = NewsStoreSpy()
+        var sut: LocalNewsLoader? = LocalNewsLoader(store: store, currentDate: Date.init)
+        
+        var receivedResults = [LocalNewsLoader.LoadResult]()
+        sut?.load { receivedResults.append($0) }
+        
+        sut = nil
+        
+        store.completeRetrievalWithEmptyCache()
+        
+        XCTAssertTrue(receivedResults.isEmpty)
+    }
         
         
     //MARK: - Helpers
