@@ -36,6 +36,7 @@ public final class LocalNewsLoader {
         store.retrieve{ [unowned self] result in
             switch result {
             case let .failure(error):
+                self.store.deleteCachedNews { _ in }
                 completion(.failure(error))
                 
             case let .found(news, timestamp) where self.validate(timestamp):

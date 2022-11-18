@@ -73,6 +73,16 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
             store.completeRetrieval(with: news.local, timestamp: moreThanSevenDaysOldTimeStamp)
         }
     }
+
+    func test_load_deletesCacheOnRetrievalError() {
+        let (sut, store) = makeSUT()
+        
+        sut.load { _ in }
+        store.completeRetrieval(with: anyNSError())
+        
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedNews])
+    }
+    
     
     //MARK: - Helpers
     
