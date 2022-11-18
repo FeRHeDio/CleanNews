@@ -42,7 +42,11 @@ public final class LocalNewsLoader {
             case let .found(news, timestamp) where self.validate(timestamp):
                 completion(.success(news.toModels()))
                 
-            case .found, .empty:
+            case .found:
+                self.store.deleteCachedNews { _ in }
+                completion(.success([]))
+                
+            case .empty:
                 completion(.success([]))
             }
         }
