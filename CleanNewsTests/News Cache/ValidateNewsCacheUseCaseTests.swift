@@ -57,29 +57,4 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
         
         return (sut, store)
     }
-    
-    private func anyNSError() -> NSError {
-        NSError(domain: "any", code: 0)
-    }
-    
-    private func uniqueItem() -> NewsItem {
-        NewsItem(title: "some title", description: "some descri", content: "some content")
-    }
-    
-    private func uniqueItems() -> (models: [NewsItem], local: [LocalNewsItem]) {
-        let models = [uniqueItem(), uniqueItem()]
-        let local = models.map { LocalNewsItem(title: $0.title, description: $0.description, content: $0.content) }
-        
-        return (models, local)
-    }
-}
-
-private extension Date {
-    func adding(days: Int) -> Date {
-        return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
-    }
-    
-    func adding(seconds: TimeInterval) -> Date {
-        return self + seconds
-    }
 }

@@ -125,19 +125,4 @@ class CacheNewsUseCaseTests: XCTestCase {
         
         XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
     }
-    
-    private func uniqueItem() -> NewsItem {
-        NewsItem(title: "some title", description: "some descri", content: "some content")
-    }
-    
-    private func uniqueItems() -> (models: [NewsItem], local: [LocalNewsItem]) {
-        let models = [uniqueItem(), uniqueItem()]
-        let local = models.map { LocalNewsItem(title: $0.title, description: $0.description, content: $0.content) }
-        
-        return (models, local)
-    }
-    
-    private func anyNSError() -> NSError {
-        NSError(domain: "any", code: 0)
-    }
 }
