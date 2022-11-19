@@ -38,7 +38,6 @@ public final class LocalNewsLoader {
             
             switch result {
             case let .failure(error):
-                self.store.deleteCachedNews { _ in }
                 completion(.failure(error))
                 
             case let .found(news, timestamp) where self.validate(timestamp):
@@ -52,6 +51,11 @@ public final class LocalNewsLoader {
                 completion(.success([]))
             }
         }
+    }
+    
+    public func validateCache() {
+        store.retrieve { _ in }
+        store.deleteCachedNews { _ in }
     }
     
     private var maxCacheDateInDays: Int {
