@@ -33,7 +33,7 @@ public final class LocalNewsLoader {
     }
     
     public func load(completion: @escaping (LoadResult) -> Void) {
-        store.retrieve{ [weak self] result in
+        store.retrieve { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -54,8 +54,18 @@ public final class LocalNewsLoader {
     }
     
     public func validateCache() {
-        store.retrieve { _ in }
-        store.deleteCachedNews { _ in }
+        store.retrieve { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case let .failure(error):
+                self.store.deleteCachedNews { _ in
+                    print(error)
+                }
+              default:
+                  break
+            }
+        }
     }
     
     private var maxCacheDateInDays: Int {
