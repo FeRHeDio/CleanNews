@@ -104,7 +104,7 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_load_deletesCacheOnSevenDaysOldCache() {
+    func test_load_hasNoSideEffectsOnSevenDaysOldCache() {
         let news = uniqueItems()
         let fixedCurrentDate = Date()
         let sevenDaysOldTimeStamp = fixedCurrentDate.adding(days: -7)
@@ -113,10 +113,10 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
         sut.load { _ in }
         store.completeRetrieval(with: news.local, timestamp: sevenDaysOldTimeStamp)
         
-        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedNews])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_load_deletesCacheOnMoreThanSevenDaysOldCache() {
+    func test_load_hasNoSideEffectsOnMoreThanSevenDaysOldCache() {
         let news = uniqueItems()
         let fixedCurrentDate = Date()
         let moreThanSevenDaysOldTimeStamp = fixedCurrentDate.adding(days: -7).adding(seconds: -1)
@@ -125,7 +125,7 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
         sut.load { _ in }
         store.completeRetrieval(with: news.local, timestamp: moreThanSevenDaysOldTimeStamp)
         
-        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedNews])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
         
     func test_load_doesNotDeliversResultAfterSUTHaveBeenDeallocated() {
@@ -134,7 +134,6 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
         
         var receivedResults = [LocalNewsLoader.LoadResult]()
         sut?.load { receivedResults.append($0) }
-        
         sut = nil
         
         store.completeRetrievalWithEmptyCache()
@@ -156,7 +155,6 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
     }
     
     func expect(_ sut: LocalNewsLoader, toCompleteWith expectedResult: LocalNewsLoader.LoadResult, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
-        
         let exp = expectation(description: "Wait for load completion")
             
         sut.load { receivedResult in
@@ -173,7 +171,6 @@ class LoadNewsFromCacheUseCaseTests: XCTestCase {
         }
 
         action()
-        
         wait(for: [exp], timeout: 1.0)
     }
 }

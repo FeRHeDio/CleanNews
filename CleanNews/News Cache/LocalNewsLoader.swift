@@ -44,7 +44,6 @@ public final class LocalNewsLoader {
                 completion(.success(news.toModels()))
                 
             case .found:
-                self.store.deleteCachedNews { _ in }
                 completion(.success([]))
                 
             case .empty:
@@ -62,8 +61,11 @@ public final class LocalNewsLoader {
                 self.store.deleteCachedNews { _ in
                     print(error)
                 }
-              default:
-                  break
+                
+            case let .found(_, timestamp) where !self.validate(timestamp):
+                self.store.deleteCachedNews { _ in }
+                
+            case .empty, .found: break
             }
         }
     }
