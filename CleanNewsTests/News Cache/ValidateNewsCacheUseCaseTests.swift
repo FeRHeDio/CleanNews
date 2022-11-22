@@ -34,38 +34,38 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_validateCache_doesNotDeletesLessThanSevenDaysOldCache() {
+    func test_validateCache_doesNotDeletesNonExpiredCache() {
         let news = uniqueItems()
         let fixedCurrentDate = Date()
-        let lessThanSevenDaysOldTimeStamp = fixedCurrentDate.adding(days: -7).adding(seconds: 1)
+        let nonExpiredTimeStamp = fixedCurrentDate.minusFeedCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT()
         
         sut.validateCache()
-        store.completeRetrieval(with: news.local, timestamp: lessThanSevenDaysOldTimeStamp)
+        store.completeRetrieval(with: news.local, timestamp: nonExpiredTimeStamp)
         
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_validateCache_deletesSevenDaysOldCache() {
+    func test_validateCache_deletesCacheOnExpiration() {
         let news = uniqueItems()
         let fixedCurrentDate = Date()
-        let sevenDaysOldTimeStamp = fixedCurrentDate.adding(days: -7)
+        let expirationTimeStamp = fixedCurrentDate.minusFeedCacheMaxAge()
         let (sut, store) = makeSUT()
         
         sut.validateCache()
-        store.completeRetrieval(with: news.local, timestamp: sevenDaysOldTimeStamp)
+        store.completeRetrieval(with: news.local, timestamp: expirationTimeStamp)
         
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedNews])
     }
     
-    func test_validateCache_deletesMoreThanSevenDaysOldCache() {
+    func test_validateCache_deletesExpiredCache() {
         let news = uniqueItems()
         let fixedCurrentDate = Date()
-        let moreThanSevenDaysOldTimeStamp = fixedCurrentDate.adding(days: -7).adding(seconds: -1)
+        let expiredTimeStamp = fixedCurrentDate.minusFeedCacheMaxAge().adding(seconds: -1)
         let (sut, store) = makeSUT()
         
         sut.validateCache()
-        store.completeRetrieval(with: news.local, timestamp: moreThanSevenDaysOldTimeStamp)
+        store.completeRetrieval(with: news.local, timestamp: expiredTimeStamp)
         
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedNews])
     }
