@@ -67,6 +67,20 @@ class CodableNewsStore {
             completion(error)
         }
     }
+    
+    public func deleteCachedNews(completion: @escaping NewsStore.DeletionCompletion) {
+        guard FileManager.default.fileExists(atPath: storeURL.path) else {
+            return completion(nil)
+        }
+
+        do {
+            try FileManager.default.removeItem(at: storeURL)
+            completion(nil)
+        } catch {
+            completion(error)
+        }
+    }
+
 }
 
 final class CodableNewsStoreTests: XCTestCase {
@@ -117,22 +131,22 @@ final class CodableNewsStoreTests: XCTestCase {
     func test_retrieve_deliversFailureOnRetrievalError() {
         let storeURL = testSepecificStoreURL()
         let sut = makeSUT(storeURL: storeURL)
-        
+
         try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
-        
+
         expect(sut, toRetrieve: .failure(anyNSError()))
     }
-    
+
     func test_retrieve_hasNoSideEffectOnFailure() {
         let storeURL = testSepecificStoreURL()
         let sut = makeSUT(storeURL: storeURL)
-        
+
         try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
-        
+
         expect(sut, toRetrieveTwice: .failure(anyNSError()))
     }
     
-    func test_insertf_overridesPreviouslyInsertedCacheValues() {
+    func test_insert_overridesPreviouslyInsertedCacheValues() {
         let sut = makeSUT()
         
         let firstInsertionError = insert((uniqueItems().local, Date()), to: sut)
@@ -158,7 +172,39 @@ final class CodableNewsStoreTests: XCTestCase {
         XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error")
     }
     
-    //MARK: - Helpers
+    func test_delete_hasNoSideEffectOnEmptyCache() {
+        let sut = makeSUT()
+
+        let deletionError = deleteCache(from: sut)
+
+        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+        expect(sut, toRetrieve: .empty)
+    }
+
+    func test_delete_emptiesPreviouslyInsertedCache() {
+        let sut = makeSUT()
+        insert((uniqueItems().local, Date()), to: sut)
+
+        let deletionError = deleteCache(from: sut)
+
+        XCTAssertNil(deletionError, "Expected non-empty cache deletion to succeed")
+        expect(sut, toRetrieve: .empty)
+    }
+    
+    //FIXME: - Investigate When change tests to live in its own module
+
+//    func test_delete_deliversErrorOnDeletionError() {
+//        let noDeletePermissionURL = cachesDirectory()
+//        let sut = makeSUT(storeURL: noDeletePermissionURL)
+//
+//        let deletionError = deleteCache(from: sut)
+//
+//        XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
+//        expect(sut, toRetrieve: .empty)
+//    }
+    
+    
+        //MARK: - Helpers
     
     private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> CodableNewsStore {
         let sut = CodableNewsStore(storeURL: storeURL ?? testSepecificStoreURL())
@@ -179,6 +225,30 @@ final class CodableNewsStoreTests: XCTestCase {
         return insertionError
     }
     
+//    private func deleteCache(from sut: CodableNewsStore) -> Error? {
+//        let exp = expectation(description: "Wait for cache retrieval")
+//        var deletionError: Error?
+//        sut.deleteCachedNews { receivedDeletionError in
+//            deletionError = receivedDeletionError
+//            exp.fulfill()
+//        }
+//
+//        wait(for: [exp], timeout: 1.0)
+//        return deletionError
+//    }
+    
+    private func deleteCache(from sut: CodableNewsStore) -> Error? {
+            let exp = expectation(description: "Wait for cache deletion")
+            var deletionError: Error?
+            sut.deleteCachedNews { receivedDeletionError in
+                deletionError = receivedDeletionError
+                exp.fulfill()
+            }
+            wait(for: [exp], timeout: 1.0)
+            return deletionError
+        }
+
+    
     private func expect(_ sut: CodableNewsStore, toRetrieveTwice expectedResult: RetrieveCachedNewsResult, file: StaticString = #filePath, line: UInt = #line) {
         
         expect(sut, toRetrieve: expectedResult, file: file, line: line)
@@ -191,8 +261,7 @@ final class CodableNewsStoreTests: XCTestCase {
         
         sut.retrieve { retrieveResult in
             switch (expectedResult, retrieveResult) {
-            case (.empty, .empty),
-                (.failure, .failure):
+            case (.empty, .empty), (.failure, .failure):
                 break
                 
             case let (.found(expected), .found(retrieved)):
@@ -202,6 +271,7 @@ final class CodableNewsStoreTests: XCTestCase {
             default:
                 XCTFail("Expected to retrieve \(expectedResult), got \(retrieveResult) instead", file: file, line: line)
             }
+            
             exp.fulfill()
         }
         
@@ -222,5 +292,9 @@ final class CodableNewsStoreTests: XCTestCase {
     
     private func testSepecificStoreURL() -> URL {
         return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(type(of: self)).store")
+    }
+    
+    private func cachesDirectory() -> URL {
+        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
     }
 }
