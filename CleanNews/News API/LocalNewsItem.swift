@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct LocalNewsItem: Equatable, Decodable {
+public struct LocalNewsItem: Equatable, Codable {
     public let title: String
     public let description: String
     public let content: String
