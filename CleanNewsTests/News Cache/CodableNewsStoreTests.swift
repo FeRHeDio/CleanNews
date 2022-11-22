@@ -75,7 +75,7 @@ final class CodableNewsStoreTests: XCTestCase {
     }
     
     func test_retrieve_deliversEmptyOnEmptyCache() {
-        let sut = CodableNewsStore()
+        let sut = makeSUT()
         let exp = expectation(description: "Wait for cache retrieval")
         
         sut.retrieve { result in
@@ -94,7 +94,7 @@ final class CodableNewsStoreTests: XCTestCase {
     }
     
     func test_retrieve_hasNoSideEffectsOnEmptyCache() {
-        let sut = CodableNewsStore()
+        let sut = makeSUT()
         let exp = expectation(description: "Wait for cache retrieval")
         
         sut.retrieve { firstResult in
@@ -115,7 +115,7 @@ final class CodableNewsStoreTests: XCTestCase {
     }
     
     func test_retrieveAfterInsertingToEmptyCache_deliversInsertedValues() {
-        let sut = CodableNewsStore()
+        let sut = makeSUT()
         let items = uniqueItems().local
         let timestamp = Date()
         let exp = expectation(description: "Wait for cache retrieval")
@@ -138,6 +138,12 @@ final class CodableNewsStoreTests: XCTestCase {
         }
         
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    //MARK: - Helpers
+    
+    private func makeSUT() -> CodableNewsStore {
+        return CodableNewsStore()
     }
     
 }
