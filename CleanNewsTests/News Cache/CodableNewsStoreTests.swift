@@ -90,12 +90,7 @@ final class CodableNewsStoreTests: XCTestCase {
         let items = uniqueItems().local
         let timestamp = Date()
         
-        let exp = expectation(description: "Wait for cache retrieval")
-        sut.insert(items, timestamp: timestamp) { insertionError in
-            XCTAssertNil(insertionError, "Expected the feed to be inserted successfully")
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
+        insert((items, timestamp), to: sut)
         
         expect(sut, toRetrieve: .found(items: items, timestamp: timestamp))
     }
@@ -105,12 +100,7 @@ final class CodableNewsStoreTests: XCTestCase {
         let items = uniqueItems().local
         let timestamp = Date()
         
-        let exp = expectation(description: "Wait for cache retrieval")
-        sut.insert(items, timestamp: timestamp) { insertionError in
-            XCTAssertNil(insertionError, "Expected the feed to be inserted successfully")
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
+        insert((items, timestamp), to: sut)
         
         expect(sut, toRetrieveTwice: .found(items: items, timestamp: timestamp))
     }
@@ -122,6 +112,15 @@ final class CodableNewsStoreTests: XCTestCase {
         checkForMemoryLeaks(sut, file: file, line: line)
         
         return sut
+    }
+    
+    private func insert(_ cache: (news: [LocalNewsItem], timestamp: Date), to sut: CodableNewsStore) {
+        let exp = expectation(description: "Wait for cache retrieval")
+        sut.insert(cache.news, timestamp: cache.timestamp) { insertionError in
+            XCTAssertNil(insertionError, "Expected the feed to be inserted successfully")
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
     }
     
     private func expect(_ sut: CodableNewsStore, toRetrieveTwice expectedResult: RetrieveCachedNewsResult, file: StaticString = #filePath, line: UInt = #line) {
