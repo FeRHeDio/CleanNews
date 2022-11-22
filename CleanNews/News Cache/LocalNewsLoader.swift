@@ -7,26 +7,35 @@
 
 import Foundation
 
-public final class LocalNewsLoader {
-    private let store: NewsStore
+public final class NewsCachePolicy {
     private let currentDate: () -> Date
     private let calendar = Calendar(identifier: .gregorian)
     
-    public init(store: NewsStore, currentDate: @escaping () -> Date) {
-        self.store = store
+    init(currentDate: @escaping () -> Date) {
         self.currentDate = currentDate
     }
-    
     private var maxCacheDateInDays: Int {
         return 7
     }
     
-    private func validate(_ timestamp: Date) -> Bool {
+    func validate(_ timestamp: Date) -> Bool {
         guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheDateInDays, to: timestamp) else {
             return false
         }
         
         return currentDate() < maxCacheAge
+    }
+}
+
+public final class LocalNewsLoader {
+    private let store: NewsStore
+    private let currentDate: () -> Date
+    private let cachePolicy: NewsCachePolicy
+    
+    public init(store: NewsStore, currentDate: @escaping () -> Date) {
+        self.store = store
+        self.currentDate = currentDate
+        self.cachePolicy = NewsCachePolicy(currentDate: currentDate)
     }
 }
  
@@ -65,7 +74,7 @@ extension LocalNewsLoader: NewsLoader {
             case let .failure(error):
                 completion(.failure(error))
                 
-            case let .found(news, timestamp) where self.validate(timestamp):
+            case let .found(news, timestamp) where self.cachePolicy.validate(timestamp):
                 completion(.success(news.toModels()))
                 
             case .found, .empty:
@@ -86,7 +95,7 @@ extension LocalNewsLoader {
                     print(error)
                 }
                 
-            case let .found(_, timestamp) where !self.validate(timestamp):
+            case let .found(_, timestamp) where !self.cachePolicy.validate(timestamp):
                 self.store.deleteCachedNews { _ in }
                 
             case .empty, .found: break
@@ -94,7 +103,6 @@ extension LocalNewsLoader {
         }
     }
 }
-
 
 private extension Array where Element == NewsItem {
     func toLocal() -> [LocalNewsItem] {
