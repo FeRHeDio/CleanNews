@@ -12,9 +12,6 @@ public final class LocalNewsLoader {
     private let currentDate: () -> Date
     private let calendar = Calendar(identifier: .gregorian)
     
-    public typealias SaveResult = Error?
-    public typealias LoadResult = NewsLoaderResult
-    
     public init(store: NewsStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
@@ -34,6 +31,8 @@ public final class LocalNewsLoader {
 }
  
 extension LocalNewsLoader {
+    public typealias SaveResult = Error?
+    
     public func save(_ items: [NewsItem], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedNews { [weak self] error in
             guard let self = self else { return }
@@ -56,6 +55,8 @@ extension LocalNewsLoader {
 }
     
 extension LocalNewsLoader: NewsLoader {
+    public typealias LoadResult = NewsLoaderResult
+    
     public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
