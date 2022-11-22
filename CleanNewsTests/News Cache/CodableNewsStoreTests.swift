@@ -8,7 +8,7 @@
 import XCTest
 import CleanNews
 
-class CodableNewsStore {
+class CodableNewsStore: NewsStore {
     private struct Cache: Codable {
         let items: [CodableNewsItem]
         let timestamp: Date
@@ -40,7 +40,7 @@ class CodableNewsStore {
         self.storeURL = storeURL
     }
     
-    func retrieve(completion: @escaping NewsStore.RetrievalCompletion) {
+    func retrieve(completion: @escaping RetrievalCompletion) {
         guard let data = try? Data(contentsOf: storeURL) else {
             return completion(.empty)
         }
@@ -55,7 +55,7 @@ class CodableNewsStore {
         
     }
     
-    func insert(_ items: [LocalNewsItem], timestamp: Date, completion: @escaping NewsStore.InsertionCompletion) {
+    func insert(_ items: [LocalNewsItem], timestamp: Date, completion: @escaping InsertionCompletion) {
         do {
             let encoder = JSONEncoder()
             let cache = Cache(items: items.map(CodableNewsItem.init), timestamp: timestamp)
@@ -68,7 +68,7 @@ class CodableNewsStore {
         }
     }
     
-    public func deleteCachedNews(completion: @escaping NewsStore.DeletionCompletion) {
+    public func deleteCachedNews(completion: @escaping DeletionCompletion) {
         guard FileManager.default.fileExists(atPath: storeURL.path) else {
             return completion(nil)
         }
@@ -80,7 +80,6 @@ class CodableNewsStore {
             completion(error)
         }
     }
-
 }
 
 final class CodableNewsStoreTests: XCTestCase {
@@ -214,7 +213,7 @@ final class CodableNewsStoreTests: XCTestCase {
     }
     
     @discardableResult
-    private func insert(_ cache: (news: [LocalNewsItem], timestamp: Date), to sut: CodableNewsStore) -> Error? {
+    private func insert(_ cache: (news: [LocalNewsItem], timestamp: Date), to sut: NewsStore) -> Error? {
         let exp = expectation(description: "Wait for cache retrieval")
         var insertionError: Error?
         sut.insert(cache.news, timestamp: cache.timestamp) { receivedInsertionError in
@@ -225,19 +224,7 @@ final class CodableNewsStoreTests: XCTestCase {
         return insertionError
     }
     
-//    private func deleteCache(from sut: CodableNewsStore) -> Error? {
-//        let exp = expectation(description: "Wait for cache retrieval")
-//        var deletionError: Error?
-//        sut.deleteCachedNews { receivedDeletionError in
-//            deletionError = receivedDeletionError
-//            exp.fulfill()
-//        }
-//
-//        wait(for: [exp], timeout: 1.0)
-//        return deletionError
-//    }
-    
-    private func deleteCache(from sut: CodableNewsStore) -> Error? {
+    private func deleteCache(from sut: NewsStore) -> Error? {
             let exp = expectation(description: "Wait for cache deletion")
             var deletionError: Error?
             sut.deleteCachedNews { receivedDeletionError in
