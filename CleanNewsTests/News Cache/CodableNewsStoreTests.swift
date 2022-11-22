@@ -10,8 +10,28 @@ import CleanNews
 
 class CodableNewsStore {
     private struct Cache: Codable {
-        let items: [LocalNewsItem]
+        let items: [CodableNewsItem]
         let timestamp: Date
+        
+        var localNews: [LocalNewsItem] {
+            return items.map { $0.local }
+        }
+    }
+    
+    private struct CodableNewsItem: Codable {
+        private let title: String
+        private let description: String
+        private let content: String
+        
+        init(_ item: LocalNewsItem) {
+            title = item.title
+            description = item.description
+            content = item.content
+        }
+        
+        var local: LocalNewsItem {
+            return LocalNewsItem(title: title, description: description, content: content)
+        }
     }
     
     private let storeURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("image-feed.store")
@@ -23,12 +43,13 @@ class CodableNewsStore {
         
         let decoder = JSONDecoder()
         let cache = try! decoder.decode(Cache.self, from: data)
-        completion(.found(items: cache.items, timestamp: cache.timestamp))
+        completion(.found(items: cache.localNews, timestamp: cache.timestamp))
     }
     
     func insert(_ items: [LocalNewsItem], timestamp: Date, completion: @escaping NewsStore.InsertionCompletion) {
         let encoder = JSONEncoder()
-        let encoded = try! encoder.encode(Cache(items: items, timestamp: timestamp))
+        let cache = Cache(items: items.map(CodableNewsItem.init), timestamp: timestamp)
+        let encoded = try! encoder.encode(cache)
         try! encoded.write(to: storeURL)
         
         completion(nil)
