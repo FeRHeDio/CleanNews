@@ -20,6 +20,20 @@ public final class LocalNewsLoader {
         self.currentDate = currentDate
     }
     
+    private var maxCacheDateInDays: Int {
+        return 7
+    }
+    
+    private func validate(_ timestamp: Date) -> Bool {
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheDateInDays, to: timestamp) else {
+            return false
+        }
+        
+        return currentDate() < maxCacheAge
+    }
+}
+ 
+extension LocalNewsLoader {
     public func save(_ items: [NewsItem], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedNews { [weak self] error in
             guard let self = self else { return }
@@ -32,6 +46,16 @@ public final class LocalNewsLoader {
         }
     }
     
+    private func cache(_ items: [NewsItem], with completion: @escaping (SaveResult) -> Void ) {
+        store.insert(items.toLocal(), timestamp: currentDate()) { [weak self] error in
+            guard self != nil else { return }
+            
+            completion(error)
+        }
+    }
+}
+    
+extension LocalNewsLoader {
     public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
@@ -48,7 +72,9 @@ public final class LocalNewsLoader {
             }
         }
     }
-    
+}
+
+extension LocalNewsLoader {
     public func validateCache() {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
@@ -66,27 +92,8 @@ public final class LocalNewsLoader {
             }
         }
     }
-    
-    private var maxCacheDateInDays: Int {
-        return 7
-    }
-    
-    private func validate(_ timestamp: Date) -> Bool {
-        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheDateInDays, to: timestamp) else {
-            return false
-        }
-        
-        return currentDate() < maxCacheAge
-    }
-    
-    private func cache(_ items: [NewsItem], with completion: @escaping (SaveResult) -> Void ) {
-        store.insert(items.toLocal(), timestamp: currentDate()) { [weak self] error in
-            guard self != nil else { return }
-            
-            completion(error)
-        }
-    }
 }
+
 
 private extension Array where Element == NewsItem {
     func toLocal() -> [LocalNewsItem] {
