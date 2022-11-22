@@ -200,12 +200,12 @@ final class CodableNewsStoreTests: XCTestCase {
 //
 //        XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
 //        expect(sut, toRetrieve: .empty)
-//    }
+    }
     
     
         //MARK: - Helpers
     
-    private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> CodableNewsStore {
+    private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> NewsStore {
         let sut = CodableNewsStore(storeURL: storeURL ?? testSepecificStoreURL())
         checkForMemoryLeaks(sut, file: file, line: line)
         
@@ -236,13 +236,13 @@ final class CodableNewsStoreTests: XCTestCase {
         }
 
     
-    private func expect(_ sut: CodableNewsStore, toRetrieveTwice expectedResult: RetrieveCachedNewsResult, file: StaticString = #filePath, line: UInt = #line) {
+    private func expect(_ sut: NewsStore, toRetrieveTwice expectedResult: RetrieveCachedNewsResult, file: StaticString = #filePath, line: UInt = #line) {
         
         expect(sut, toRetrieve: expectedResult, file: file, line: line)
         expect(sut, toRetrieve: expectedResult, file: file, line: line)
     }
     
-    private func expect(_ sut: CodableNewsStore, toRetrieve expectedResult: RetrieveCachedNewsResult, file: StaticString = #filePath, line: UInt = #line) {
+    private func expect(_ sut: NewsStore, toRetrieve expectedResult: RetrieveCachedNewsResult, file: StaticString = #filePath, line: UInt = #line) {
         
         let exp = expectation(description: "Wait for cache retrieval")
         
