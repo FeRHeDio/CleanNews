@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76043E32292E659A00C01E50 /* NewsStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76043E31292E659A00C01E50 /* NewsStoreSpecs.swift */; };
 		76287D47290C0787002C7130 /* NewsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76287D46290C0787002C7130 /* NewsLoader.swift */; };
 		7653481A292D8F3A00A7A012 /* CodableNewsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76534819292D8F3A00A7A012 /* CodableNewsStore.swift */; };
 		7669ED6B28A520FE001385B0 /* CleanNewsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669ED6A28A520FE001385B0 /* CleanNewsApp.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		76043E31292E659A00C01E50 /* NewsStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsStoreSpecs.swift; sourceTree = "<group>"; };
 		76287D46290C0787002C7130 /* NewsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsLoader.swift; sourceTree = "<group>"; };
 		76534819292D8F3A00A7A012 /* CodableNewsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableNewsStore.swift; sourceTree = "<group>"; };
 		7669ED6728A520FE001385B0 /* CleanNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -199,6 +201,7 @@
 				76C77D7A291920EB00D0FA47 /* NewsStore.swift */,
 				76C9E422292C660B00394FE3 /* NewsCachePolicy.swift */,
 				76534819292D8F3A00A7A012 /* CodableNewsStore.swift */,
+				76043E31292E659A00C01E50 /* NewsStoreSpecs.swift */,
 			);
 			path = "News Cache";
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				76287D47290C0787002C7130 /* NewsLoader.swift in Sources */,
 				769AB90A29096A2900AF03F0 /* HTTPClient.swift in Sources */,
 				76AFA6F4291A730C00ADEA57 /* LocalNewsItem.swift in Sources */,
+				76043E32292E659A00C01E50 /* NewsStoreSpecs.swift in Sources */,
 				76FACD9728BF85AF000186E2 /* News.swift in Sources */,
 				76AFA6F2291A72B300ADEA57 /* RemoteNewsItem.swift in Sources */,
 				76706BF52911506B00B9D0A0 /* URLSessionHTTPClient.swift in Sources */,
