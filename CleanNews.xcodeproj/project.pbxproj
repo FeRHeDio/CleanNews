@@ -110,6 +110,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		763C0A11292EBD3900EAFDFA /* NewsStoreSpecs */ = {
+			isa = PBXGroup;
+			children = (
+				76043E31292E659A00C01E50 /* NewsStoreSpecs.swift */,
+				7617DFDD292E956300193C64 /* XCTestaCase+NewsStoreSpecs.swift */,
+				7617DFE0292EA1C800193C64 /* XCTestCase+FailableRetrieveNewsStoreSpecs.swift */,
+				7617DFE4292EBB5E00193C64 /* XCTestCase+FailableDeleteNewsStoreSpecs.swift */,
+				763C0A0F292EBCBC00EAFDFA /* XCTestCase+FailableInsertNewsStoreSpecs.swift */,
+			);
+			path = NewsStoreSpecs;
+			sourceTree = "<group>";
+		};
 		7669ED5E28A520FE001385B0 = {
 			isa = PBXGroup;
 			children = (
@@ -193,16 +205,12 @@
 		76C77D742914418200D0FA47 /* News Cache */ = {
 			isa = PBXGroup;
 			children = (
-				76043E31292E659A00C01E50 /* NewsStoreSpecs.swift */,
+				763C0A11292EBD3900EAFDFA /* NewsStoreSpecs */,
 				76C9E4192926CD5700394FE3 /* Helpers */,
 				76C77D75291441C500D0FA47 /* CacheNewsUseCaseTests.swift */,
 				76C9E4172926CB7900394FE3 /* LoadNewsFromCacheUseCaseTests.swift */,
 				76C9E41C29291A1100394FE3 /* ValidateNewsCacheUseCaseTests.swift */,
 				76C9E424292D17AA00394FE3 /* CodableNewsStoreTests.swift */,
-				7617DFDD292E956300193C64 /* XCTestaCase+NewsStoreSpecs.swift */,
-				7617DFE0292EA1C800193C64 /* XCTestCase+FailableRetrieveNewsStoreSpecs.swift */,
-				7617DFE4292EBB5E00193C64 /* XCTestCase+FailableDeleteNewsStoreSpecs.swift */,
-				763C0A0F292EBCBC00EAFDFA /* XCTestCase+FailableInsertNewsStoreSpecs.swift */,
 			);
 			path = "News Cache";
 			sourceTree = "<group>";
