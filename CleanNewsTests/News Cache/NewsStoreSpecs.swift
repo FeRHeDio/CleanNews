@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol NewsStoreSpecs {
+protocol NewsStoreSpecs {
     func test_retrieve_deliversEmptyOnEmptyCache()
     func test_retrieve_hasNoSideEffectsOnEmptyCache()
     func test_retrieve_deliversFoundValuesOnNonEmptyCache()
@@ -25,19 +25,19 @@ public protocol NewsStoreSpecs {
     func test_storeSideEffects_runSerially()
 }
 
-public  protocol FailableRetrieveNewsStoreSpecs: NewsStoreSpecs {
+protocol FailableRetrieveNewsStoreSpecs: NewsStoreSpecs {
     func test_retrieve_deliversFailureOnRetrievalError()
     func test_retrieve_hasNoSideEffectOnFailure()
 }
 
-public protocol FailableInsertNewsStoreSpecs: NewsStoreSpecs {
+protocol FailableInsertNewsStoreSpecs: NewsStoreSpecs {
     func test_insert_deliversErrorOnInsertionError()
     func test_insert_hasNoSideEffectsOnInsertionError()
 }
 
-public protocol FailableDeleteNewsStoreSpecs: NewsStoreSpecs {
+protocol FailableDeleteNewsStoreSpecs: NewsStoreSpecs {
     func test_delete_deliversErrorOnDeletionError()
     func test_delete_hasNoSideEffectsOnDeletionError()
 }
 
-public typealias FailableNewsStore = FailableRetrieveNewsStoreSpecs & FailableInsertNewsStoreSpecs & FailableDeleteNewsStoreSpecs
+typealias FailableNewsStore = FailableRetrieveNewsStoreSpecs & FailableInsertNewsStoreSpecs & FailableDeleteNewsStoreSpecs
