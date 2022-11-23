@@ -153,8 +153,6 @@ final class CodableNewsStoreTests: XCTestCase {
         waitForExpectations(timeout: 5.0)
         
         XCTAssertEqual(completeOperationsInOrder, [op1, op2, op3], "Waited for operations to run in order but completed in the wrong order")
-        
-        
     }
     
         //MARK: - Helpers
