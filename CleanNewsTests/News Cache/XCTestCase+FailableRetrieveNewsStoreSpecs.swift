@@ -21,29 +21,6 @@ extension FailableRetrieveNewsStoreSpecs where Self: XCTestCase {
     }
 }
 
-
-extension FailableInsertNewsStoreSpecs where Self: XCTestCase {
-    func assertThatInsertDeliversErrorOnInsertionError(on sut: NewsStore, file: StaticString = #filePath, line: UInt = #line) {
-        
-        let news = uniqueItems().local
-        let timestamp = Date()
-        
-        let insertionError = insert((news, timestamp), to: sut)
-        
-        XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error", file: file, line: line)
-    }
-    
-    func assertThatInsertHasNoSideEffectsOnInsertionError(on sut: NewsStore, file: StaticString = #filePath, line: UInt = #line) {
-        
-        let news = uniqueItems().local
-        let timestamp = Date()
-        
-        insert((news, timestamp), to: sut)
-        
-        expect (sut, toRetrieve: .empty, file: file, line: line)
-    }
-}
-
 extension FailableDeleteNewsStoreSpecs where Self: XCTestCase {
     func assertThatDeleteDeliversErrorOnDeletionError(on sut: NewsStore, file: StaticString = #filePath, line: UInt = #line) {
         
