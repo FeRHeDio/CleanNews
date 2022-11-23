@@ -21,36 +21,30 @@ final class CodableNewsStoreTests: XCTestCase, FailableNewsStore {
         undoStoreSideEffects()
     }
     
+    //MARK: - Retrieve
+    
     func test_retrieve_deliversEmptyOnEmptyCache() {
         let sut = makeSUT()
         
-        expect(sut, toRetrieve: .empty)
+        assertThatRetrieveDeliversEmptyOnEmptyCache(on: sut)
     }
     
     func test_retrieve_hasNoSideEffectsOnEmptyCache() {
         let sut = makeSUT()
         
-        expect(sut, toRetrieveTwice: .empty)
+        assertThatRetrievehasNoSideEffectsOnEmptyCache(on: sut)
     }
     
     func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
         let sut = makeSUT()
-        let items = uniqueItems().local
-        let timestamp = Date()
         
-        insert((items, timestamp), to: sut)
-        
-        expect(sut, toRetrieve: .found(items: items, timestamp: timestamp))
+        assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut)
     }
     
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
         let sut = makeSUT()
-        let items = uniqueItems().local
-        let timestamp = Date()
         
-        insert((items, timestamp), to: sut)
-        
-        expect(sut, toRetrieveTwice: .found(items: items, timestamp: timestamp))
+        assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on: sut)
     }
     
     func test_retrieve_deliversFailureOnRetrievalError() {
@@ -71,33 +65,25 @@ final class CodableNewsStoreTests: XCTestCase, FailableNewsStore {
         expect(sut, toRetrieveTwice: .failure(anyNSError()))
     }
     
+    //MARK: - Insert
+    
     func test_insert_deliversNoErrorOnEmptyCache() {
         let sut = makeSUT()
         
-        let firstInsertionError = insert((uniqueItems().local, Date()), to: sut)
-        XCTAssertNil(firstInsertionError, "Expected to insert cache successfully")
+        assertThatInsertDeliversNoErrorOnEmptyCache(on: sut)
     }
      
     func test_insert_deliversNoErrorOnNonEmptyCache() {
         let sut = makeSUT()
-        insert((uniqueItems().local, Date()), to: sut)
         
-        let insertionError = insert((uniqueItems().local, Date()), to: sut)
-        
-        XCTAssertNil(insertionError, "Expected to override cache successfully")
+        assertThatInsertDeliversNoErrorOnNonEmptyCache(on: sut)
     }
     
     func test_insert_overridesPreviouslyInsertedCacheValues() {
         let sut = makeSUT()
-        insert((uniqueItems().local, Date()), to: sut)
         
-        let latestNews = uniqueItems().local
-        let latestTimestamp = Date()
-        insert((latestNews, latestTimestamp), to: sut)
-        
-        expect(sut, toRetrieve: .found(items: latestNews, timestamp: latestTimestamp))
+        assertThatInsertOverridesPreviouslyInsertedCacheValues(on: sut)
     }
-    
     
     func test_insert_deliversErrorOnInsertionError() {
         let invalidStoreURL = URL(string: "invalid://store-url")!
@@ -121,38 +107,30 @@ final class CodableNewsStoreTests: XCTestCase, FailableNewsStore {
         expect (sut, toRetrieve: .empty)
     }
     
+    //MARK: - Delete
+    
     func test_delete_deliversNoErrorOnEmptyCache() {
         let sut = makeSUT()
         
-        let deletionError = deleteCache(from: sut)
-        
-        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+        assertThatDeleteDeliversNoErrorOnEmptyCache(on: sut)
     }
     
     func test_delete_hasNoSideEffectOnEmptyCache() {
         let sut = makeSUT()
 
-        deleteCache(from: sut)
-
-        expect(sut, toRetrieve: .empty)
+        assertThatDeleteHasNoSideEffectOnEmptyCache(on: sut )
     }
     
     func test_delete_deliversNoErrorOnNonEmptyCache() {
         let sut = makeSUT()
-        insert((uniqueItems().local, Date()), to: sut)
         
-        let deletionError = deleteCache(from: sut)
-        
-        XCTAssertNil(deletionError, "Expected non-empty cache deletion to succeed")
+        assertThatDeleteDeliversNoErrorOnNonEmptyCache(on: sut)
     }
 
     func test_delete_emptiesPreviouslyInsertedCache() {
         let sut = makeSUT()
-        insert((uniqueItems().local, Date()), to: sut)
-
-        deleteCache(from: sut)
-
-        expect(sut, toRetrieve: .empty)
+     
+        assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
     }
     
     func test_delete_deliversErrorOnDeletionError() {
@@ -175,29 +153,8 @@ final class CodableNewsStoreTests: XCTestCase, FailableNewsStore {
     
     func test_storeSideEffects_runSerially() {
         let sut = makeSUT()
-        var completeOperationsInOrder = [XCTestExpectation]()
         
-        let op1 = expectation(description: "Operation 1")
-        sut.insert(uniqueItems().local, timestamp: Date()) { _ in
-            completeOperationsInOrder.append(op1)
-            op1.fulfill()
-        }
-        
-        let op2 = expectation(description: "Operation 2")
-        sut.deleteCachedNews { _ in
-            completeOperationsInOrder.append(op2)
-            op2.fulfill()
-        }
-        
-        let op3 = expectation(description: "Operation 3")
-        sut.insert(uniqueItems().local, timestamp: Date()) { _ in
-            completeOperationsInOrder.append(op3)
-            op3.fulfill()
-        }
-        
-        waitForExpectations(timeout: 5.0)
-        
-        XCTAssertEqual(completeOperationsInOrder, [op1, op2, op3], "Waited for operations to run in order but completed in the wrong order")
+        assertThatStoreSideEffectsRunSerially(on: sut)
     }
     
     //MARK: - Helpers
