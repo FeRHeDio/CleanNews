@@ -6,15 +6,33 @@
 //
 
 import XCTest
+import CleanNews
 
-
-class CoreDataNewsStoreTests: NewsStoreSpecs {
-    func test_retrieve_deliversEmptyOnEmptyCache() {
+class CoreDataNewsStore: NewsStore {
+    func deleteCachedNews(completion: @escaping DeletionCompletion) {
         
     }
     
+    func insert(_ items: [CleanNews.LocalNewsItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+        
+    }
+    
+    func retrieve(completion: @escaping RetrievalCompletion) {
+        completion(.empty)
+    }
+    
+    
+}
+
+class CoreDataNewsStoreTests: XCTestCase, NewsStoreSpecs {
+    func test_retrieve_deliversEmptyOnEmptyCache() {
+        let sut = makeSUT()
+
+        assertThatRetrieveDeliversEmptyOnEmptyCache(on: sut)
+    }
+    
     func test_retrieve_hasNoSideEffectsOnEmptyCache() {
-            
+        
     }
     
     func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
@@ -59,4 +77,10 @@ class CoreDataNewsStoreTests: NewsStoreSpecs {
     
     //MARK: - Helpers
     
+    func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> NewsStore {
+        
+        let sut = CoreDataNewsStore()
+        checkForMemoryLeaks(sut, file: file, line: line)
+        return sut
+    }
 }
