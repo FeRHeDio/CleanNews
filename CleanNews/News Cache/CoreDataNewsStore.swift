@@ -56,3 +56,15 @@ private extension NSManagedObjectModel {
             .flatMap { NSManagedObjectModel(contentsOf: $0) }
     }
 }
+
+private class ManagedCache: NSManagedObject {
+    @NSManaged var timestamp: Date
+    @NSManaged var newsFeed: NSOrderedSet
+}
+
+private class ManagedNewsItem: NSManagedObject {
+    @NSManaged var id: UUID
+    @NSManaged var content: String
+    @NSManaged var itemDescription: String
+    @NSManaged var title: String
+}
