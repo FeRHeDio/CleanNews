@@ -9,9 +9,11 @@ import CoreData
 
 public final class CoreDataNewsStore: NewsStore {
     private let container: NSPersistentContainer
+    private let context: NSManagedObjectContext
     
     public init(bundle: Bundle = .main) throws {
         container = try NSPersistentContainer.load(modelName: "NewsStore", in: bundle)
+        context = container.newBackgroundContext()
     }
     
     public func retrieve(completion: @escaping RetrievalCompletion) {
