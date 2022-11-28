@@ -8,22 +8,6 @@
 import XCTest
 import CleanNews
 
-class CoreDataNewsStore: NewsStore {
-    func deleteCachedNews(completion: @escaping DeletionCompletion) {
-        
-    }
-    
-    func insert(_ items: [CleanNews.LocalNewsItem], timestamp: Date, completion: @escaping InsertionCompletion) {
-        
-    }
-    
-    func retrieve(completion: @escaping RetrievalCompletion) {
-        completion(.empty)
-    }
-    
-    
-}
-
 class CoreDataNewsStoreTests: XCTestCase, NewsStoreSpecs {
     func test_retrieve_deliversEmptyOnEmptyCache() {
         let sut = makeSUT()
@@ -32,11 +16,12 @@ class CoreDataNewsStoreTests: XCTestCase, NewsStoreSpecs {
     }
     
     func test_retrieve_hasNoSideEffectsOnEmptyCache() {
+        let sut = makeSUT()
         
+        assertThatRetrievehasNoSideEffectsOnEmptyCache(on: sut)
     }
     
     func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
-        
     }
     
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
