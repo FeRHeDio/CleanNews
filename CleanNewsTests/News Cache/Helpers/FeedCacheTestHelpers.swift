@@ -9,12 +9,12 @@ import Foundation
 import CleanNews
 
 public func uniqueItem() -> NewsItem {
-    NewsItem(title: "some title", description: "some descri", content: "some content")
+    NewsItem(id: UUID(), title: "some title", description: "some descri", content: "some content")
 }
 
 public func uniqueItems() -> (models: [NewsItem], local: [LocalNewsItem]) {
     let models = [uniqueItem(), uniqueItem()]
-    let local = models.map { LocalNewsItem(title: $0.title, description: $0.description, content: $0.content) }
+    let local = models.map { LocalNewsItem(id: $0.id, title: $0.title, description: $0.description, content: $0.content) }
     
     return (models, local)
 }

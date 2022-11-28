@@ -80,12 +80,14 @@ final class RemoteNewsLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         
         let item1 = makeItem(
+            id: UUID(),
             title: "some news title",
             description: "Some description",
             content: "some content for the first article"
         )
         
         let item2 = makeItem(
+            id: UUID(),
             title: "Another title",
             description: "Another description for second article",
             content: "More content for the second article"
@@ -155,19 +157,21 @@ final class RemoteNewsLoaderTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    private func makeItem(title: String, description: String, content: String) -> (model: NewsItem, json: [String: Any]) {
+    private func makeItem(id: UUID, title: String, description: String, content: String) -> (model: NewsItem, json: [String: Any]) {
         
         let item = NewsItem(
+            id: id, 
             title: title,
             description: description,
             content: content
         )
         
         let json = [
+            "id": id.uuidString,
             "title": title,
             "description": description,
             "content": content
-        ]
+        ] as [String : Any]
         
         return (item, json)
     }

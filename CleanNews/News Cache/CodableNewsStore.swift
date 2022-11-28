@@ -18,18 +18,20 @@ public class CodableNewsStore: NewsStore {
     }
     
     private struct CodableNewsItem: Codable {
+        private let id: UUID
         private let title: String
         private let description: String
         private let content: String
         
         init(_ item: LocalNewsItem) {
+            id = item.id
             title = item.title
             description = item.description
             content = item.content
         }
         
         var local: LocalNewsItem {
-            return LocalNewsItem(title: title, description: description, content: content)
+            return LocalNewsItem(id: id, title: title, description: description, content: content)
         }
     }
     

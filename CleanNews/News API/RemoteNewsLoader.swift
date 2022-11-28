@@ -49,6 +49,6 @@ public class RemoteNewsLoader: NewsLoader {
 
 private extension Array where Element == RemoteNewsItem {
     func toModels() -> [NewsItem] {
-        return map { NewsItem(title: $0.title, description: $0.description, content: $0.content) }
+        return map { NewsItem(id: $0.id, title: $0.title, description: $0.description, content: $0.content) }
     }
 }
