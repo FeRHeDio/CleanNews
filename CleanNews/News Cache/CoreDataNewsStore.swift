@@ -17,11 +17,54 @@ public final class CoreDataNewsStore: NewsStore {
     }
     
     public func retrieve(completion: @escaping RetrievalCompletion) {
-        completion(.empty)
+        let context = self.context
+        
+        context.perform {
+            do {
+                let request = NSFetchRequest<ManagedCache>(entityName: ManagedCache.entity().name!)
+                request.returnsObjectsAsFaults = false
+
+                if let cache = try context.fetch(request).first {
+                      completion(
+                        .found(
+                        items: cache.newsFeed
+                            .compactMap { ($0 as? ManagedNewsItem) }
+                            .map {
+                                LocalNewsItem(id: $0.id, title: $0.title, description: $0.description, content: $0.content)
+                            },
+                        timestamp: cache.timestamp))
+                } else {
+                    completion(.empty)
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
     
-    public func insert(_ items: [CleanNews.LocalNewsItem], timestamp: Date, completion: @escaping InsertionCompletion) {
-        
+    public func insert(_ items: [LocalNewsItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+        let context = self.context
+
+        context.perform {
+            do {
+                let managedCache = ManagedCache(context: context)
+                managedCache.timestamp = timestamp
+                managedCache.newsFeed = NSOrderedSet(array: items.map { local in
+                    let managed = ManagedNewsItem(context: context)
+                    managed.id = local.id
+                    managed.title = local.title
+                    managed.itemDescription = local.description
+                    managed.content = local.content
+                    
+                    return managed
+                })
+
+                try context.save()
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
     }
     
     public func deleteCachedNews(completion: @escaping DeletionCompletion) {
@@ -60,14 +103,18 @@ private extension NSManagedObjectModel {
     }
 }
 
+@objc(ManagedCache)
 private class ManagedCache: NSManagedObject {
     @NSManaged var timestamp: Date
     @NSManaged var newsFeed: NSOrderedSet
 }
 
+@objc(ManagedNewsItem)
 private class ManagedNewsItem: NSManagedObject {
     @NSManaged var id: UUID
-    @NSManaged var content: String
-    @NSManaged var itemDescription: String
     @NSManaged var title: String
+    @NSManaged var itemDescription: String?
+    @NSManaged var content: String
+    @NSManaged var cache: ManagedCache
+    
 }
