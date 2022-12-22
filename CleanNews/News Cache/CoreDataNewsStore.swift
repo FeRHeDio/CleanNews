@@ -30,7 +30,7 @@ public final class CoreDataNewsStore: NewsStore {
                         items: cache.newsFeed
                             .compactMap { ($0 as? ManagedNewsItem) }
                             .map {
-                                LocalNewsItem(id: $0.id, title: $0.title, description: $0.description, content: $0.content)
+                                LocalNewsItem(id: $0.id, title: $0.title, description: $0.itemDescription, content: $0.content)
                             },
                         timestamp: cache.timestamp))
                 } else {
@@ -113,7 +113,7 @@ private class ManagedCache: NSManagedObject {
 private class ManagedNewsItem: NSManagedObject {
     @NSManaged var id: UUID
     @NSManaged var title: String
-    @NSManaged var itemDescription: String?
+    @NSManaged var itemDescription: String
     @NSManaged var content: String
     @NSManaged var cache: ManagedCache
     
