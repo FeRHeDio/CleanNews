@@ -21,10 +21,7 @@ public final class CoreDataNewsStore: NewsStore {
         
         context.perform {
             do {
-                let request = NSFetchRequest<ManagedCache>(entityName: ManagedCache.entity().name!)
-                request.returnsObjectsAsFaults = false
-
-                if let cache = try context.fetch(request).first {
+                if let cache = try ManagedCache.find(in: context) {
                     completion(.found(items: cache.localNews, timestamp: cache.timestamp))
                 } else {
                     completion(.empty)
@@ -92,6 +89,13 @@ private extension NSManagedObjectModel {
 private class ManagedCache: NSManagedObject {
     @NSManaged var timestamp: Date
     @NSManaged var newsFeed: NSOrderedSet
+    
+    static func find(in context: NSManagedObjectContext) throws -> ManagedCache? {
+        let request = NSFetchRequest<ManagedCache>(entityName: ManagedCache.entity().name!)
+        request.returnsObjectsAsFaults = false
+
+        return try! context.fetch(request).first
+    }
     
     var localNews: [LocalNewsItem] {
         return newsFeed.compactMap {
