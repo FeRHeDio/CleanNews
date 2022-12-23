@@ -25,14 +25,7 @@ public final class CoreDataNewsStore: NewsStore {
                 request.returnsObjectsAsFaults = false
 
                 if let cache = try context.fetch(request).first {
-                      completion(
-                        .found(
-                        items: cache.newsFeed
-                            .compactMap { ($0 as? ManagedNewsItem) }
-                            .map {
-                                LocalNewsItem(id: $0.id, title: $0.title, description: $0.itemDescription, content: $0.content)
-                            },
-                        timestamp: cache.timestamp))
+                    completion(.found(items: cache.localNews, timestamp: cache.timestamp))
                 } else {
                     completion(.empty)
                 }
@@ -49,16 +42,8 @@ public final class CoreDataNewsStore: NewsStore {
             do {
                 let managedCache = ManagedCache(context: context)
                 managedCache.timestamp = timestamp
-                managedCache.newsFeed = NSOrderedSet(array: items.map { local in
-                    let managed = ManagedNewsItem(context: context)
-                    managed.id = local.id
-                    managed.title = local.title
-                    managed.itemDescription = local.description
-                    managed.content = local.content
-                    
-                    return managed
-                })
-
+                managedCache.newsFeed = ManagedNewsItem.articles(from: items, in: context)
+                
                 try context.save()
                 completion(nil)
             } catch {
@@ -107,6 +92,12 @@ private extension NSManagedObjectModel {
 private class ManagedCache: NSManagedObject {
     @NSManaged var timestamp: Date
     @NSManaged var newsFeed: NSOrderedSet
+    
+    var localNews: [LocalNewsItem] {
+        return newsFeed.compactMap {
+            ($0 as? ManagedNewsItem)?.local
+        }
+    }
 }
 
 @objc(ManagedNewsItem)
@@ -116,5 +107,21 @@ private class ManagedNewsItem: NSManagedObject {
     @NSManaged var itemDescription: String
     @NSManaged var content: String
     @NSManaged var cache: ManagedCache
+ 
+    static func articles(from localNews: [LocalNewsItem], in context: NSManagedObjectContext) -> NSOrderedSet {
+        return NSOrderedSet(array: localNews.map { local in
+            let managed = ManagedNewsItem(context: context)
+            managed.id = local.id
+            managed.title = local.title
+            managed.itemDescription = local.description
+            managed.content = local.content
+            
+            return managed
+        })
+    }
+    
+    var local: LocalNewsItem {
+        return LocalNewsItem(id: id, title: title, description: itemDescription, content: content)
+    }
     
 }
