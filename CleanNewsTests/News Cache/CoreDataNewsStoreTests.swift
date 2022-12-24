@@ -46,7 +46,9 @@ class CoreDataNewsStoreTests: XCTestCase, NewsStoreSpecs {
     }
     
     func test_insert_overridesPreviouslyInsertedCacheValues() {
+        let sut = makeSUT()
         
+        assertThatInsertOverridesPreviouslyInsertedCacheValues(on: sut)
     }
     
     func test_delete_deliversNoErrorOnEmptyCache() {
