@@ -70,7 +70,7 @@ extension NewsStoreSpecs where Self: XCTestCase {
     func assertThatDeleteDeliversNoErrorOnEmptyCache(on sut: NewsStore, file: StaticString = #filePath, line: UInt = #line) {
         let deletionError = deleteCache(from: sut)
         
-        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed", file: file, line: line)
     }
     
     func assertThatDeleteHasNoSideEffectOnEmptyCache(on sut: NewsStore, file: StaticString = #filePath, line: UInt = #line) {
