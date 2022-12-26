@@ -58,7 +58,9 @@ class CoreDataNewsStoreTests: XCTestCase, NewsStoreSpecs {
     }
     
     func test_delete_hasNoSideEffectOnEmptyCache() {
+        let sut = makeSUT()
         
+        assertThatDeleteHasNoSideEffectOnEmptyCache(on: sut)
     }
     
     func test_delete_deliversNoErrorOnNonEmptyCache() {
