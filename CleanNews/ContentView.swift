@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    var loader: OldNewsLoader!
+    
     @State var articles = [Article]()
     
     var body: some View {
@@ -17,16 +19,16 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            API.shared.getNews { news in
+            loader.loadNews { news in
                 articles = news.articles
             }
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
 

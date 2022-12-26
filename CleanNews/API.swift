@@ -7,14 +7,12 @@
 
 import Foundation
 
-class API {
-    static let shared = API()
-    
+class API: OldNewsLoader {
     let client = URLSession.shared
     let apiSecret = "d08988aa3d4247f5b37c1a712f884148"
     var request = URLRequest(url: URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=d08988aa3d4247f5b37c1a712f884148")!)
         
-    func getNews(completion: @escaping (News) -> Void) {
+    func loadNews(completion: @escaping (News) -> Void) {
         let decoder = JSONDecoder()
         request.httpMethod = "GET"
 

@@ -11,8 +11,8 @@ struct News: Decodable {
     let articles: [Article]
 }
 
-struct Article: Decodable, Identifiable {
-    var id = UUID().uuidString
+public struct Article: Decodable, Identifiable {
+    public var id = UUID().uuidString
     let title: String
 
     enum CodingKeys: String, CodingKey {

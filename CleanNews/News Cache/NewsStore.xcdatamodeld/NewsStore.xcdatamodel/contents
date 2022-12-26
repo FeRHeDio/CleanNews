@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="22A380" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ManagedCache" representedClassName="ManagedCache" syncable="YES">
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="newsFeed" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ManagedNewsItem" inverseName="cache" inverseEntity="ManagedNewsItem"/>
+    </entity>
+    <entity name="ManagedNewsItem" representedClassName="ManagedNewsItem" syncable="YES">
+        <attribute name="content" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="itemDescription" optional="YES" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="cache" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedCache" inverseName="newsFeed" inverseEntity="ManagedCache"/>
+    </entity>
+</model>

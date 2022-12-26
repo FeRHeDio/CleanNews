@@ -11,7 +11,8 @@ import SwiftUI
 struct CleanNewsApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(loader: API())
         }
     }
 }
+
