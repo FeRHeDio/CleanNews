@@ -26,7 +26,7 @@ extension FailableInsertNewsStoreSpecs where Self: XCTestCase {
         
         insert((news, timestamp), to: sut)
         
-        expect (sut, toRetrieve: .success(.empty), file: file, line: line)
+        expect (sut, toRetrieve: .success(.none), file: file, line: line)
     }
 }
 

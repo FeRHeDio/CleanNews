@@ -22,9 +22,9 @@ public final class CoreDataNewsStore: NewsStore {
         context.perform {
             do {
                 if let cache = try ManagedCache.find(in: context) {
-                    completion(.success(.found(items: cache.localNews, timestamp: cache.timestamp)))
+                    completion(.success(CachedNews(items: cache.localNews, timestamp: cache.timestamp)))
                 } else {
-                    completion(.success(.empty))
+                    completion(.success(.none))
                 }
             } catch {
                 completion(.failure(error))
