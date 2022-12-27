@@ -18,17 +18,12 @@ public final class CoreDataNewsStore: NewsStore {
     
     public func retrieve(completion: @escaping RetrievalCompletion) {
         let context = self.context
-        
         context.perform {
-            do {
-                if let cache = try ManagedCache.find(in: context) {
-                    completion(.success(CachedNews(items: cache.localNews, timestamp: cache.timestamp)))
-                } else {
-                    completion(.success(.none))
+            completion(Result {
+                try ManagedCache.find(in: context).map {
+                    return CachedNews(items: $0.localNews, timestamp: $0.timestamp)
                 }
-            } catch {
-                completion(.failure(error))
-            }
+            })
         }
     }
     
@@ -36,16 +31,13 @@ public final class CoreDataNewsStore: NewsStore {
         let context = self.context
 
         context.perform {
-            do {
+            completion(Result {
                 let managedCache = try ManagedCache.newUniqueInstance(in: context)
                 managedCache.timestamp = timestamp
                 managedCache.newsFeed = ManagedNewsItem.articles(from: items, in: context)
                 
                 try context.save()
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
+            })
         }
     }
     
@@ -53,12 +45,9 @@ public final class CoreDataNewsStore: NewsStore {
         let context = self.context
         
         context.perform {
-            do {
+            completion(Result {
                 try ManagedCache.find(in: context).map(context.delete).map(context.save)
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
+            })
         }
     }
 }
