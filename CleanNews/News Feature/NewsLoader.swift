@@ -7,10 +7,7 @@
 
 import Foundation
 
-public enum NewsLoaderResult {
-    case success([NewsItem])
-    case failure(Error)
-}
+public typealias NewsLoaderResult = Result<[NewsItem], Error>
 
 public protocol NewsLoader {
     func load(completion: @escaping (NewsLoaderResult) -> Void)
