@@ -42,7 +42,7 @@ extension LocalNewsLoader {
 }
     
 extension LocalNewsLoader: NewsLoader {
-    public typealias LoadResult = NewsLoaderResult
+    public typealias LoadResult = NewsLoader.Result
     
     public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in

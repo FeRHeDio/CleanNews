@@ -7,8 +7,10 @@
 
 import Foundation
 
-public typealias NewsLoaderResult = Result<[NewsItem], Error>
+
 
 public protocol NewsLoader {
-    func load(completion: @escaping (NewsLoaderResult) -> Void)
+    typealias Result = Swift.Result<[NewsItem], Error>
+    
+    func load(completion: @escaping (Result) -> Void)
 }
