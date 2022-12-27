@@ -7,9 +7,9 @@
 
 import Foundation
 
-internal class RemoteNewsItem: Decodable {
-    internal let id: UUID
-    internal let title: String
-    internal let description: String
-    internal let content: String
+class RemoteNewsItem: Decodable {
+    let id: UUID
+    let title: String
+    let description: String
+    let content: String
 }
