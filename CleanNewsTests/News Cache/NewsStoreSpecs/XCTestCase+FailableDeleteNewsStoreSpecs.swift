@@ -19,7 +19,7 @@ extension FailableDeleteNewsStoreSpecs where Self: XCTestCase {
     func assertThatDeleteHsNoSideEffectsOnDeletionError(on sut: NewsStore, file: StaticString = #filePath, line: UInt = #line) {
 
         deleteCache(from: sut)
-        expect(sut, toRetrieve: .empty)
+        expect(sut, toRetrieve: .success(.empty))
     }
 }
 

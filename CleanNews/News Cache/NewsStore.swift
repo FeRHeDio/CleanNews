@@ -7,16 +7,17 @@
 
 import Foundation
 
-public enum RetrieveCachedNewsResult {
+public enum CachedNews {
     case empty
     case found(items: [LocalNewsItem], timestamp: Date)
-    case failure(Error)
 }
 
 public protocol NewsStore {
     typealias DeletionCompletion = (Error?) -> Void
     typealias InsertionCompletion = (Error?) -> Void
-    typealias RetrievalCompletion = (RetrieveCachedNewsResult) -> Void
+    
+    typealias RetrievalResult = Swift.Result<CachedNews, Error>
+    typealias RetrievalCompletion = (RetrievalResult) -> Void
     
     
     /// The completion handler can be invoked in any thread.
