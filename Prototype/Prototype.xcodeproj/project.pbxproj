@@ -12,6 +12,7 @@
 		76ED648E295DBBD6001A9229 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76ED648C295DBBD6001A9229 /* Main.storyboard */; };
 		76ED6490295DBBD7001A9229 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76ED648F295DBBD7001A9229 /* Assets.xcassets */; };
 		76ED6493295DBBD7001A9229 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76ED6491295DBBD7001A9229 /* LaunchScreen.storyboard */; };
+		76ED649B295DD0E0001A9229 /* NewsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED649A295DD0E0001A9229 /* NewsFeedViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		76ED648F295DBBD7001A9229 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		76ED6492295DBBD7001A9229 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		76ED6494295DBBD7001A9229 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76ED649A295DD0E0001A9229 /* NewsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				76ED6486295DBBD6001A9229 /* AppDelegate.swift */,
 				76ED6488295DBBD6001A9229 /* SceneDelegate.swift */,
+				76ED649A295DD0E0001A9229 /* NewsFeedViewController.swift */,
 				76ED648C295DBBD6001A9229 /* Main.storyboard */,
 				76ED648F295DBBD7001A9229 /* Assets.xcassets */,
 				76ED6491295DBBD7001A9229 /* LaunchScreen.storyboard */,
@@ -137,6 +140,7 @@
 			files = (
 				76ED6487295DBBD6001A9229 /* AppDelegate.swift in Sources */,
 				76ED6489295DBBD6001A9229 /* SceneDelegate.swift in Sources */,
+				76ED649B295DD0E0001A9229 /* NewsFeedViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
