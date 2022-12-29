@@ -14,11 +14,26 @@ struct NewsFeedViewModel {
 }
 
 final class NewsFeedViewController: UITableViewController {
+    private let newsFeed = NewsFeedViewModel.prototypeNewsFeed
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return newsFeed.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "NewsFeedCell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NewsFeedCell", for: indexPath) as! NewsFeedCell
+        let model = newsFeed[indexPath.row]
+        
+        cell.configure(with: model)
+        
+        return cell
+    }
+}
+
+extension NewsFeedCell {
+    func configure(with model: NewsFeedViewModel) {
+        titleLabel.text = model.title
+        descriptionLabel.text = model.description
+        newsImage.image = UIImage(named: model.imageName)
     }
 }
