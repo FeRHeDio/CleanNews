@@ -27,7 +27,7 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsFeedCell" rowHeight="480" id="e2a-au-YfE">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewsFeedCell" rowHeight="480" id="e2a-au-YfE" customClass="NewsFeedCell" customModule="Prototype" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="66" width="390" height="480"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e2a-au-YfE" id="Gcs-Nr-OpV">
@@ -85,6 +85,11 @@
                                         <constraint firstItem="N0E-ru-kAi" firstAttribute="top" secondItem="Gcs-Nr-OpV" secondAttribute="topMargin" priority="999" constant="6" id="yQ9-MN-6yY"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="YiJ-KD-gi5" id="81z-Vt-l7Q"/>
+                                    <outlet property="newsImage" destination="CL1-aS-Arc" id="Bf4-jd-MXs"/>
+                                    <outlet property="titleLabel" destination="UI4-8V-7br" id="uDc-4d-lIg"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
