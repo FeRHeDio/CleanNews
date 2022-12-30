@@ -63,10 +63,10 @@
 				76ED6486295DBBD6001A9229 /* AppDelegate.swift */,
 				76ED6488295DBBD6001A9229 /* SceneDelegate.swift */,
 				76ED649A295DD0E0001A9229 /* NewsFeedViewController.swift */,
+				76ED649E295DF4B3001A9229 /* NewsFeedCell.swift */,
 				76ED649C295DEE30001A9229 /* NewsFeedViewModel+PrototypeData.swift */,
 				76ED648C295DBBD6001A9229 /* Main.storyboard */,
 				76ED648F295DBBD7001A9229 /* Assets.xcassets */,
-				76ED649E295DF4B3001A9229 /* NewsFeedCell.swift */,
 				76ED6491295DBBD7001A9229 /* LaunchScreen.storyboard */,
 				76ED6494295DBBD7001A9229 /* Info.plist */,
 			);

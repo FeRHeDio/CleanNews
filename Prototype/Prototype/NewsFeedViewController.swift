@@ -34,6 +34,7 @@ extension NewsFeedCell {
     func configure(with model: NewsFeedViewModel) {
         titleLabel.text = model.title
         descriptionLabel.text = model.description
-        newsImage.image = UIImage(named: model.imageName)
+        
+        fadeIn(UIImage(named: model.imageName))
     }
 }
