@@ -14,7 +14,27 @@ struct NewsFeedViewModel {
 }
 
 final class NewsFeedViewController: UITableViewController {
-    private let newsFeed = NewsFeedViewModel.prototypeNewsFeed
+    private var newsFeed = [NewsFeedViewModel]()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        refresh()
+        tableView.setContentOffset(CGPoint(x: 0, y: -tableView.contentInset.top), animated: false)
+    }
+    
+    @IBAction func refresh() {
+        refreshControl?.beginRefreshing()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            if self.newsFeed.isEmpty {
+                self.newsFeed = NewsFeedViewModel.prototypeNewsFeed
+                self.tableView.reloadData()
+            }
+            
+            self.refreshControl?.endRefreshing()
+        }
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return newsFeed.count
