@@ -78,6 +78,7 @@
                                 <connections>
                                     <outlet property="descriptionLabel" destination="YiJ-KD-gi5" id="81z-Vt-l7Q"/>
                                     <outlet property="newsImage" destination="CL1-aS-Arc" id="Bf4-jd-MXs"/>
+                                    <outlet property="newsImageContainer" destination="P4C-xD-Paz" id="8KG-rJ-JzQ"/>
                                     <outlet property="titleLabel" destination="UI4-8V-7br" id="uDc-4d-lIg"/>
                                 </connections>
                             </tableViewCell>
