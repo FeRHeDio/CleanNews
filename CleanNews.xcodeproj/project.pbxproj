@@ -143,13 +143,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		761A2A1F29630C03001CDDC4 /* CleanNewsiOS */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = CleanNewsiOS;
-			sourceTree = "<group>";
-		};
 		761A2A2929630C03001CDDC4 /* CleanNewsiOSTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,7 +168,6 @@
 			children = (
 				7669ED6928A520FE001385B0 /* CleanNews */,
 				7669ED7A28A520FF001385B0 /* CleanNewsTests */,
-				761A2A1F29630C03001CDDC4 /* CleanNewsiOS */,
 				761A2A2929630C03001CDDC4 /* CleanNewsiOSTests */,
 				7669ED6828A520FE001385B0 /* Products */,
 			);
