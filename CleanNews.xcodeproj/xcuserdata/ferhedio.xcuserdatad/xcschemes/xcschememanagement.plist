@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>CleanNews.xcscheme_^#shared#^_</key>
+		<key>CleanNewsiOS.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -33,6 +33,16 @@
 			<true/>
 		</dict>
 		<key>7669ED8028A520FF001385B0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>76D5C8D429B28EC300E0FE1D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>76D5C8DB29B28EC300E0FE1D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
