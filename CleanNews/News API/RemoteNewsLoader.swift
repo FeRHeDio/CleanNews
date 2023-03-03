@@ -28,7 +28,7 @@ public class RemoteNewsLoader: NewsLoader {
             guard self != nil else { return }
             
             switch result {
-            case let .success(data, response):
+            case let .success((data, response)):
                 completion(RemoteNewsLoader.map(data, from: response))
             
             case .failure:
