@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import CleanNews
+import CleanNewsFramework
 
 class NewsStoreSpy: NewsStore {
     enum ReceivedMessage: Equatable {

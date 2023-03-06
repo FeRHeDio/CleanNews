@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import CleanNews
+import CleanNewsFramework
 
 extension FailableRetrieveNewsStoreSpecs where Self: XCTestCase {
  
