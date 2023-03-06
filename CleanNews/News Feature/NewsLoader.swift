@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public protocol NewsLoader {
     typealias Result = Swift.Result<[NewsItem], Error>
     
