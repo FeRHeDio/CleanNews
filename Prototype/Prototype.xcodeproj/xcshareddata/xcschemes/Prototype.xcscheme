@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "76911F3329B2925E006BB655"
-               BuildableName = "CleanNewsiOS.framework"
-               BlueprintName = "CleanNewsiOS"
-               ReferencedContainer = "container:CleanNews.xcodeproj">
+               BlueprintIdentifier = "76ED6482295DBBD6001A9229"
+               BuildableName = "Prototype.app"
+               BlueprintName = "Prototype"
+               ReferencedContainer = "container:Prototype.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,30 +26,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES"
-      onlyGenerateCoverageForSpecifiedTargets = "YES">
-      <CodeCoverageTargets>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "76911F3329B2925E006BB655"
-            BuildableName = "CleanNewsiOS.framework"
-            BlueprintName = "CleanNewsiOS"
-            ReferencedContainer = "container:CleanNews.xcodeproj">
-         </BuildableReference>
-      </CodeCoverageTargets>
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "76911F3A29B2925E006BB655"
-               BuildableName = "CleanNewsiOSTests.xctest"
-               BlueprintName = "CleanNewsiOSTests"
-               ReferencedContainer = "container:CleanNews.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -62,6 +40,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "76ED6482295DBBD6001A9229"
+            BuildableName = "Prototype.app"
+            BlueprintName = "Prototype"
+            ReferencedContainer = "container:Prototype.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -69,15 +57,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "76911F3329B2925E006BB655"
-            BuildableName = "CleanNewsiOS.framework"
-            BlueprintName = "CleanNewsiOS"
-            ReferencedContainer = "container:CleanNews.xcodeproj">
+            BlueprintIdentifier = "76ED6482295DBBD6001A9229"
+            BuildableName = "Prototype.app"
+            BlueprintName = "Prototype"
+            ReferencedContainer = "container:Prototype.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

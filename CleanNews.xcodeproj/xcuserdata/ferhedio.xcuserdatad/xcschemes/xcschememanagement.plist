@@ -4,15 +4,20 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>CleanNews.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>CleanNewsFramework.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>0</integer>
 		</dict>
 		<key>CleanNewsiOS.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -23,6 +28,26 @@
 			<true/>
 		</dict>
 		<key>761A2A2429630C03001CDDC4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>763FD87229B68EA4000EADF7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>763FD87929B68EA4000EADF7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>764F248029B78552006FA506</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>764F248729B78552006FA506</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -38,6 +63,26 @@
 			<true/>
 		</dict>
 		<key>7669ED8028A520FF001385B0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>76911F3329B2925E006BB655</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>76911F3A29B2925E006BB655</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>769D2A5329B783E30068DC6A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>769D2A5A29B783E40068DC6A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
