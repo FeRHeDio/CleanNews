@@ -208,7 +208,7 @@
 				7669ED7A28A520FF001385B0 /* CleanNewsTests */,
 				763FD87429B68EA4000EADF7 /* CleanNewsFramework */,
 				763FD87E29B68EA4000EADF7 /* CleanNewsFrameworkTests */,
-				769EBFB329B78BAB00D0E8C5 /* CleanNewsiOS */,
+				76E9CD6329B790CF000B1C69 /* CleanNewsiOS */,
 				769EBFBD29B78BAB00D0E8C5 /* CleanNewsiOSTests */,
 				7669ED6828A520FE001385B0 /* Products */,
 				76B16F1B29B693F60019EF1D /* Frameworks */,
@@ -275,13 +275,6 @@
 			path = "News Feature";
 			sourceTree = "<group>";
 		};
-		769EBFB329B78BAB00D0E8C5 /* CleanNewsiOS */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = CleanNewsiOS;
-			sourceTree = "<group>";
-		};
 		769EBFBD29B78BAB00D0E8C5 /* CleanNewsiOSTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,6 +333,13 @@
 				76C9E41E292922DE00394FE3 /* FeedCacheTestHelpers.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		76E9CD6329B790CF000B1C69 /* CleanNewsiOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CleanNewsiOS;
 			sourceTree = "<group>";
 		};
 		76EE4D1028E3148300FB8F68 /* News API */ = {
