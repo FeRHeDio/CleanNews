@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		760991D629B7957B00FDFB46 /* XCtestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B2D1A229100D8000F1BA77 /* XCtestCase+MemoryLeakTracking.swift */; };
 		763FD87B29B68EA4000EADF7 /* CleanNewsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763FD87329B68EA4000EADF7 /* CleanNewsFramework.framework */; };
 		7669ED6B28A520FE001385B0 /* CleanNewsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669ED6A28A520FE001385B0 /* CleanNewsApp.swift */; };
 		7669ED6D28A520FE001385B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669ED6C28A520FE001385B0 /* ContentView.swift */; };
@@ -694,6 +695,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				769EBFC829B78C0F00D0E8C5 /* NewsFeedViewControllerTests.swift in Sources */,
+				760991D629B7957B00FDFB46 /* XCtestCase+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

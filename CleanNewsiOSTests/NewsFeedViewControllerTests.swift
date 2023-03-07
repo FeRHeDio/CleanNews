@@ -25,24 +25,31 @@ final class NewsFeedViewController: UIViewController {
 }
 
 final class NewsFeedViewControllerTests: XCTestCase {
-
     func test_init_doesNotLoadFeed() {
-        let loader = LoaderSpy()
-        _ = NewsFeedViewController(loader: loader)
-
+        let (_, loader) = makeSUT()
+        
         XCTAssertEqual(loader.loadCallCount, 0)
     }
-
+    
     func test_viewDidLoad_loadsFeed() {
-        let loader = LoaderSpy()
-        let sut = NewsFeedViewController(loader: loader)
-
+        let (sut, loader) = makeSUT()
+        
         sut.loadViewIfNeeded()
-
+        
         XCTAssertEqual(loader.loadCallCount, 1)
     }
-
-        // MARK: - Helpers
+    
+    // MARK: - Helpers
+    
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: NewsFeedViewController, LoaderSpy) {
+        let loader = LoaderSpy()
+        let sut = NewsFeedViewController(loader: loader)
+        
+        checkForMemoryLeaks(loader, file: file, line: line)
+        checkForMemoryLeaks(sut, file: file, line: line)
+        
+        return (sut, loader)
+    }
 
     class LoaderSpy: NewsLoader {
         private(set) var loadCallCount: Int = 0
