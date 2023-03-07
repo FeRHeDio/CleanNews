@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import CleanNews
+import CleanNewsFramework
 
 final class RemoteNewsLoaderTests: XCTestCase {
     func test_init_doesNotRequestDataFromURL() {

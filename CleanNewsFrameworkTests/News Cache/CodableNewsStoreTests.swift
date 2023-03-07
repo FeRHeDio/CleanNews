@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import CleanNews
+import CleanNewsFramework
 
 final class CodableNewsStoreTests: XCTestCase, FailableNewsStore {
     override func setUp() {

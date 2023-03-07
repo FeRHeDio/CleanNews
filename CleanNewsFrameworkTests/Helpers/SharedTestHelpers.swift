@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import CleanNews
+import CleanNewsFramework
 
 func anyNSError() -> NSError {
     NSError(domain: "any", code: 0)

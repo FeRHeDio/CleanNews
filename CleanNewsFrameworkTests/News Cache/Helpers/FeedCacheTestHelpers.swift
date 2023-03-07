@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import CleanNews
+import CleanNewsFramework
 
 public func uniqueItem() -> NewsItem {
     NewsItem(id: UUID(), title: "some title", description: "some description", content: "some content")

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import CleanNews
+import CleanNewsFramework
 
 class CoreDataNewsStoreTests: XCTestCase, NewsStoreSpecs {
     func test_retrieve_deliversEmptyOnEmptyCache() {

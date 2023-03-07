@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import CleanNews
+import CleanNewsFramework
 
 extension FailableInsertNewsStoreSpecs where Self: XCTestCase {
     func assertThatInsertDeliversErrorOnInsertionError(on sut: NewsStore, file: StaticString = #filePath, line: UInt = #line) {

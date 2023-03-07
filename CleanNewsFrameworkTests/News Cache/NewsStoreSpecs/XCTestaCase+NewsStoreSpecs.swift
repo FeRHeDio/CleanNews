@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import CleanNews
+import CleanNewsFramework
 
 extension NewsStoreSpecs where Self: XCTestCase {
     func assertThatRetrieveDeliversEmptyOnEmptyCache(on sut: NewsStore, file: StaticString = #filePath, line: UInt = #line) {

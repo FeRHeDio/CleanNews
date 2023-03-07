@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import CleanNews
+import CleanNewsFramework
 
 class LoadNewsFromCacheUseCaseTests: XCTestCase {
 
