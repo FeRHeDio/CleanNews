@@ -45,10 +45,10 @@ final class NewsFeedViewControllerTests: XCTestCase {
         // MARK: - Helpers
 
     class LoaderSpy: NewsLoader {
+        private(set) var loadCallCount: Int = 0
+        
         func load(completion: @escaping (NewsLoader.Result) -> Void) {
             loadCallCount += 1
         }
-
-        private(set) var loadCallCount: Int = 0
     }
 }
