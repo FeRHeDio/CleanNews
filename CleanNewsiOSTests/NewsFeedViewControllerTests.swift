@@ -60,6 +60,18 @@ final class NewsFeedViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: [newsItem0, newsItem1, newsItem2, newsItem3])
     }
     
+    func test_loadFeedCompletion_doesNotAlterCurrentRenderingStateOnError() {
+        let newsItem0 = makeNewsItem()
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [newsItem0], at: 0)
+        
+        sut.simulateUserInitiatedFeedReload()
+        loader.completeFeedLoadingWithError(at: 1)
+        assertThat(sut, isRendering: [newsItem0])
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: NewsFeedViewController, LoaderSpy) {
@@ -109,6 +121,11 @@ final class NewsFeedViewControllerTests: XCTestCase {
         
         func completeFeedLoading(with newsFeed: [NewsItem] = [], at index: Int) {
             completions[index](.success(newsFeed))
+        }
+        
+        func completeFeedLoadingWithError(at index: Int = 0) {
+            let error = NSError(domain: "an error", code: 0)
+            completions[index](.failure(error))
         }
     }
 }
