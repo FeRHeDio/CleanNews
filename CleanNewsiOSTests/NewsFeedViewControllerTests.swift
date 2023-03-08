@@ -27,7 +27,9 @@ final class NewsFeedViewController: UITableViewController {
     }
     
     @objc private func load() {
-        loader?.load { _ in }
+        loader?.load { [weak self] _ in
+            self?.refreshControl?.endRefreshing()
+        }
     }
 }
 
@@ -65,6 +67,15 @@ final class NewsFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
     }
     
+    func test_viewDidLoad_hidesIndicatorOnLoaderCompletion() {
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading()
+        
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: NewsFeedViewController, LoaderSpy) {
@@ -78,10 +89,17 @@ final class NewsFeedViewControllerTests: XCTestCase {
     }
 
     class LoaderSpy: NewsLoader {
-        private(set) var loadCallCount: Int = 0
+        private var completions = [(NewsLoader.Result) -> Void]()
+        var loadCallCount: Int {
+            completions.count
+        }
         
         func load(completion: @escaping (NewsLoader.Result) -> Void) {
-            loadCallCount += 1
+            completions.append(completion)
+        }
+        
+        func completeFeedLoading() {
+            completions[0](.success([]))
         }
     }
 }
