@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		760991D629B7957B00FDFB46 /* XCtestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B2D1A229100D8000F1BA77 /* XCtestCase+MemoryLeakTracking.swift */; };
+		760991D829B8B44500FDFB46 /* NewsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760991D729B8B44500FDFB46 /* NewsFeedViewController.swift */; };
 		763FD87B29B68EA4000EADF7 /* CleanNewsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763FD87329B68EA4000EADF7 /* CleanNewsFramework.framework */; };
 		7669ED6B28A520FE001385B0 /* CleanNewsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669ED6A28A520FE001385B0 /* CleanNewsApp.swift */; };
 		7669ED6D28A520FE001385B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669ED6C28A520FE001385B0 /* ContentView.swift */; };
@@ -99,6 +100,7 @@
 
 /* Begin PBXFileReference section */
 		76043E31292E659A00C01E50 /* NewsStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsStoreSpecs.swift; sourceTree = "<group>"; };
+		760991D729B8B44500FDFB46 /* NewsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedViewController.swift; sourceTree = "<group>"; };
 		7617DFDD292E956300193C64 /* XCTestaCase+NewsStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestaCase+NewsStoreSpecs.swift"; sourceTree = "<group>"; };
 		7617DFE0292EA1C800193C64 /* XCTestCase+FailableRetrieveNewsStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FailableRetrieveNewsStoreSpecs.swift"; sourceTree = "<group>"; };
 		7617DFE4292EBB5E00193C64 /* XCTestCase+FailableDeleteNewsStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FailableDeleteNewsStoreSpecs.swift"; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 		76E9CD6329B790CF000B1C69 /* CleanNewsiOS */ = {
 			isa = PBXGroup;
 			children = (
+				760991D729B8B44500FDFB46 /* NewsFeedViewController.swift */,
 			);
 			path = CleanNewsiOS;
 			sourceTree = "<group>";
@@ -542,6 +545,7 @@
 					};
 					769EBFB129B78BAB00D0E8C5 = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
 					};
 					769EBFB829B78BAB00D0E8C5 = {
 						CreatedOnToolsVersion = 14.2;
@@ -687,6 +691,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				760991D829B8B44500FDFB46 /* NewsFeedViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1071,6 +1076,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1092,6 +1098,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1103,6 +1110,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1134,6 +1142,7 @@
 		769EBFC329B78BAB00D0E8C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1159,6 +1168,7 @@
 		769EBFC429B78BAB00D0E8C5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
