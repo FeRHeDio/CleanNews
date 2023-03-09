@@ -83,6 +83,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
             id: UUID(),
             title: "some news title",
             description: "Some description",
+            imageURL: "http:SomeURL",
             content: "some content for the first article"
         )
         
@@ -90,6 +91,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
             id: UUID(),
             title: "Another title",
             description: "Another description for second article",
+            imageURL: "http:anotherURL",
             content: "More content for the second article"
         )
      
@@ -146,7 +148,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
                 
                 
             default:
-                XCTFail("Expected result \(expectedResult) got \(receivedResult)")
+                XCTFail("Expected result \(expectedResult) got \(receivedResult)", file: file, line: line)
             }
         
             exp.fulfill()
@@ -157,12 +159,13 @@ final class RemoteNewsLoaderTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    private func makeItem(id: UUID, title: String, description: String, content: String) -> (model: NewsItem, json: [String: Any]) {
+    private func makeItem(id: UUID, title: String, description: String, imageURL: String, content: String) -> (model: NewsItem, json: [String: Any]) {
         
         let item = NewsItem(
             id: id, 
             title: title,
             description: description,
+            imageURL: imageURL,
             content: content
         )
         
@@ -170,6 +173,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
             "id": id.uuidString,
             "title": title,
             "description": description,
+            "imageURL": imageURL,
             "content": content
         ] as [String : Any]
         
