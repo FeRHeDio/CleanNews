@@ -105,8 +105,8 @@ final class NewsFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(cell.descriptionText, newsItem.description, "Expected description text to be \(String(describing: newsItem.description)) for index \(index)", file: file, line: line)
     }
     
-    private func makeNewsItem(title: String = "", description: String = "", content: String = "") -> NewsItem {
-        NewsItem(id: UUID(), title: title, description: description, content: content)
+    private func makeNewsItem(title: String = "", description: String = "", imageURL: String = "", content: String = "") -> NewsItem {
+        NewsItem(id: UUID(), title: title, description: description, imageURL: imageURL ,content: content)
     }
 
     class LoaderSpy: NewsLoader {

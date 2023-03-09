@@ -86,12 +86,12 @@ extension LocalNewsLoader {
 
 private extension Array where Element == NewsItem {
     func toLocal() -> [LocalNewsItem] {
-        return map { LocalNewsItem(id: $0.id, title: $0.title, description: $0.description, content: $0.content) }
+        return map { LocalNewsItem(id: $0.id, title: $0.title, description: $0.description, imageURL: $0.imageURL, content: $0.content) }
     }
 }
 
 private extension Array where Element == LocalNewsItem {
     func toModels() -> [NewsItem] {
-        return map { NewsItem(id: $0.id, title: $0.title, description: $0.description, content: $0.content) }
+        return map { NewsItem(id: $0.id, title: $0.title, description: $0.description, imageURL: $0.imageURL, content: $0.content) }
     }
 }
