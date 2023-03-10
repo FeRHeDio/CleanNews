@@ -113,7 +113,7 @@ private class ManagedNewsItem: NSManagedObject {
     @NSManaged var id: UUID
     @NSManaged var title: String
     @NSManaged var itemDescription: String
-    @NSManaged var imageURL: String
+    @NSManaged var imageURL: URL
     @NSManaged var content: String
     @NSManaged var cache: ManagedCache
  

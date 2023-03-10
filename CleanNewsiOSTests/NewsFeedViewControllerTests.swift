@@ -14,16 +14,16 @@ final class NewsFeedViewControllerTests: XCTestCase {
     func test_loadFeedActions_requestFeedFromLoader() {
         let (sut, loader) = makeSUT()
         
-        XCTAssertEqual(loader.loadCallCount, 0, "Expected no loading requests before view is loaded")
+        XCTAssertEqual(loader.loadNewsFeedCallCount, 0, "Expected no loading requests before view is loaded")
         
         sut.loadViewIfNeeded()
-        XCTAssertEqual(loader.loadCallCount, 1, "Expected a loading request once view is loaded")
+        XCTAssertEqual(loader.loadNewsFeedCallCount, 1, "Expected a loading request once view is loaded")
         
         sut.simulateUserInitiatedFeedReload()
-        XCTAssertEqual(loader.loadCallCount, 2, "Expected another loading request once user initiates a load")
+        XCTAssertEqual(loader.loadNewsFeedCallCount, 2, "Expected another loading request once user initiates a load")
         
         sut.simulateUserInitiatedFeedReload()
-        XCTAssertEqual(loader.loadCallCount, 3, "Expected a third loading request once user initiates another load")
+        XCTAssertEqual(loader.loadNewsFeedCallCount, 3, "Expected a third loading request once user initiates another load")
     }
     
     func test_loadingFeedIndicator_isVisibleWhileLoadingFeed() {
@@ -72,11 +72,29 @@ final class NewsFeedViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: [newsItem0])
     }
     
+    func test_feedImageView_loadsImageURLWhenVisible() {
+        let item0 = makeNewsItem(imageURL: URL(string: "http://url-0.com")!)
+        let item1 = makeNewsItem(imageURL: URL(string: "http://url-1.com")!)
+        
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [item0, item1])
+        
+        XCTAssertEqual(loader.loadedImageURLs, [], "Expected no image URL requests until views become visible")
+        
+        sut.simulateFeedImageViewVisible(at: 0)
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL], "Expected first image URL request once first view becomes visible")
+        
+        sut.simulateFeedImageViewVisible(at: 1)
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL, item1.imageURL], "Expected second image URL request once second view also becomes visible")
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: NewsFeedViewController, LoaderSpy) {
         let loader = LoaderSpy()
-        let sut = NewsFeedViewController(loader: loader)
+        let sut = NewsFeedViewController(newsFeedLoader: loader, imageLoader: loader)
         
         checkForMemoryLeaks(loader, file: file, line: line)
         checkForMemoryLeaks(sut, file: file, line: line)
@@ -105,27 +123,39 @@ final class NewsFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(cell.descriptionText, newsItem.description, "Expected description text to be \(String(describing: newsItem.description)) for index \(index)", file: file, line: line)
     }
     
-    private func makeNewsItem(title: String = "", description: String = "", imageURL: String = "", content: String = "") -> NewsItem {
+    private func makeNewsItem(title: String = "", description: String = "", imageURL: URL = URL(string: "http://any-url.com")!, content: String = "") -> NewsItem {
         NewsItem(id: UUID(), title: title, description: description, imageURL: imageURL ,content: content)
     }
 
-    class LoaderSpy: NewsLoader {
-        private var completions = [(NewsLoader.Result) -> Void]()
-        var loadCallCount: Int {
-            completions.count
+    class LoaderSpy: NewsLoader, NewsFeedImageDataLoader {
+        
+        //MARK: - NewsFeedLoader
+        
+        private var feedRequests = [(NewsLoader.Result) -> Void]()
+        
+        var loadNewsFeedCallCount: Int {
+            feedRequests.count
         }
         
         func load(completion: @escaping (NewsLoader.Result) -> Void) {
-            completions.append(completion)
+            feedRequests.append(completion)
         }
         
-        func completeFeedLoading(with newsFeed: [NewsItem] = [], at index: Int) {
-            completions[index](.success(newsFeed))
+        func completeFeedLoading(with newsFeed: [NewsItem] = [], at index: Int = 0) {
+            feedRequests[index](.success(newsFeed))
         }
         
         func completeFeedLoadingWithError(at index: Int = 0) {
             let error = NSError(domain: "an error", code: 0)
-            completions[index](.failure(error))
+            feedRequests[index](.failure(error))
+        }
+        
+        //MARK: - NewsFeedImageDataLoader
+        
+        private(set) var loadedImageURLs = [URL]()
+        
+        func loadImageData(from url: URL) {
+            loadedImageURLs.append(url)
         }
     }
 }
@@ -133,6 +163,10 @@ final class NewsFeedViewControllerTests: XCTestCase {
 private extension NewsFeedViewController {
     func simulateUserInitiatedFeedReload() {
         refreshControl?.simulatePullToRefresh()
+    }
+    
+    func simulateFeedImageViewVisible(at index: Int) {
+        _ = newsFeedView(at: index)
     }
     
     var isShowingLoadingIndicator: Bool {

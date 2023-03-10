@@ -21,7 +21,7 @@ public class CodableNewsStore: NewsStore {
         private let id: UUID
         private let title: String
         private let description: String
-        private let imageURL: String
+        private let imageURL: URL
         private let content: String
         
         init(_ item: LocalNewsItem) {

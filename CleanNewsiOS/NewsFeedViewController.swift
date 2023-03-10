@@ -8,13 +8,19 @@
 import UIKit
 import CleanNewsFramework
 
+public protocol NewsFeedImageDataLoader {
+    func loadImageData(from url: URL)
+}
+
 final public class NewsFeedViewController: UITableViewController {
-    private var loader: NewsLoader?
+    private var newsFeedLoader: NewsLoader?
+    private var imageLoader: NewsFeedImageDataLoader?
     private var tableModel = [NewsItem]()
 
-    public convenience init(loader: NewsLoader) {
+    public convenience init(newsFeedLoader: NewsLoader, imageLoader: NewsFeedImageDataLoader) {
         self.init()
-        self.loader = loader
+        self.newsFeedLoader = newsFeedLoader
+        self.imageLoader = imageLoader
     }
 
     public override func viewDidLoad() {
@@ -27,7 +33,7 @@ final public class NewsFeedViewController: UITableViewController {
     
     @objc private func load() {
         refreshControl?.beginRefreshing()
-        loader?.load { [weak self] result in
+        newsFeedLoader?.load { [weak self] result in
             if let newsFeed = try? result.get() {
                 self?.tableModel = newsFeed
                 self?.tableView.reloadData()
@@ -46,6 +52,8 @@ final public class NewsFeedViewController: UITableViewController {
         
         cell.titleLabel.text = cellModel.title
         cell.descriptionLabel.text = cellModel.description
+        
+        imageLoader?.loadImageData(from: cellModel.imageURL)
         
         return cell
     }
