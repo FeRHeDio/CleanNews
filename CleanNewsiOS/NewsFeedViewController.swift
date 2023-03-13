@@ -8,15 +8,19 @@
 import UIKit
 import CleanNewsFramework
 
+public protocol NewsFeedImageDataLoaderTask {
+    func cancel()
+}
+
 public protocol NewsFeedImageDataLoader {
-    func loadImageData(from url: URL)
-    func cancelImageDataLoad(from url: URL)
+    func loadImageData(from url: URL) -> NewsFeedImageDataLoaderTask
 }
 
 final public class NewsFeedViewController: UITableViewController {
     private var newsFeedLoader: NewsLoader?
     private var imageLoader: NewsFeedImageDataLoader?
     private var tableModel = [NewsItem]()
+    private var tasks = [IndexPath: NewsFeedImageDataLoaderTask]()
 
     public convenience init(newsFeedLoader: NewsLoader, imageLoader: NewsFeedImageDataLoader) {
         self.init()
@@ -50,17 +54,15 @@ final public class NewsFeedViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellModel = tableModel[indexPath.row]
         let cell = NewsItemCell()
-        
         cell.titleLabel.text = cellModel.title
         cell.descriptionLabel.text = cellModel.description
-        
-        imageLoader?.loadImageData(from: cellModel.imageURL)
-        
+        tasks[indexPath] = imageLoader?.loadImageData(from: cellModel.imageURL)
+
         return cell
     }
     
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cellModel = tableModel[indexPath.row]
-        imageLoader?.cancelImageDataLoad(from: cellModel.imageURL)
+        tasks[indexPath]?.cancel()
+        tasks[indexPath] = nil
     }
 }

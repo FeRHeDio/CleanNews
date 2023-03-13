@@ -144,7 +144,7 @@ final class NewsFeedViewControllerTests: XCTestCase {
     }
 
     class LoaderSpy: NewsLoader, NewsFeedImageDataLoader {
-        //MARK: - NewsFeedLoader
+            //MARK: - NewsFeedLoader
         
         private var feedRequests = [(NewsLoader.Result) -> Void]()
         
@@ -165,17 +165,23 @@ final class NewsFeedViewControllerTests: XCTestCase {
             feedRequests[index](.failure(error))
         }
         
-        //MARK: - NewsFeedImageDataLoader
+            //MARK: - NewsFeedImageDataLoader
+        
+        private struct TaskSpy: NewsFeedImageDataLoaderTask {
+            let cancelCallback: () -> Void
+            func cancel() {
+                cancelCallback()
+            }
+        }
         
         private(set) var loadedImageURLs = [URL]()
         private(set) var cancelledImageURLs = [URL]()
         
-        func loadImageData(from url: URL) {
+        func loadImageData(from url: URL) -> NewsFeedImageDataLoaderTask {
             loadedImageURLs.append(url)
-        }
-        
-        func cancelImageDataLoad(from url: URL) {
-            cancelledImageURLs.append(url)
+            return TaskSpy { [weak self] in
+                self?.cancelledImageURLs.append(url)
+            }
         }
     }
 }
