@@ -113,6 +113,7 @@ private class ManagedNewsItem: NSManagedObject {
     @NSManaged var id: UUID
     @NSManaged var title: String
     @NSManaged var itemDescription: String
+    @NSManaged var imageURL: URL
     @NSManaged var content: String
     @NSManaged var cache: ManagedCache
  
@@ -122,6 +123,7 @@ private class ManagedNewsItem: NSManagedObject {
             managed.id = local.id
             managed.title = local.title
             managed.itemDescription = local.description
+            managed.imageURL = local.imageURL
             managed.content = local.content
             
             return managed
@@ -129,7 +131,7 @@ private class ManagedNewsItem: NSManagedObject {
     }
     
     var local: LocalNewsItem {
-        return LocalNewsItem(id: id, title: title, description: itemDescription, content: content)
+        return LocalNewsItem(id: id, title: title, description: itemDescription, imageURL: imageURL, content: content)
     }
     
 }

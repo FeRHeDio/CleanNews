@@ -13,9 +13,11 @@ struct News: Decodable {
 
 public struct Article: Decodable, Identifiable {
     public var id = UUID().uuidString
+    public var imageURL: String
     let title: String
 
     enum CodingKeys: String, CodingKey {
         case title = "title"
+        case imageURL = "urlToImage"
     }
 }

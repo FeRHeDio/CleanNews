@@ -28,7 +28,9 @@ class API: OldNewsLoader {
             if let data = data {
                 print("Here comes the news!")
                 do {
+                    
                     let news = try decoder.decode(News.self, from: data)
+                    
                     completion(news)
                 } catch let error {
                     print(error)
