@@ -12,7 +12,7 @@ public protocol NewsFeedImageDataLoaderTask {
     func cancel()
 }
 
-public protocol NewsFeedImageDataLoader {
+public protocol FeedImageDataLoader {
     typealias Result = Swift.Result<Data, Error>
     
     func loadImageData(from url: URL, completion: @escaping (Result) -> Void) -> NewsFeedImageDataLoaderTask
@@ -20,11 +20,11 @@ public protocol NewsFeedImageDataLoader {
 
 final public class NewsFeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var newsFeedLoader: NewsLoader?
-    private var imageLoader: NewsFeedImageDataLoader?
+    private var imageLoader: FeedImageDataLoader?
     private var tableModel = [NewsItem]()
     private var tasks = [IndexPath: NewsFeedImageDataLoaderTask]()
 
-    public convenience init(newsFeedLoader: NewsLoader, imageLoader: NewsFeedImageDataLoader) {
+    public convenience init(newsFeedLoader: NewsLoader, imageLoader: FeedImageDataLoader) {
         self.init()
         self.newsFeedLoader = newsFeedLoader
         self.imageLoader = imageLoader

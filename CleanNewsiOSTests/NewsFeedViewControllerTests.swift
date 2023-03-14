@@ -280,7 +280,7 @@ final class NewsFeedViewControllerTests: XCTestCase {
         NewsItem(id: UUID(), title: title, description: description, imageURL: imageURL ,content: content)
     }
 
-    class LoaderSpy: NewsLoader, NewsFeedImageDataLoader {
+    class LoaderSpy: NewsLoader, FeedImageDataLoader {
             //MARK: - NewsFeedLoader
         
         private var feedRequests = [(NewsLoader.Result) -> Void]()
@@ -311,7 +311,7 @@ final class NewsFeedViewControllerTests: XCTestCase {
             }
         }
         
-        private var imageRequests = [(url: URL, completion: (NewsFeedImageDataLoader.Result) -> Void)]()
+        private var imageRequests = [(url: URL, completion: (FeedImageDataLoader.Result) -> Void)]()
         
         var loadedImageURLs: [URL] {
             imageRequests.map { $0.url }
@@ -319,7 +319,7 @@ final class NewsFeedViewControllerTests: XCTestCase {
         
         private(set) var cancelledImageURLs = [URL]()
         
-        func loadImageData(from url: URL, completion: @escaping (NewsFeedImageDataLoader.Result) -> Void) -> NewsFeedImageDataLoaderTask {
+        func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> NewsFeedImageDataLoaderTask {
             imageRequests.append((url, completion))
             
             return TaskSpy { [weak self] in
