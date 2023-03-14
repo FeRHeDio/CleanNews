@@ -211,6 +211,22 @@ final class NewsFeedViewControllerTests: XCTestCase {
         view1?.simulateRetryAction()
         XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL, item1.imageURL, item0.imageURL, item1.imageURL], "Expected a fourth image URL request after second view retry action")
     }
+    
+    func test_feedImageView_preloadsImageURLWhenNearVisible() {
+        let item0 = makeNewsItem(imageURL: URL(string: "http://url-0.com")!)
+        let item1 = makeNewsItem(imageURL: URL(string: "http://url-1.com")!)
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [item0, item1])
+        XCTAssertEqual(loader.loadedImageURLs, [], "Expected no image URL until view is near visible")
+        
+        sut.simulateFeedImageViewNearVisible(at: 0)
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL], "Expected first image URL request once first image is near visible")
+        
+        sut.simulateFeedImageViewNearVisible(at: 1)
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL, item1.imageURL], "Expected second image URL request once second image is near visible")
+    }
 
     // MARK: - Helpers
     
@@ -314,7 +330,14 @@ private extension NewsFeedViewController {
     
     @discardableResult
     func simulateFeedImageViewVisible(at index: Int) -> NewsItemCell? {
-        return newsFeedView(at: index) as? NewsItemCell
+        newsFeedView(at: index) as? NewsItemCell
+    }
+    
+    func simulateFeedImageViewNearVisible(at row: Int) {
+        let ds = tableView.prefetchDataSource
+        let index = IndexPath(row: row, section: newsSection)
+        
+        ds?.tableView(tableView, prefetchRowsAt: [index])
     }
     
     func simulateFeedImageViewNotVisible(at row: Int) {

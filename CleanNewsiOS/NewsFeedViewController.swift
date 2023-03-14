@@ -18,7 +18,7 @@ public protocol NewsFeedImageDataLoader {
     func loadImageData(from url: URL, completion: @escaping (Result) -> Void) -> NewsFeedImageDataLoaderTask
 }
 
-final public class NewsFeedViewController: UITableViewController {
+final public class NewsFeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var newsFeedLoader: NewsLoader?
     private var imageLoader: NewsFeedImageDataLoader?
     private var tableModel = [NewsItem]()
@@ -35,6 +35,7 @@ final public class NewsFeedViewController: UITableViewController {
         
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+        tableView.prefetchDataSource = self
         load()
     }
     
@@ -85,8 +86,10 @@ final public class NewsFeedViewController: UITableViewController {
         tasks[indexPath] = nil
     }
     
-    public override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-//        startTask(forRowAt: indexPath)
+    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            let cellModel = tableModel[indexPath.row]
+            _ = imageLoader?.loadImageData(from: cellModel.imageURL) { _ in }
+        }
     }
 }
