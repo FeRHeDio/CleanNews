@@ -61,19 +61,32 @@ final public class NewsFeedViewController: UITableViewController {
         cell.newsImageView.image = nil
         cell.feedImageRetryButton.isHidden = true
         cell.newsImageContainer.startShimmering()
-        tasks[indexPath] = imageLoader?.loadImageData(from: cellModel.imageURL) { [weak cell] result in
-            let data = try? result.get()
-            let image = data.map(UIImage.init) ?? nil
-            cell?.newsImageView.image = image
-            cell?.feedImageRetryButton.isHidden = (image != nil)
-            cell?.newsImageContainer.stopShimmering()
+        
+        let loadImage = { [weak self, weak cell] in
+            guard let self else { return }
+            
+            self.tasks[indexPath] = self.imageLoader?.loadImageData(from: cellModel.imageURL) { [weak cell] result in
+                let data = try? result.get()
+                let image = data.map(UIImage.init) ?? nil
+                cell?.newsImageView.image = image
+                cell?.feedImageRetryButton.isHidden = (image != nil)
+                cell?.newsImageContainer.stopShimmering()
+            }
         }
-
+        
+        cell.onRetry = loadImage
+        loadImage()
+        
         return cell
     }
     
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         tasks[indexPath]?.cancel()
         tasks[indexPath] = nil
+    }
+    
+    public override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+//        startTask(forRowAt: indexPath)
     }
 }
