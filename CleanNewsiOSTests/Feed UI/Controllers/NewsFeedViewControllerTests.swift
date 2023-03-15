@@ -304,7 +304,7 @@ final class NewsFeedViewControllerTests: XCTestCase {
         
             //MARK: - NewsFeedImageDataLoader
         
-        private struct TaskSpy: NewsFeedImageDataLoaderTask {
+        private struct TaskSpy: FeedImageDataLoaderTask {
             let cancelCallback: () -> Void
             func cancel() {
                 cancelCallback()
@@ -319,7 +319,7 @@ final class NewsFeedViewControllerTests: XCTestCase {
         
         private(set) var cancelledImageURLs = [URL]()
         
-        func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> NewsFeedImageDataLoaderTask {
+        func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
             imageRequests.append((url, completion))
             
             return TaskSpy { [weak self] in

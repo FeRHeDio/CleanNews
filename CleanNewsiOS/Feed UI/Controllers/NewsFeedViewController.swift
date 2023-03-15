@@ -8,15 +8,11 @@
 import UIKit
 import CleanNewsFramework
 
-public protocol NewsFeedImageDataLoaderTask {
-    func cancel()
-}
-
 final public class NewsFeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var newsFeedLoader: NewsLoader?
     private var imageLoader: FeedImageDataLoader?
     private var tableModel = [NewsItem]()
-    private var tasks = [IndexPath: NewsFeedImageDataLoaderTask]()
+    private var tasks = [IndexPath: FeedImageDataLoaderTask]()
 
     public convenience init(newsFeedLoader: NewsLoader, imageLoader: FeedImageDataLoader) {
         self.init()
