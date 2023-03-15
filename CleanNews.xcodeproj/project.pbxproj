@@ -324,6 +324,37 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		768D6B7E29C25E3600B12BC6 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		768D6B7F29C25E3C00B12BC6 /* Feed UI */ = {
+			isa = PBXGroup;
+			children = (
+				768D6B8029C25E5900B12BC6 /* Controllers */,
+			);
+			path = "Feed UI";
+			sourceTree = "<group>";
+		};
+		768D6B8029C25E5900B12BC6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				769EBFC729B78C0F00D0E8C5 /* NewsFeedViewControllerTests.swift */,
+				768D6B8129C25E6200B12BC6 /* Helpers */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		768D6B8129C25E6200B12BC6 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		769AB90D290B0EBD00AF03F0 /* News API */ = {
 			isa = PBXGroup;
 			children = (
@@ -345,7 +376,8 @@
 		769EBFBD29B78BAB00D0E8C5 /* CleanNewsiOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				769EBFC729B78C0F00D0E8C5 /* NewsFeedViewControllerTests.swift */,
+				768D6B7E29C25E3600B12BC6 /* Helpers */,
+				768D6B7F29C25E3C00B12BC6 /* Feed UI */,
 			);
 			path = CleanNewsiOSTests;
 			sourceTree = "<group>";
