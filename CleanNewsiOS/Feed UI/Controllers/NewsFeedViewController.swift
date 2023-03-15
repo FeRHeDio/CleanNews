@@ -8,37 +8,34 @@
 import UIKit
 import CleanNewsFramework
 
-final public class NewsFeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private var newsFeedLoader: NewsLoader?
+public final class NewsFeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
+    private var refreshController: NewsRefreshController?
     private var imageLoader: FeedImageDataLoader?
-    private var tableModel = [NewsItem]()
+    private var tableModel = [NewsItem]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     private var tasks = [IndexPath: FeedImageDataLoaderTask]()
 
     public convenience init(newsFeedLoader: NewsLoader, imageLoader: FeedImageDataLoader) {
         self.init()
-        self.newsFeedLoader = newsFeedLoader
+        self.refreshController = NewsRefreshController(newsFeedLoader: newsFeedLoader)
         self.imageLoader = imageLoader
     }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
         tableView.prefetchDataSource = self
-        load()
-    }
-    
-    @objc private func load() {
-        refreshControl?.beginRefreshing()
-        newsFeedLoader?.load { [weak self] result in
-            if let newsFeed = try? result.get() {
-                self?.tableModel = newsFeed
-                self?.tableView.reloadData()
-            }
-            self?.refreshControl?.endRefreshing()
+        
+        refreshControl = refreshController?.view
+       
+        refreshController?.onRefresh = { [weak self] feed in
+            self?.tableModel = feed
         }
-    }
+        refreshController?.refresh()
+     }
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableModel.count
