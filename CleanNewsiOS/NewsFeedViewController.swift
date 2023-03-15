@@ -12,12 +12,6 @@ public protocol NewsFeedImageDataLoaderTask {
     func cancel()
 }
 
-public protocol FeedImageDataLoader {
-    typealias Result = Swift.Result<Data, Error>
-    
-    func loadImageData(from url: URL, completion: @escaping (Result) -> Void) -> NewsFeedImageDataLoaderTask
-}
-
 final public class NewsFeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var newsFeedLoader: NewsLoader?
     private var imageLoader: FeedImageDataLoader?
