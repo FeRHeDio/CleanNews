@@ -16,7 +16,7 @@ public final class NewsFeedViewController: UITableViewController, UITableViewDat
             tableView.reloadData()
         }
     }
-    private var tasks = [IndexPath: FeedImageDataLoaderTask]()
+    private var cellControllers = [IndexPath: NewsImageCellController]()
 
     public convenience init(newsFeedLoader: NewsLoader, imageLoader: FeedImageDataLoader) {
         self.init()
@@ -28,9 +28,7 @@ public final class NewsFeedViewController: UITableViewController, UITableViewDat
         super.viewDidLoad()
         
         tableView.prefetchDataSource = self
-        
         refreshControl = refreshController?.view
-       
         refreshController?.onRefresh = { [weak self] feed in
             self?.tableModel = feed
         }
@@ -42,49 +40,31 @@ public final class NewsFeedViewController: UITableViewController, UITableViewDat
     }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellModel = tableModel[indexPath.row]
-        let cell = NewsItemCell()
-        cell.titleLabel.text = cellModel.title
-        cell.descriptionLabel.text = cellModel.description
-        cell.newsImageView.image = nil
-        cell.feedImageRetryButton.isHidden = true
-        cell.newsImageContainer.startShimmering()
-        
-        let loadImage = { [weak self, weak cell] in
-            guard let self else { return }
-            
-            self.tasks[indexPath] = self.imageLoader?.loadImageData(from: cellModel.imageURL) { [weak cell] result in
-                let data = try? result.get()
-                let image = data.map(UIImage.init) ?? nil
-                cell?.newsImageView.image = image
-                cell?.feedImageRetryButton.isHidden = (image != nil)
-                cell?.newsImageContainer.stopShimmering()
-            }
-        }
-        
-        cell.onRetry = loadImage
-        loadImage()
-        
-        return cell
+        return cellController(forRowAt: indexPath).view()
     }
     
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cancelTask(forRowAt: indexPath)
+        removeCellController(forRowAt: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            let cellModel = tableModel[indexPath.row]
-            tasks[indexPath] = imageLoader?.loadImageData(from: cellModel.imageURL) { _ in }
+            cellController(forRowAt: indexPath).preload()
         }
     }
     
     public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach(cancelTask)
+        indexPaths.forEach(removeCellController)
     }
     
-    public func cancelTask(forRowAt indexPath: IndexPath) {
-        tasks[indexPath]?.cancel()
-        tasks[indexPath] = nil
+    private func cellController(forRowAt indexPath: IndexPath) -> NewsImageCellController {
+        let cellModel = tableModel[indexPath.row]
+        let cellController = NewsImageCellController(model: cellModel, imageLoader: imageLoader!)
+        cellControllers[indexPath] = cellController
+        return cellController
+    }
+    
+    public func removeCellController(forRowAt indexPath: IndexPath) {
+        cellControllers[indexPath] = nil
     }
 }
