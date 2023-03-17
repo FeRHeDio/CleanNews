@@ -15,11 +15,15 @@ public final class NewsFeedUIComposer {
         let refreshController = NewsRefreshController(newsFeedLoader: newsFeedLoader)
         let newsFeedViewController = NewsFeedViewController(refreshController: refreshController)
         
-        refreshController.onRefresh = { [weak newsFeedViewController] feed in
-            newsFeedViewController?.tableModel = feed.map { model in
-                NewsImageCellController(model: model, imageLoader: imageLoader)
+        refreshController.onRefresh = adaptFeedToCellControllers(forwardingTo: newsFeedViewController, loader: imageLoader)
+        return newsFeedViewController
+    }
+    
+    private static func adaptFeedToCellControllers(forwardingTo controller: NewsFeedViewController, loader: FeedImageDataLoader) -> ([NewsItem]) -> Void {
+        return { [weak controller] feed in
+            controller?.tableModel = feed.map { model in
+                NewsImageCellController(model: model, imageLoader: loader)
             }
         }
-        return newsFeedViewController
     }
 }
