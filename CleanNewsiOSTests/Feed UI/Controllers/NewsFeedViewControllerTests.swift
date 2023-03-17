@@ -247,7 +247,7 @@ final class NewsFeedViewControllerTests: XCTestCase {
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: NewsFeedViewController, LoaderSpy) {
         let loader = LoaderSpy()
-        let sut = NewsFeedViewController(newsFeedLoader: loader, imageLoader: loader)
+        let sut = NewsFeedUIComposer.newsFeedComposedWith(newsFeedLoader: loader, imageLoader: loader)
         
         checkForMemoryLeaks(loader, file: file, line: line)
         checkForMemoryLeaks(sut, file: file, line: line)

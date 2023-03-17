@@ -48,7 +48,7 @@ public final class NewsImageCellController {
         task = imageLoader.loadImageData(from: model.imageURL) { _ in }
     }
     
-    deinit {
+    func cancelLoad() {
         task?.cancel()
     }
 }
