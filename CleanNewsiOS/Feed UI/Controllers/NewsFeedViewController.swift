@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CleanNewsFramework
 
 public final class NewsFeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var refreshController: NewsRefreshController?
