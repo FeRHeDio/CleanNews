@@ -6,19 +6,20 @@
 //
 
 import Foundation
-import UIKit
 import CleanNewsFramework
 
-final class NewsFeedImageViewModel {
+final class NewsFeedImageViewModel<Image> {
     typealias Observer<T> = (T) -> Void
     
     private var task: FeedImageDataLoaderTask?
     private let model: NewsItem
     private let newsImageLoader: FeedImageDataLoader
+    private let imageTransfer: (Data) -> Image?
     
-    init(model: NewsItem, newsImageLoader: FeedImageDataLoader) {
+    init(model: NewsItem, newsImageLoader: FeedImageDataLoader, imageTransformer: @escaping (Data) -> Image?) {
         self.model = model
         self.newsImageLoader = newsImageLoader
+        self.imageTransfer = imageTransformer
     }
     
     var description: String? {
@@ -33,7 +34,7 @@ final class NewsFeedImageViewModel {
         model.content
     }
     
-    var onImageLoad: Observer<UIImage>?
+    var onImageLoad: Observer<Image>?
     var onImageLoadingStateChange: Observer<Bool>?
     var onShouldRetryImageLoadStateChange: Observer<Bool>?
     
@@ -46,7 +47,7 @@ final class NewsFeedImageViewModel {
     }
     
     private func handle(_ result: FeedImageDataLoader.Result) {
-        if let image = (try? result.get()).flatMap(UIImage.init) {
+        if let image = (try? result.get()).flatMap(imageTransfer) {
             onImageLoad?(image)
         } else {
             onShouldRetryImageLoadStateChange?(true)

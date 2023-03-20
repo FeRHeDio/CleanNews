@@ -23,7 +23,7 @@ public final class NewsFeedUIComposer {
     private static func adaptFeedToCellControllers(forwardingTo controller: NewsFeedViewController, loader: FeedImageDataLoader) -> ([NewsItem]) -> Void {
         return { [weak controller] feed in
             controller?.tableModel = feed.map { model in
-                NewsImageCellController(viewModel: NewsFeedImageViewModel(model: model, newsImageLoader: loader))
+                NewsImageCellController(viewModel: NewsFeedImageViewModel(model: model, newsImageLoader: loader, imageTransformer: UIImage.init))
             }
         }
     }

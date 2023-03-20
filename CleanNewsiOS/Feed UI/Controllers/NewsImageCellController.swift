@@ -9,9 +9,9 @@ import UIKit
 import CleanNewsFramework
 
 public final class NewsImageCellController {
-    private let viewModel: NewsFeedImageViewModel
+    private let viewModel: NewsFeedImageViewModel<UIImage>
     
-    init(viewModel: NewsFeedImageViewModel) {
+    init(viewModel: NewsFeedImageViewModel<UIImage>) {
         self.viewModel = viewModel
     }
     
