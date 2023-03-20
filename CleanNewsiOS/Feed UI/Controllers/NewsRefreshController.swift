@@ -6,30 +6,29 @@
 //
 
 import UIKit
-import CleanNewsFramework
 
 public final class NewsRefreshController: NSObject {
-    private(set) lazy var view: UIRefreshControl = {
-        let view = UIRefreshControl()
-        view.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        return view
-    }()
+    private(set) lazy var view = binded(UIRefreshControl())
     
-    var newsFeedLoader: NewsLoader?
+    private var viewModel: NewsFeedViewModel?
     
-    init(newsFeedLoader: NewsLoader) {
-        self.newsFeedLoader = newsFeedLoader
+    init(viewModel: NewsFeedViewModel) {
+        self.viewModel = viewModel
     }
     
-    var onRefresh: (([NewsItem]) -> Void)?
-    
     @objc func refresh() {
-        view.beginRefreshing()
-        newsFeedLoader?.load { [weak self] result in
-            if let newsFeed = try? result.get() {
-                self?.onRefresh?(newsFeed)
+        viewModel?.loadFeed()
+    }
+    
+    private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
+        viewModel?.onChange = { [weak self] viewModel in
+            if viewModel.isLoading {
+                self?.view.beginRefreshing()
+            } else {
+                self?.view.endRefreshing()
             }
-            self?.view.endRefreshing()
         }
+        view.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return view
     }
 }
