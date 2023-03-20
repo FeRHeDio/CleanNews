@@ -9,26 +9,24 @@ import Foundation
 import CleanNewsFramework
 
 final class NewsFeedViewModel {
+    typealias Observer<T> = (T) -> Void
+    
     private let newsFeedLoader: NewsLoader?
     
     init(newsFeedLoader: NewsLoader) {
         self.newsFeedLoader = newsFeedLoader
     }
     
-    var onChange: ((NewsFeedViewModel) -> Void)?
-    var onFeedLoad: (([NewsItem]) -> Void)?
-    
-    private(set) var isLoading: Bool = false {
-        didSet { onChange?(self) }
-    }
+    var onLoadingStateChange: Observer<Bool>?
+    var onFeedLoad: Observer<[NewsItem]>?
     
     func loadFeed() {
-        isLoading = true
+        onLoadingStateChange?(true)
         newsFeedLoader?.load { [weak self] result in
             if let newsFeed = try? result.get() {
                 self?.onFeedLoad?(newsFeed)
             }
-            self?.isLoading = false
+            self?.onLoadingStateChange?(false)
         }
     }
 }
