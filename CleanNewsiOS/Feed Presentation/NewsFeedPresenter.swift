@@ -24,22 +24,19 @@ protocol NewsFeedView {
 }
 
 final class NewsFeedPresenter {
-    private let newsFeedLoader: NewsLoader?
-    
-    init(newsFeedLoader: NewsLoader) {
-        self.newsFeedLoader = newsFeedLoader
-    }
-    
     var newsFeedView: NewsFeedView?
     var newsFeedLoadingView: NewsFeedLoadingView?
     
-    func loadFeed() {
+    func didStartLoadingFeed() {
         newsFeedLoadingView?.display(NewsFeedLoadingViewModel(isLoading: true))
-        newsFeedLoader?.load { [weak self] result in
-            if let newsFeed = try? result.get() {
-                self?.newsFeedView?.display(NewsFeedViewModel(newsFeed: newsFeed))
-            }
-            self?.newsFeedLoadingView?.display(NewsFeedLoadingViewModel(isLoading: false))
-        }
+    }
+    
+    func didFinishLoadingFeed(with newsFeed: [NewsItem]) {
+        newsFeedView?.display(NewsFeedViewModel(newsFeed: newsFeed))
+        newsFeedLoadingView?.display(NewsFeedLoadingViewModel(isLoading: false))
+    }
+    
+    func didFinishLoadingFeed(with error: Error) {
+        newsFeedLoadingView?.display(NewsFeedLoadingViewModel(isLoading: false))
     }
 }
