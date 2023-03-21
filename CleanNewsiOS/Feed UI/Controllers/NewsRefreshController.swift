@@ -9,7 +9,6 @@ import UIKit
 
 public final class NewsRefreshController: NSObject, NewsFeedLoadingView {
     private(set) lazy var view = loadView()
-    
     private var presenter: NewsFeedPresenter?
     
     init(presenter: NewsFeedPresenter) {
@@ -20,8 +19,8 @@ public final class NewsRefreshController: NSObject, NewsFeedLoadingView {
         presenter?.loadFeed()
     }
     
-    func display(isLoading: Bool) {
-        if isLoading {
+    func display(_ viewModel: NewsFeedLoadingViewModel) {
+        if viewModel.isLoading {
             view.beginRefreshing()
         } else {
             view.endRefreshing()
