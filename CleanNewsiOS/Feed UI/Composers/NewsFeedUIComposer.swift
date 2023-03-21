@@ -12,12 +12,13 @@ public final class NewsFeedUIComposer {
     private init() {}
     
     public static func newsFeedComposedWith(newsFeedLoader: NewsLoader, imageLoader: FeedImageDataLoader) -> NewsFeedViewController {
-        let presenter = NewsFeedPresenter()
-        let newsLoaderAdapter = NewsFeedLoaderPresentationAdapter(newsLoader: newsFeedLoader, presenter: presenter)
-        let refreshController = NewsRefreshController(delegate: newsLoaderAdapter)
+        let presentationAdapter = NewsFeedLoaderPresentationAdapter(newsLoader: newsFeedLoader)
+        let refreshController = NewsRefreshController(delegate: presentationAdapter)
         let newsFeedViewController = NewsFeedViewController(refreshController: refreshController)
-        presenter.newsFeedLoadingView = WeakRefVirtualProxy(refreshController)
-        presenter.newsFeedView = NewsFeedViewAdapter(newsFeedViewController: newsFeedViewController, imageLoader: imageLoader)
+        presentationAdapter.presenter = NewsFeedPresenter(
+            newsFeedView: NewsFeedViewAdapter(newsFeedViewController: newsFeedViewController, imageLoader: imageLoader),
+            newsFeedLoadingView: WeakRefVirtualProxy(refreshController)
+        )
         
         return newsFeedViewController
     }
@@ -55,23 +56,22 @@ private final class NewsFeedViewAdapter: NewsFeedView {
 
 private final class NewsFeedLoaderPresentationAdapter: NewsFeedRefreshViewControllerDelegate {
     let newsLoader: NewsLoader
-    let presenter: NewsFeedPresenter
+    var presenter: NewsFeedPresenter?
     
-    init(newsLoader: NewsLoader, presenter: NewsFeedPresenter) {
+    init(newsLoader: NewsLoader) {
         self.newsLoader = newsLoader
-        self.presenter = presenter
     }
     
     func didRequestFeedRefresh() {
-        presenter.didStartLoadingFeed()
+        presenter?.didStartLoadingFeed()
         
         newsLoader.load { [weak self] result in
             switch result {
             case let .success(newsFeed):
-                self?.presenter.didFinishLoadingFeed(with: newsFeed)
+                self?.presenter?.didFinishLoadingFeed(with: newsFeed)
                 
             case let .failure(error):
-                self?.presenter.didFinishLoadingFeed(with: error)
+                self?.presenter?.didFinishLoadingFeed(with: error)
             }
         }
     }
