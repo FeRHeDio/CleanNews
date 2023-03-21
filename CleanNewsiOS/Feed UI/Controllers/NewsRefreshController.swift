@@ -9,14 +9,14 @@ import UIKit
 
 public final class NewsRefreshController: NSObject, NewsFeedLoadingView {
     private(set) lazy var view = loadView()
-    private var presenter: NewsFeedPresenter?
+    private var loadFeed: () -> Void?
     
-    init(presenter: NewsFeedPresenter) {
-        self.presenter = presenter
+    init(loadFeed: @escaping () -> Void) {
+        self.loadFeed = loadFeed
     }
     
     @objc func refresh() {
-        presenter?.loadFeed()
+        loadFeed()
     }
     
     func display(_ viewModel: NewsFeedLoadingViewModel) {

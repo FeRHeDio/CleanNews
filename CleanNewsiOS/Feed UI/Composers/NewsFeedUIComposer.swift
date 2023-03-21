@@ -13,7 +13,7 @@ public final class NewsFeedUIComposer {
     
     public static func newsFeedComposedWith(newsFeedLoader: NewsLoader, imageLoader: FeedImageDataLoader) -> NewsFeedViewController {
         let presenter = NewsFeedPresenter(newsFeedLoader: newsFeedLoader)
-        let refreshController = NewsRefreshController(presenter: presenter)
+        let refreshController = NewsRefreshController(loadFeed: presenter.loadFeed)
         let newsFeedViewController = NewsFeedViewController(refreshController: refreshController)
         presenter.newsFeedLoadingView = WeakRefVirtualProxy(refreshController)
         presenter.newsFeedView = NewsFeedViewAdapter(newsFeedViewController: newsFeedViewController, imageLoader: imageLoader)
