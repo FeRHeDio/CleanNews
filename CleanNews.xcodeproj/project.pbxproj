@@ -311,7 +311,6 @@
 		768D6B7B29C25D8D00B12BC6 /* Feed UI */ = {
 			isa = PBXGroup;
 			children = (
-				768D6B8929C8B46D00B12BC6 /* Models */,
 				768D6B8629C4C9F800B12BC6 /* Composers */,
 				768D6B7D29C25DA400B12BC6 /* Views */,
 				768D6B7C29C25D9900B12BC6 /* Controllers */,
@@ -377,13 +376,13 @@
 			path = Composers;
 			sourceTree = "<group>";
 		};
-		768D6B8929C8B46D00B12BC6 /* Models */ = {
+		768D6B8E29C9D46D00B12BC6 /* Feed Presentation */ = {
 			isa = PBXGroup;
 			children = (
 				768D6B8A29C8B47F00B12BC6 /* NewsFeedViewModel.swift */,
 				768D6B8C29C8E28C00B12BC6 /* NewsFeedImageViewModel.swift */,
 			);
-			path = Models;
+			path = "Feed Presentation";
 			sourceTree = "<group>";
 		};
 		769AB90D290B0EBD00AF03F0 /* News API */ = {
@@ -468,8 +467,9 @@
 		76E9CD6329B790CF000B1C69 /* CleanNewsiOS */ = {
 			isa = PBXGroup;
 			children = (
-				768D6B7B29C25D8D00B12BC6 /* Feed UI */,
+				768D6B8E29C9D46D00B12BC6 /* Feed Presentation */,
 				768D6B7829C25D0800B12BC6 /* Feed Image Loader */,
+				768D6B7B29C25D8D00B12BC6 /* Feed UI */,
 			);
 			path = CleanNewsiOS;
 			sourceTree = "<group>";
