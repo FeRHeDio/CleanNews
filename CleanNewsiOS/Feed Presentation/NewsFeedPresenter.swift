@@ -24,8 +24,6 @@ protocol NewsFeedView {
 }
 
 final class NewsFeedPresenter {
-    typealias Observer<T> = (T) -> Void
-    
     private let newsFeedLoader: NewsLoader?
     
     init(newsFeedLoader: NewsLoader) {
