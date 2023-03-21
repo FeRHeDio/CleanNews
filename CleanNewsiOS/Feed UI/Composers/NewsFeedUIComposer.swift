@@ -15,7 +15,7 @@ public final class NewsFeedUIComposer {
         let presenter = NewsFeedPresenter(newsFeedLoader: newsFeedLoader)
         let refreshController = NewsRefreshController(presenter: presenter)
         let newsFeedViewController = NewsFeedViewController(refreshController: refreshController)
-        presenter.newsFeedLoadingView = refreshController
+        presenter.newsFeedLoadingView = WeakRefVirtualProxy(refreshController)
         presenter.newsFeedView = NewsFeedViewAdapter(newsFeedViewController: newsFeedViewController, imageLoader: imageLoader)
         
         return newsFeedViewController
@@ -27,6 +27,20 @@ public final class NewsFeedUIComposer {
                 NewsImageCellController(viewModel: NewsFeedImageViewModel(model: model, newsImageLoader: loader, imageTransformer: UIImage.init))
             }
         }
+    }
+}
+
+private final class WeakRefVirtualProxy<T: AnyObject> {
+    private weak var object: T?
+    
+    init(_ object: T) {
+        self.object = object
+    }
+}
+
+extension WeakRefVirtualProxy: NewsFeedLoadingView where T: NewsFeedLoadingView {
+    func display(isLoading: Bool) {
+        object?.display(isLoading: isLoading)
     }
 }
 

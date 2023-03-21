@@ -7,7 +7,7 @@
 
 import CleanNewsFramework
 
-protocol NewsFeedLoadingView: AnyObject {
+protocol NewsFeedLoadingView {
     func display(isLoading: Bool)
 }
 
@@ -25,7 +25,7 @@ final class NewsFeedPresenter {
     }
     
     var newsFeedView: NewsFeedView?
-    weak var newsFeedLoadingView: NewsFeedLoadingView?
+    var newsFeedLoadingView: NewsFeedLoadingView?
     
     func loadFeed() {
         newsFeedLoadingView?.display(isLoading: true)
