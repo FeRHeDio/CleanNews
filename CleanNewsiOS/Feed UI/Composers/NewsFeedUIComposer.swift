@@ -12,11 +12,12 @@ public final class NewsFeedUIComposer {
     private init() {}
     
     public static func newsFeedComposedWith(newsFeedLoader: NewsLoader, imageLoader: FeedImageDataLoader) -> NewsFeedViewController {
-        let newsFeedViewModel = NewsFeedViewModel(newsFeedLoader: newsFeedLoader)
-        let refreshController = NewsRefreshController(viewModel: newsFeedViewModel)
+        let presenter = NewsFeedPresenter(newsFeedLoader: newsFeedLoader)
+        let refreshController = NewsRefreshController(presenter: presenter)
         let newsFeedViewController = NewsFeedViewController(refreshController: refreshController)
+        presenter.newsFeedLoadingView = refreshController
+        presenter.newsFeedView = NewsFeedViewAdapter(newsFeedViewController: newsFeedViewController, imageLoader: imageLoader)
         
-        newsFeedViewModel.onFeedLoad = adaptFeedToCellControllers(forwardingTo: newsFeedViewController, loader: imageLoader)
         return newsFeedViewController
     }
     
@@ -25,6 +26,22 @@ public final class NewsFeedUIComposer {
             controller?.tableModel = feed.map { model in
                 NewsImageCellController(viewModel: NewsFeedImageViewModel(model: model, newsImageLoader: loader, imageTransformer: UIImage.init))
             }
+        }
+    }
+}
+
+private final class NewsFeedViewAdapter: NewsFeedView {
+    private weak var newsFeedViewController: NewsFeedViewController?
+    private let imageLoader: FeedImageDataLoader
+    
+    init(newsFeedViewController: NewsFeedViewController, imageLoader: FeedImageDataLoader) {
+        self.newsFeedViewController = newsFeedViewController
+        self.imageLoader = imageLoader
+    }
+    
+    func display(newsFeed: [NewsItem]) {
+        newsFeedViewController?.tableModel = newsFeed.map { model in
+            NewsImageCellController(viewModel: NewsFeedImageViewModel(model: model, newsImageLoader: imageLoader, imageTransformer: UIImage.init))
         }
     }
 }
