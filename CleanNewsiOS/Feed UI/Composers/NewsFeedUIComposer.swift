@@ -14,7 +14,7 @@ public final class NewsFeedUIComposer {
     public static func newsFeedComposedWith(newsFeedLoader: NewsLoader, imageLoader: FeedImageDataLoader) -> NewsFeedViewController {
         let presenter = NewsFeedPresenter()
         let newsLoaderAdapter = NewsFeedLoaderPresentationAdapter(newsLoader: newsFeedLoader, presenter: presenter)
-        let refreshController = NewsRefreshController(loadFeed: newsLoaderAdapter.loadFeed)
+        let refreshController = NewsRefreshController(delegate: newsLoaderAdapter)
         let newsFeedViewController = NewsFeedViewController(refreshController: refreshController)
         presenter.newsFeedLoadingView = WeakRefVirtualProxy(refreshController)
         presenter.newsFeedView = NewsFeedViewAdapter(newsFeedViewController: newsFeedViewController, imageLoader: imageLoader)
@@ -53,7 +53,7 @@ private final class NewsFeedViewAdapter: NewsFeedView {
     }
 }
 
-private final class NewsFeedLoaderPresentationAdapter {
+private final class NewsFeedLoaderPresentationAdapter: NewsFeedRefreshViewControllerDelegate {
     let newsLoader: NewsLoader
     let presenter: NewsFeedPresenter
     
@@ -62,7 +62,7 @@ private final class NewsFeedLoaderPresentationAdapter {
         self.presenter = presenter
     }
     
-    func loadFeed() {
+    func didRequestFeedRefresh() {
         presenter.didStartLoadingFeed()
         
         newsLoader.load { [weak self] result in
