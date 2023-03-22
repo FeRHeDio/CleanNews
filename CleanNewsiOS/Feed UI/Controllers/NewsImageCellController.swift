@@ -8,46 +8,39 @@
 import UIKit
 import CleanNewsFramework
 
-public final class NewsImageCellController {
-    private let viewModel: NewsFeedImageViewModel<UIImage>
+protocol FeedImageCellControllerDelegate {
+    func didRequestImage()
+    func didCancelImageRequest()
+}
+
+public final class NewsImageCellController: NewsFeedImageView {
+    private let delegate: FeedImageCellControllerDelegate
+    private lazy var cell = NewsItemCell()
     
-    init(viewModel: NewsFeedImageViewModel<UIImage>) {
-        self.viewModel = viewModel
+    init(delegate: FeedImageCellControllerDelegate) {
+        self.delegate = delegate
     }
     
     func view() -> UITableViewCell {
-        let cell = binded(NewsItemCell())
-        viewModel.loadImageData()
-        
+        delegate.didRequestImage()
         return cell
     }
     
     func preload() {
-        viewModel.loadImageData()
+        delegate.didRequestImage()
     }
     
     func cancelLoad() {
-        viewModel.cancelImageDataLoad()
+        delegate.didCancelImageRequest()
     }
     
-    private func binded(_ cell: NewsItemCell) -> NewsItemCell {
+    func display(_ viewModel: NewsFeedImageViewModel<UIImage>) {
         cell.titleLabel.text = viewModel.title
         cell.descriptionLabel.text = viewModel.description
+        cell.newsImageView.image = viewModel.image
         cell.contentLabel.text = viewModel.content
-        cell.onRetry = viewModel.loadImageData
-        
-        viewModel.onImageLoad = { [weak cell] image in
-            cell?.newsImageView.image = image
-        }
-        
-        viewModel.onImageLoadingStateChange = { [weak cell] isLoading in
-            cell?.newsImageContainer.isShimmering = isLoading
-        }
-        
-        viewModel.onShouldRetryImageLoadStateChange = { [weak cell] shouldRetry in
-            cell?.feedImageRetryButton.isHidden = !shouldRetry
-        }
-        
-        return cell
+        cell.newsImageContainer.isShimmering = viewModel.isLoading
+        cell.feedImageRetryButton.isHidden = !viewModel.shouldRetry
+        cell.onRetry = delegate.didRequestImage
     }
 }

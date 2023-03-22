@@ -15,6 +15,7 @@ public final class NewsFeedUIComposer {
         let presentationAdapter = NewsFeedLoaderPresentationAdapter(newsLoader: newsFeedLoader)
         let refreshController = NewsRefreshController(delegate: presentationAdapter)
         let newsFeedViewController = NewsFeedViewController(refreshController: refreshController)
+        
         presentationAdapter.presenter = NewsFeedPresenter(
             newsFeedView: NewsFeedViewAdapter(newsFeedViewController: newsFeedViewController, imageLoader: imageLoader),
             newsFeedLoadingView: WeakRefVirtualProxy(refreshController)
@@ -38,6 +39,12 @@ extension WeakRefVirtualProxy: NewsFeedLoadingView where T: NewsFeedLoadingView 
     }
 }
 
+extension WeakRefVirtualProxy: NewsFeedImageView where T: NewsFeedImageView, T.Image == UIImage {
+    func display(_ model: NewsFeedImageViewModel<UIImage>) {
+        object?.display(model)
+    }
+}
+
 private final class NewsFeedViewAdapter: NewsFeedView {
     private weak var newsFeedViewController: NewsFeedViewController?
     private let imageLoader: FeedImageDataLoader
@@ -49,8 +56,49 @@ private final class NewsFeedViewAdapter: NewsFeedView {
     
     func display(_ viewModel: NewsFeedViewModel) {
         newsFeedViewController?.tableModel = viewModel.newsFeed.map { model in
-            NewsImageCellController(viewModel: NewsFeedImageViewModel(model: model, newsImageLoader: imageLoader, imageTransformer: UIImage.init))
+            let adapter = NewsFeedImageDataLoaderPresentationAdapter<WeakRefVirtualProxy<NewsImageCellController>, UIImage>(model: model, imageLoader: imageLoader)
+            let view = NewsImageCellController(delegate: adapter)
+            
+            adapter.presenter = NewsFeedImagePresenter(
+                view: WeakRefVirtualProxy(view),
+                imageTransformer: UIImage.init)
+            
+            return view
         }
+    }
+}
+
+final class NewsFeedImageDataLoaderPresentationAdapter<View: NewsFeedImageView, Image>: FeedImageCellControllerDelegate where View.Image == Image {
+    private let model: NewsItem
+    private let imageLoader: FeedImageDataLoader
+    private var task: FeedImageDataLoaderTask?
+    
+    var presenter: NewsFeedImagePresenter<View, Image>?
+    
+    init(model: NewsItem, imageLoader: FeedImageDataLoader) {
+        self.model = model
+        self.imageLoader = imageLoader
+    }
+    
+    func didRequestImage() {
+        presenter?.didStartLoadingImageData(for: model)
+        
+        let model = self.model
+        
+        task = imageLoader.loadImageData(from: model.imageURL) { [weak self] result in
+            switch result {
+            case let .success(data):
+                self?.presenter?.didFinishLoadingImageData(with: data, for: model)
+                
+            case let .failure(error):
+                self?.presenter?.didFinishLoadingImageData(with: error, for: model)
+                
+            }
+        }
+    }
+    
+    func didCancelImageRequest() {
+        task?.cancel()
     }
 }
 
