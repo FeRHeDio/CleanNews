@@ -1,0 +1,20 @@
+name: ci
+
+on:
+  push:
+    branches: [ "master" ]  
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-tests:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Select Xcode
+      run: sudo xcode-select -switch /Applications/Xcode_14.2.app
+    - name: Build & Test
+      run: xcodebuild clean build test -project CleanNews.xcodeproj -scheme "CleanNewsFramework" CODE_SIGN_IDENTITY="" CODE_SIGNGING_REQUIRED=NO
+
