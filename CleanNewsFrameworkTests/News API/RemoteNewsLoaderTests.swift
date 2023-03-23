@@ -83,7 +83,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
             id: UUID(),
             title: "some news title",
             description: "Some description",
-            imageURL: "http:SomeURL",
+            imageURL: URL(string: "http://url-0.com")!,
             content: "some content for the first article"
         )
         
@@ -91,7 +91,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
             id: UUID(),
             title: "Another title",
             description: "Another description for second article",
-            imageURL: "http:anotherURL",
+            imageURL: URL(string: "http://url-1.com")!,
             content: "More content for the second article"
         )
      
@@ -120,7 +120,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
     
     //MARK: - Helpers
     
-    private func makeSUT(url: URL = URL(string: "a_Super_URL")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteNewsLoader, client: HTTPClientSpy)  {
+    private func makeSUT(url: URL = URL(string: "http://url-some.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteNewsLoader, client: HTTPClientSpy)  {
         let client = HTTPClientSpy()
         let sut = RemoteNewsLoader(url: url, client: client)
         
@@ -159,7 +159,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    private func makeItem(id: UUID, title: String, description: String, imageURL: String, content: String) -> (model: NewsItem, json: [String: Any]) {
+    private func makeItem(id: UUID, title: String, description: String, imageURL: URL, content: String) -> (model: NewsItem, json: [String: Any]) {
         
         let item = NewsItem(
             id: id, 
@@ -173,7 +173,7 @@ final class RemoteNewsLoaderTests: XCTestCase {
             "id": id.uuidString,
             "title": title,
             "description": description,
-            "imageURL": imageURL,
+            "imageURL": imageURL.absoluteString,
             "content": content
         ] as [String : Any]
         

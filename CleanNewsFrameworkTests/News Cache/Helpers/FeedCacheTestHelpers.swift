@@ -9,7 +9,7 @@ import Foundation
 import CleanNewsFramework
 
 public func uniqueItem() -> NewsItem {
-    NewsItem(id: UUID(), title: "some title", description: "some description", imageURL: "someURL", content: "some content")
+    NewsItem(id: UUID(), title: "some title", description: "some description", imageURL: URL(string:"http:SomeURL")!, content: "some content")
 }
 
 public func uniqueItems() -> (models: [NewsItem], local: [LocalNewsItem]) {
