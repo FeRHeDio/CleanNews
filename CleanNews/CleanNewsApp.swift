@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import CleanNewsFramework
+import CleanNewsiOS
 
 @main
 struct CleanNewsApp: App {

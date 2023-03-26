@@ -23,6 +23,10 @@
 		768D6B8829C4CA0800B12BC6 /* NewsFeedUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768D6B8729C4CA0800B12BC6 /* NewsFeedUIComposer.swift */; };
 		768D6B9029C9D4FB00B12BC6 /* NewsFeedPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768D6B8F29C9D4FB00B12BC6 /* NewsFeedPresenter.swift */; };
 		768D6B9229C9E61800B12BC6 /* NewsFeedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768D6B9129C9E61800B12BC6 /* NewsFeedImageViewModel.swift */; };
+		7693B72429D0B5730084CEC5 /* CleanNewsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763FD87329B68EA4000EADF7 /* CleanNewsFramework.framework */; };
+		7693B72529D0B5730084CEC5 /* CleanNewsFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 763FD87329B68EA4000EADF7 /* CleanNewsFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7693B72929D0B5780084CEC5 /* CleanNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 769EBFB229B78BAB00D0E8C5 /* CleanNewsiOS.framework */; };
+		7693B72A29D0B5780084CEC5 /* CleanNewsiOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 769EBFB229B78BAB00D0E8C5 /* CleanNewsiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		769EBFBA29B78BAB00D0E8C5 /* CleanNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 769EBFB229B78BAB00D0E8C5 /* CleanNewsiOS.framework */; };
 		769EBFC829B78C0F00D0E8C5 /* NewsFeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769EBFC729B78C0F00D0E8C5 /* NewsFeedViewControllerTests.swift */; };
 		76A1B31329B791B800E0A114 /* CleanNewsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763FD87329B68EA4000EADF7 /* CleanNewsFramework.framework */; platformFilter = ios; };
@@ -77,6 +81,20 @@
 			remoteGlobalIDString = 7669ED6628A520FE001385B0;
 			remoteInfo = CleanNews;
 		};
+		7693B72629D0B5730084CEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7669ED5F28A520FE001385B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 763FD87229B68EA4000EADF7;
+			remoteInfo = CleanNewsFramework;
+		};
+		7693B72B29D0B5780084CEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7669ED5F28A520FE001385B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 769EBFB129B78BAB00D0E8C5;
+			remoteInfo = CleanNewsiOS;
+		};
 		769EBFBB29B78BAB00D0E8C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7669ED5F28A520FE001385B0 /* Project object */;
@@ -94,6 +112,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7693B72829D0B5730084CEC5 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7693B72529D0B5730084CEC5 /* CleanNewsFramework.framework in Embed Frameworks */,
+				7693B72A29D0B5780084CEC5 /* CleanNewsiOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		76A1B31729B791B800E0A114 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -184,6 +214,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7693B72429D0B5730084CEC5 /* CleanNewsFramework.framework in Frameworks */,
+				7693B72929D0B5780084CEC5 /* CleanNewsiOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,10 +592,13 @@
 				7669ED6328A520FE001385B0 /* Sources */,
 				7669ED6428A520FE001385B0 /* Frameworks */,
 				7669ED6528A520FE001385B0 /* Resources */,
+				7693B72829D0B5730084CEC5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				7693B72729D0B5730084CEC5 /* PBXTargetDependency */,
+				7693B72C29D0B5780084CEC5 /* PBXTargetDependency */,
 			);
 			name = CleanNews;
 			productName = CleanNews;
@@ -833,6 +868,16 @@
 			target = 7669ED6628A520FE001385B0 /* CleanNews */;
 			targetProxy = 7669ED7828A520FF001385B0 /* PBXContainerItemProxy */;
 		};
+		7693B72729D0B5730084CEC5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 763FD87229B68EA4000EADF7 /* CleanNewsFramework */;
+			targetProxy = 7693B72629D0B5730084CEC5 /* PBXContainerItemProxy */;
+		};
+		7693B72C29D0B5780084CEC5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 769EBFB129B78BAB00D0E8C5 /* CleanNewsiOS */;
+			targetProxy = 7693B72B29D0B5780084CEC5 /* PBXContainerItemProxy */;
+		};
 		769EBFBC29B78BAB00D0E8C5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 769EBFB129B78BAB00D0E8C5 /* CleanNewsiOS */;
@@ -862,6 +907,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -899,6 +945,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1089,6 +1136,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1119,6 +1167,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1203,7 +1252,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1237,7 +1286,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
