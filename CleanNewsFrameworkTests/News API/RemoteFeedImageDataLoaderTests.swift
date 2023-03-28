@@ -1,5 +1,5 @@
 //
-//  RemoteFeedImageDataLoader.swift
+//  RemoteFeedImageDataLoaderTests.swift
 //  CleanNewsFrameworkTests
 //
 //  Created by Fernando Putallaz on 28/03/2023.
@@ -20,7 +20,7 @@ class RemoteFeedImageDataLoader {
     }
 }
 
-class RemotFeedImageDataLoader: XCTestCase {
+class RemoteFeedImageDataLoaderTests: XCTestCase {
     
     func test_init_doesNotPerformAnyURLRequest() {
         let (_, client) = makeSUT()
