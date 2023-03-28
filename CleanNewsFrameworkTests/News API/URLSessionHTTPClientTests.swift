@@ -125,23 +125,6 @@ class URLSessionHTTPClientTests: XCTestCase {
         return receivedResult
     }
     
-    private func anyURL() -> URL {
-        URL(string: "http://a-url.com")!
-    }
-    
-    private func anyData() -> Data {
-        Data("any data".utf8)
-    }
-
-    private func anyHTTPURLResponse() -> HTTPURLResponse {
-        HTTPURLResponse(url: anyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)!
-    }
-    
-    private func nonHTTPURLResponse() -> URLResponse {
-        URLResponse(url: anyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
-    }
-    
-    
     private class URLProtocolStub: URLProtocol { //this is a Class! :O
         private static var stub: Stub?
         private static var requestObserver: ((URLRequest) -> Void)?
