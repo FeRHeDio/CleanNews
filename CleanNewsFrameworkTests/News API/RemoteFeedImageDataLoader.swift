@@ -9,8 +9,14 @@ import XCTest
 import CleanNewsFramework
 
 class RemoteFeedImageDataLoader {
-    init(client: Any) {
-        
+    private let client: HTTPClient
+    
+    init(client: HTTPClient) {
+        self.client = client
+    }
+    
+    func loadImageData(from url: URL, completion: @escaping (Any) -> Void) {
+        client.get(from: url) { _ in }
     }
 }
 
@@ -20,6 +26,15 @@ class RemotFeedImageDataLoader: XCTestCase {
         let (_, client) = makeSUT()
         
         XCTAssertTrue(client.requestedURLs.isEmpty)
+    }
+    
+    func test_loadImageDataFromURL_requestDataFromURL() {
+        let url = URL(string: "https://a-given-url")!
+        let (sut, client) = makeSUT(url: url)
+        
+        sut.loadImageData(from: url, completion: { _ in })
+        
+        XCTAssertEqual(client.requestedURLs, [url])
     }
     
     //MARK: - Helpers
@@ -33,10 +48,13 @@ class RemotFeedImageDataLoader: XCTestCase {
         return (sut, client)
     }
     
-    private class HTTPClientSpy {
+    private class HTTPClientSpy: HTTPClient {
         var requestedURLs = [URL]()
+        
+        func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) {
+            requestedURLs.append(url)
+        }
     }
-    
 }
 
 
