@@ -8,12 +8,13 @@
 import Foundation
 import CleanNewsFramework
 
+
 func anyNSError() -> NSError {
-    NSError(domain: "any", code: 0)
+    return NSError(domain: "any error", code: 0)
 }
 
 func anyURL() -> URL {
-    URL(string: "http://a-url.com")!
+    URL(string: "http://any-url.com")!
 }
 
 func anyData() -> Data {
