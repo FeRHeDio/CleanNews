@@ -67,6 +67,7 @@
 		76C07A0829DC3CDF00DAD37F /* HTTPClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C07A0729DC3CDF00DAD37F /* HTTPClientSpy.swift */; };
 		76C07A0A29DC3E2100DAD37F /* RemoteFeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C07A0929DC3E2100DAD37F /* RemoteFeedImageDataLoader.swift */; };
 		76C07A0D29DC88A300DAD37F /* HTTPURLResponse+StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C07A0C29DC88A300DAD37F /* HTTPURLResponse+StatusCode.swift */; };
+		76C07A0F29DC898500DAD37F /* URLProtocolStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C07A0E29DC898500DAD37F /* URLProtocolStub.swift */; };
 		76DCE7E628ABA9DD00DD973B /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DCE7E528ABA9DD00DD973B /* API.swift */; };
 /* End PBXBuildFile section */
 
@@ -186,6 +187,7 @@
 		76C07A0729DC3CDF00DAD37F /* HTTPClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientSpy.swift; sourceTree = "<group>"; };
 		76C07A0929DC3E2100DAD37F /* RemoteFeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedImageDataLoader.swift; sourceTree = "<group>"; };
 		76C07A0C29DC88A300DAD37F /* HTTPURLResponse+StatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+StatusCode.swift"; sourceTree = "<group>"; };
+		76C07A0E29DC898500DAD37F /* URLProtocolStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolStub.swift; sourceTree = "<group>"; };
 		76C77D75291441C500D0FA47 /* CacheNewsUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheNewsUseCaseTests.swift; sourceTree = "<group>"; };
 		76C77D782919207600D0FA47 /* LocalNewsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNewsLoader.swift; sourceTree = "<group>"; };
 		76C77D7A291920EB00D0FA47 /* NewsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsStore.swift; sourceTree = "<group>"; };
@@ -477,6 +479,7 @@
 			isa = PBXGroup;
 			children = (
 				76C07A0729DC3CDF00DAD37F /* HTTPClientSpy.swift */,
+				76C07A0E29DC898500DAD37F /* URLProtocolStub.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -837,6 +840,7 @@
 				76B16F0729B690680019EF1D /* XCtestCase+MemoryLeakTracking.swift in Sources */,
 				7693B72F29D32E290084CEC5 /* RemoteFeedImageDataLoaderTests.swift in Sources */,
 				76B16F1429B690A80019EF1D /* ValidateNewsCacheUseCaseTests.swift in Sources */,
+				76C07A0F29DC898500DAD37F /* URLProtocolStub.swift in Sources */,
 				76B16F1629B690B60019EF1D /* CoreDataNewsStoreTests.swift in Sources */,
 				76B16F0B29B690850019EF1D /* XCTestCase+FailableRetrieveNewsStoreSpecs.swift in Sources */,
 				76B16F1329B690A30019EF1D /* LoadNewsFromCacheUseCaseTests.swift in Sources */,
