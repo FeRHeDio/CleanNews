@@ -64,6 +64,8 @@
 		76B16F1829B690C10019EF1D /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B2D19F290D391B00F1BA77 /* URLSessionHTTPClientTests.swift */; };
 		76B16F1929B690EE0019EF1D /* OldNewsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769AB912290B208300AF03F0 /* OldNewsLoader.swift */; };
 		76B16F1A29B691320019EF1D /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FACD9628BF85AF000186E2 /* News.swift */; };
+		76B67CE729E89B3F00A958B5 /* FeedImageDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B67CE629E89B3F00A958B5 /* FeedImageDataStore.swift */; };
+		76B67CE929E89B8200A958B5 /* LocalFeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B67CE829E89B8200A958B5 /* LocalFeedImageDataLoader.swift */; };
 		76C07A0829DC3CDF00DAD37F /* HTTPClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C07A0729DC3CDF00DAD37F /* HTTPClientSpy.swift */; };
 		76C07A0A29DC3E2100DAD37F /* RemoteFeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C07A0929DC3E2100DAD37F /* RemoteFeedImageDataLoader.swift */; };
 		76C07A0D29DC88A300DAD37F /* HTTPURLResponse+StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C07A0C29DC88A300DAD37F /* HTTPURLResponse+StatusCode.swift */; };
@@ -185,6 +187,8 @@
 		76AFA6F3291A730C00ADEA57 /* LocalNewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNewsItem.swift; sourceTree = "<group>"; };
 		76B2D19F290D391B00F1BA77 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		76B2D1A229100D8000F1BA77 /* XCtestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCtestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
+		76B67CE629E89B3F00A958B5 /* FeedImageDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataStore.swift; sourceTree = "<group>"; };
+		76B67CE829E89B8200A958B5 /* LocalFeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImageDataLoader.swift; sourceTree = "<group>"; };
 		76C07A0729DC3CDF00DAD37F /* HTTPClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientSpy.swift; sourceTree = "<group>"; };
 		76C07A0929DC3E2100DAD37F /* RemoteFeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedImageDataLoader.swift; sourceTree = "<group>"; };
 		76C07A0C29DC88A300DAD37F /* HTTPURLResponse+StatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+StatusCode.swift"; sourceTree = "<group>"; };
@@ -512,12 +516,14 @@
 		76C77D772919204B00D0FA47 /* News Cache */ = {
 			isa = PBXGroup;
 			children = (
-				76C77D782919207600D0FA47 /* LocalNewsLoader.swift */,
-				76C77D7A291920EB00D0FA47 /* NewsStore.swift */,
-				76C9E422292C660B00394FE3 /* NewsCachePolicy.swift */,
 				76534819292D8F3A00A7A012 /* CodableNewsStore.swift */,
-				763C0A152930199B00EAFDFA /* NewsStore.xcdatamodeld */,
 				763C0A182934F0ED00EAFDFA /* CoreDataNewsStore.swift */,
+				76C77D782919207600D0FA47 /* LocalNewsLoader.swift */,
+				76C9E422292C660B00394FE3 /* NewsCachePolicy.swift */,
+				76C77D7A291920EB00D0FA47 /* NewsStore.swift */,
+				763C0A152930199B00EAFDFA /* NewsStore.xcdatamodeld */,
+				76B67CE629E89B3F00A958B5 /* FeedImageDataStore.swift */,
+				76B67CE829E89B8200A958B5 /* LocalFeedImageDataLoader.swift */,
 			);
 			path = "News Cache";
 			sourceTree = "<group>";
@@ -811,6 +817,8 @@
 				76B16F0029B6903E0019EF1D /* RemoteNewsLoader.swift in Sources */,
 				76B16F0229B6904C0019EF1D /* NewsItemsMapper.swift in Sources */,
 				76B16EF729B68FF30019EF1D /* NewsStore.swift in Sources */,
+				76B67CE929E89B8200A958B5 /* LocalFeedImageDataLoader.swift in Sources */,
+				76B67CE729E89B3F00A958B5 /* FeedImageDataStore.swift in Sources */,
 				76C07A0D29DC88A300DAD37F /* HTTPURLResponse+StatusCode.swift in Sources */,
 				76B16F0529B6905A0019EF1D /* LocalNewsItem.swift in Sources */,
 				76B16F0329B690510019EF1D /* URLSessionHTTPClient.swift in Sources */,
