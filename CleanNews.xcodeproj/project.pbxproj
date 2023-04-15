@@ -150,6 +150,7 @@
 
 /* Begin PBXFileReference section */
 		76043E31292E659A00C01E50 /* NewsStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsStoreSpecs.swift; sourceTree = "<group>"; };
+		7604D7F929EAE0BB00165382 /* NewsStore2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NewsStore2.xcdatamodel; sourceTree = "<group>"; };
 		760991D729B8B44500FDFB46 /* NewsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedViewController.swift; sourceTree = "<group>"; };
 		760991D929B8D01E00FDFB46 /* NewsItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemCell.swift; sourceTree = "<group>"; };
 		7617DFDD292E956300193C64 /* XCTestaCase+NewsStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestaCase+NewsStoreSpecs.swift"; sourceTree = "<group>"; };
@@ -1487,9 +1488,10 @@
 		763C0A152930199B00EAFDFA /* NewsStore.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7604D7F929EAE0BB00165382 /* NewsStore2.xcdatamodel */,
 				763C0A162930199B00EAFDFA /* NewsStore.xcdatamodel */,
 			);
-			currentVersion = 763C0A162930199B00EAFDFA /* NewsStore.xcdatamodel */;
+			currentVersion = 7604D7F929EAE0BB00165382 /* NewsStore2.xcdatamodel */;
 			path = NewsStore.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

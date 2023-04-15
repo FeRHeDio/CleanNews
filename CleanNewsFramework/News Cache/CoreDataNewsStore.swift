@@ -115,6 +115,7 @@ private class ManagedNewsItem: NSManagedObject {
     @NSManaged var itemDescription: String
     @NSManaged var imageURL: URL
     @NSManaged var content: String
+    @NSManaged var data: Data?
     @NSManaged var cache: ManagedCache
  
     static func articles(from localNews: [LocalNewsItem], in context: NSManagedObjectContext) -> NSOrderedSet {
