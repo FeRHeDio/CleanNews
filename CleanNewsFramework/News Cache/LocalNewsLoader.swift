@@ -76,9 +76,7 @@ extension LocalNewsLoader {
                 self.store.deleteCachedNews(completion: completion)
             
             case let .success(.some(cache)) where !NewsCachePolicy.validate(cache.timestamp, against: self.currentDate()):
-                self.store.deleteCachedNews { _ in
-                completion(.success(()))
-            }
+                self.store.deleteCachedNews(completion: completion)
                 
             case .success:
                 completion(.success(()))
