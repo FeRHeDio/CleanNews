@@ -167,10 +167,10 @@ final class CodableNewsStoreTests: XCTestCase, FailableNewsStore {
     }
     
     private func testSepecificStoreURL() -> URL {
-        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(type(of: self)).store")
+        FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(type(of: self)).store")
     }
     
     private func cachesDirectory() -> URL {
-        return FileManager.default.urls(for: .cachesDirectory, in: .systemDomainMask).first!
+        FileManager.default.urls(for: .cachesDirectory, in: .systemDomainMask).first!
     }
 }

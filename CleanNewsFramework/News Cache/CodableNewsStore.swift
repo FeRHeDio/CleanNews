@@ -13,7 +13,7 @@ public class CodableNewsStore: NewsStore {
         let timestamp: Date
         
         var localNews: [LocalNewsItem] {
-            return items.map { $0.local }
+            items.map { $0.local }
         }
     }
     
@@ -33,7 +33,7 @@ public class CodableNewsStore: NewsStore {
         }
         
         var local: LocalNewsItem {
-            return LocalNewsItem(id: id, title: title, description: description, imageURL: imageURL, content: content)
+            LocalNewsItem(id: id, title: title, description: description, imageURL: imageURL, content: content)
         }
     }
     

@@ -70,7 +70,7 @@ final class CacheFeedImageDataUseCaseTests: XCTestCase {
     }
     
     private func failed() -> LocalFeedImageDataLoader.SaveResult {
-        return .failure(LocalFeedImageDataLoader.SaveError.failed)
+        .failure(LocalFeedImageDataLoader.SaveError.failed)
     }
 
     private func expect(_ sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: LocalFeedImageDataLoader.SaveResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {

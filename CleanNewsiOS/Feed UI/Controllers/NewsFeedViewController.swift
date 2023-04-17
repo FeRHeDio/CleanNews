@@ -29,11 +29,11 @@ public final class NewsFeedViewController: UITableViewController, UITableViewDat
     }
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableModel.count
+        tableModel.count
     }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return cellController(forRowAt: indexPath).view()
+        cellController(forRowAt: indexPath).view()
     }
     
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -51,7 +51,7 @@ public final class NewsFeedViewController: UITableViewController, UITableViewDat
     }
     
     private func cellController(forRowAt indexPath: IndexPath) -> NewsImageCellController {
-        return tableModel[indexPath.row]
+        tableModel[indexPath.row]
     }
     
     public func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {

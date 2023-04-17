@@ -21,7 +21,7 @@ public final class CoreDataNewsStore: NewsStore {
         context.perform {
             completion(Result {
                 try ManagedCache.find(in: context).map {
-                    return CachedNews(items: $0.localNews, timestamp: $0.timestamp)
+                    CachedNews(items: $0.localNews, timestamp: $0.timestamp)
                 }
             })
         }

@@ -10,7 +10,7 @@ import CleanNewsFramework
 
 
 func anyNSError() -> NSError {
-    return NSError(domain: "any error", code: 0)
+    NSError(domain: "any error", code: 0)
 }
 
 func anyURL() -> URL {

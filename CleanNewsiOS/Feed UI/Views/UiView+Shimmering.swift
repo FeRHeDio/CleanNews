@@ -23,7 +23,7 @@ extension UIView {
     }
     
     private var shimmeryAnimationKey: String {
-        return "shimmer"
+        "shimmer"
     }
     
     private func startShimmering() {

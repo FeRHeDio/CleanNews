@@ -92,11 +92,11 @@ class LoadFeedImageDataFromCacheUseCaseTests: XCTestCase {
     }
     
     private func failed() -> FeedImageDataLoader.Result {
-        return .failure(LocalFeedImageDataLoader.LoadError.failed)
+        .failure(LocalFeedImageDataLoader.LoadError.failed)
     }
     
     private func notFound() -> FeedImageDataLoader.Result {
-        return .failure(LocalFeedImageDataLoader.LoadError.notFound)
+        .failure(LocalFeedImageDataLoader.LoadError.notFound)
     }
     
     private func never(file: StaticString = #file, line: UInt = #line) {

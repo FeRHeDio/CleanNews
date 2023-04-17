@@ -64,7 +64,7 @@ class ManagedNewsItem: NSManagedObject {
     }
     
     var local: LocalNewsItem {
-        return LocalNewsItem(id: id, title: title, description: itemDescription, imageURL: imageURL, content: content)
+        LocalNewsItem(id: id, title: title, description: itemDescription, imageURL: imageURL, content: content)
     }
 }
 
