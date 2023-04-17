@@ -8,13 +8,28 @@
 import CoreData
 
 public final class CoreDataNewsStore {
+    private static let modelName = "NewsStore"
+    private static let model = NSManagedObjectModel.with(name: modelName, in: Bundle(for: CoreDataNewsStore.self))
+    
     private let container: NSPersistentContainer
     private let context: NSManagedObjectContext
-
+    
+    enum StoreError: Error {
+        case modelNotFound
+        case failedToLoadPersistenContainer(Error)
+    }
+    
     public init(storeURL: URL) throws {
-        let bundle = Bundle(for: CoreDataNewsStore.self)
-        container = try NSPersistentContainer.load(modelName: "NewsStore", url: storeURL, in: bundle)
-        context = container.newBackgroundContext()
+        guard let model = CoreDataNewsStore.model else {
+            throw StoreError.modelNotFound
+        }
+        
+        do {
+            container = try NSPersistentContainer.load(name: CoreDataNewsStore.modelName, model: model, url: storeURL)
+            context = container.newBackgroundContext()
+        } catch {
+            throw StoreError.failedToLoadPersistenContainer(error)
+        }
     }
     
     func perform(_ action: @escaping (NSManagedObjectContext) -> Void) {
@@ -37,29 +52,20 @@ public final class CoreDataNewsStore {
 }
 
 private extension NSPersistentContainer {
-    enum LoadingError: Swift.Error {
-        case modelNotFound
-        case failedToLoadPersistentStores(Swift.Error)
-    }
-    
-    static func load(modelName name: String, url: URL, in bundle: Bundle) throws -> NSPersistentContainer {
-        guard let model = NSManagedObjectModel.with(name: name, in: bundle) else {
-            throw LoadingError.modelNotFound
-        }
-        
+    static func load(name: String, model: NSManagedObjectModel, url: URL) throws -> NSPersistentContainer {
         let description = NSPersistentStoreDescription(url: url)
         let container = NSPersistentContainer(name: name, managedObjectModel: model)
         container.persistentStoreDescriptions = [description]
         
         var loadError: Swift.Error?
         container.loadPersistentStores { loadError = $1 }
-        try loadError.map { throw LoadingError.failedToLoadPersistentStores($0) }
+        try loadError.map { throw $0 }
         
         return container
     }
 }
 
-private extension NSManagedObjectModel {
+extension NSManagedObjectModel {
     static func with(name: String, in bundle: Bundle) -> NSManagedObjectModel? {
         return bundle
             .url(forResource: name, withExtension: "momd")
