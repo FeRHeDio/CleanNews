@@ -41,6 +41,14 @@ class ManagedNewsItem: NSManagedObject {
     @NSManaged var content: String
     @NSManaged var data: Data?
     @NSManaged var cache: ManagedCache
+    
+    static func first(with url: URL, in context: NSManagedObjectContext) throws -> ManagedNewsItem? {
+        let request = NSFetchRequest<ManagedNewsItem>(entityName: entity().name!)
+        request.predicate = NSPredicate(format: "%K = %@", argumentArray: [#keyPath(ManagedNewsItem.imageURL), url])
+        request.returnsDistinctResults = false
+        request.fetchLimit = 1
+        return try context.fetch(request).first
+    }
  
     static func articles(from localNews: [LocalNewsItem], in context: NSManagedObjectContext) -> NSOrderedSet {
         return NSOrderedSet(array: localNews.map { local in
@@ -59,3 +67,4 @@ class ManagedNewsItem: NSManagedObject {
         return LocalNewsItem(id: id, title: title, description: itemDescription, imageURL: imageURL, content: content)
     }
 }
+

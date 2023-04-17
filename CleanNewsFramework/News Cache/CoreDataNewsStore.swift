@@ -29,7 +29,7 @@ public final class CoreDataNewsStore: NewsStore {
     
     public func insert(_ items: [LocalNewsItem], timestamp: Date, completion: @escaping InsertionCompletion) {
         let context = self.context
-
+        
         context.perform {
             completion(Result {
                 let managedCache = try ManagedCache.newUniqueInstance(in: context)
@@ -48,6 +48,13 @@ public final class CoreDataNewsStore: NewsStore {
             completion(Result {
                 try ManagedCache.find(in: context).map(context.delete).map(context.save)
             })
+        }
+    }
+
+    func perform(_ action: @escaping (NSManagedObjectContext) -> Void) {
+        let context = self.context
+        context.perform {
+            action(context)
         }
     }
 }
