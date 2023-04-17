@@ -23,6 +23,17 @@ public final class CoreDataNewsStore {
             action(context)
         }
     }
+    
+    private func cleanUpReferencesTopPersistentStore() {
+        context.performAndWait {
+            let coordinator = self.container.persistentStoreCoordinator
+            try? coordinator.persistentStores.forEach(coordinator.remove)
+        }
+    }
+    
+    deinit {
+        cleanUpReferencesTopPersistentStore()
+    }
 }
 
 private extension NSPersistentContainer {
