@@ -65,20 +65,23 @@ extension LocalNewsLoader: NewsLoader {
 }
 
 extension LocalNewsLoader {
-    public func validateCache() {
+    public typealias ValidationResult = Result<Void, Error>
+    
+    public func validateCache(completion: @escaping (ValidationResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             
             switch result {
-            case let .failure(error):
+            case .failure:
+                self.store.deleteCachedNews(completion: completion)
+            
+            case let .success(.some(cache)) where !NewsCachePolicy.validate(cache.timestamp, against: self.currentDate()):
                 self.store.deleteCachedNews { _ in
-                    print(error)
-                }
+                completion(.success(()))
+            }
                 
-            case let .success(.some((_, timestamp))) where !NewsCachePolicy.validate(timestamp, against: self.currentDate()):
-                self.store.deleteCachedNews { _ in }
-                
-            case .success: break
+            case .success:
+                completion(.success(()))
             }
         }
     }

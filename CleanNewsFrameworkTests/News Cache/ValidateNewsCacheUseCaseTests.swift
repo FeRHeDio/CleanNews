@@ -19,7 +19,7 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
     func test_validateCache_deletesCacheOnRetrievalError() {
         let (sut, store) = makeSUT()
         
-        sut.validateCache()
+        sut.validateCache { _ in }
         store.completeRetrieval(with: anyNSError())
         
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedNews])
@@ -28,7 +28,7 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
     func test_validateCache_doesNotdeletesCacheOnEmptyCache() {
         let (sut, store) = makeSUT()
         
-        sut.validateCache()
+        sut.validateCache{ _ in }
         store.completeRetrievalWithEmptyCache()
         
         XCTAssertEqual(store.receivedMessages, [.retrieve])
@@ -40,7 +40,7 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
         let nonExpiredTimeStamp = fixedCurrentDate.minusFeedCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT()
         
-        sut.validateCache()
+        sut.validateCache{ _ in }
         store.completeRetrieval(with: news.local, timestamp: nonExpiredTimeStamp)
         
         XCTAssertEqual(store.receivedMessages, [.retrieve])
@@ -52,7 +52,7 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
         let expirationTimeStamp = fixedCurrentDate.minusFeedCacheMaxAge()
         let (sut, store) = makeSUT()
         
-        sut.validateCache()
+        sut.validateCache{ _ in }
         store.completeRetrieval(with: news.local, timestamp: expirationTimeStamp)
         
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedNews])
@@ -64,7 +64,7 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
         let expiredTimeStamp = fixedCurrentDate.minusFeedCacheMaxAge().adding(seconds: -1)
         let (sut, store) = makeSUT()
         
-        sut.validateCache()
+        sut.validateCache{ _ in }
         store.completeRetrieval(with: news.local, timestamp: expiredTimeStamp)
         
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedNews])
@@ -75,7 +75,7 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
         let store = NewsStoreSpy()
         var sut: LocalNewsLoader? = LocalNewsLoader(store: store, currentDate: Date.init)
         
-        sut?.validateCache()
+        sut?.validateCache{ _ in }
         sut = nil
         store.completeRetrieval(with: anyNSError())
         XCTAssertEqual(store.receivedMessages, [.retrieve])
