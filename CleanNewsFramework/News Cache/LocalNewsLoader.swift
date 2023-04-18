@@ -65,20 +65,21 @@ extension LocalNewsLoader: NewsLoader {
 }
 
 extension LocalNewsLoader {
-    public func validateCache() {
+    public typealias ValidationResult = Result<Void, Error>
+    
+    public func validateCache(completion: @escaping (ValidationResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             
             switch result {
-            case let .failure(error):
-                self.store.deleteCachedNews { _ in
-                    print(error)
-                }
+            case .failure:
+                self.store.deleteCachedNews(completion: completion)
+            
+            case let .success(.some(cache)) where !NewsCachePolicy.validate(cache.timestamp, against: self.currentDate()):
+                self.store.deleteCachedNews(completion: completion)
                 
-            case let .success(.some((_, timestamp))) where !NewsCachePolicy.validate(timestamp, against: self.currentDate()):
-                self.store.deleteCachedNews { _ in }
-                
-            case .success: break
+            case .success:
+                completion(.success(()))
             }
         }
     }
@@ -86,12 +87,12 @@ extension LocalNewsLoader {
 
 private extension Array where Element == NewsItem {
     func toLocal() -> [LocalNewsItem] {
-        return map { LocalNewsItem(id: $0.id, title: $0.title, description: $0.description, imageURL: $0.imageURL, content: $0.content) }
+        map { LocalNewsItem(id: $0.id, title: $0.title, description: $0.description, imageURL: $0.imageURL, content: $0.content) }
     }
 }
 
 private extension Array where Element == LocalNewsItem {
     func toModels() -> [NewsItem] {
-        return map { NewsItem(id: $0.id, title: $0.title, description: $0.description, imageURL: $0.imageURL, content: $0.content) }
+        map { NewsItem(id: $0.id, title: $0.title, description: $0.description, imageURL: $0.imageURL, content: $0.content) }
     }
 }

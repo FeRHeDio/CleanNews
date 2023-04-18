@@ -12,7 +12,7 @@ final class NewsCachePolicy {
     
     private static let calendar = Calendar(identifier: .gregorian)
     private static var maxCacheDateInDays: Int {
-        return 7
+        7
     }
     
     static func validate(_ timestamp: Date, against date: Date) -> Bool {

@@ -7,131 +7,68 @@
 
 import CoreData
 
-public final class CoreDataNewsStore: NewsStore {
+public final class CoreDataNewsStore {
+    private static let modelName = "NewsStore"
+    private static let model = NSManagedObjectModel.with(name: modelName, in: Bundle(for: CoreDataNewsStore.self))
+    
     private let container: NSPersistentContainer
     private let context: NSManagedObjectContext
     
-    public init(storeURL: URL, bundle: Bundle = .main) throws {
-        container = try NSPersistentContainer.load(modelName: "NewsStore", url: storeURL, in: bundle)
-        context = container.newBackgroundContext()
+    enum StoreError: Error {
+        case modelNotFound
+        case failedToLoadPersistenContainer(Error)
     }
     
-    public func retrieve(completion: @escaping RetrievalCompletion) {
-        let context = self.context
-        context.perform {
-            completion(Result {
-                try ManagedCache.find(in: context).map {
-                    return CachedNews(items: $0.localNews, timestamp: $0.timestamp)
-                }
-            })
+    public init(storeURL: URL) throws {
+        guard let model = CoreDataNewsStore.model else {
+            throw StoreError.modelNotFound
         }
-    }
-    
-    public func insert(_ items: [LocalNewsItem], timestamp: Date, completion: @escaping InsertionCompletion) {
-        let context = self.context
-
-        context.perform {
-            completion(Result {
-                let managedCache = try ManagedCache.newUniqueInstance(in: context)
-                managedCache.timestamp = timestamp
-                managedCache.newsFeed = ManagedNewsItem.articles(from: items, in: context)
-                
-                try context.save()
-            })
-        }
-    }
-    
-    public func deleteCachedNews(completion: @escaping DeletionCompletion) {
-        let context = self.context
         
-        context.perform {
-            completion(Result {
-                try ManagedCache.find(in: context).map(context.delete).map(context.save)
-            })
+        do {
+            container = try NSPersistentContainer.load(name: CoreDataNewsStore.modelName, model: model, url: storeURL)
+            context = container.newBackgroundContext()
+        } catch {
+            throw StoreError.failedToLoadPersistenContainer(error)
         }
+    }
+    
+    func perform(_ action: @escaping (NSManagedObjectContext) -> Void) {
+        let context = self.context
+        context.perform {
+            action(context)
+        }
+    }
+    
+    private func cleanUpReferencesTopPersistentStore() {
+        context.performAndWait {
+            let coordinator = self.container.persistentStoreCoordinator
+            try? coordinator.persistentStores.forEach(coordinator.remove)
+        }
+    }
+    
+    deinit {
+        cleanUpReferencesTopPersistentStore()
     }
 }
 
 private extension NSPersistentContainer {
-    enum LoadingError: Swift.Error {
-        case modelNotFound
-        case failedToLoadPersistentStores(Swift.Error)
-    }
-    
-    static func load(modelName name: String, url: URL, in bundle: Bundle) throws -> NSPersistentContainer {
-        guard let model = NSManagedObjectModel.with(name: name, in: bundle) else {
-            throw LoadingError.modelNotFound
-        }
-        
+    static func load(name: String, model: NSManagedObjectModel, url: URL) throws -> NSPersistentContainer {
         let description = NSPersistentStoreDescription(url: url)
         let container = NSPersistentContainer(name: name, managedObjectModel: model)
         container.persistentStoreDescriptions = [description]
         
         var loadError: Swift.Error?
         container.loadPersistentStores { loadError = $1 }
-        try loadError.map { throw LoadingError.failedToLoadPersistentStores($0) }
+        try loadError.map { throw $0 }
         
         return container
     }
 }
 
-private extension NSManagedObjectModel {
+extension NSManagedObjectModel {
     static func with(name: String, in bundle: Bundle) -> NSManagedObjectModel? {
         return bundle
             .url(forResource: name, withExtension: "momd")
             .flatMap { NSManagedObjectModel(contentsOf: $0) }
     }
-}
-
-@objc(ManagedCache)
-private class ManagedCache: NSManagedObject {
-    @NSManaged var timestamp: Date
-    @NSManaged var newsFeed: NSOrderedSet
-    
-    static func newUniqueInstance(in context: NSManagedObjectContext) throws -> ManagedCache {
-        try find(in: context).map(context.delete)
-        
-        return ManagedCache(context: context)
-    }
-    
-    static func find(in context: NSManagedObjectContext) throws -> ManagedCache? {
-        let request = NSFetchRequest<ManagedCache>(entityName: ManagedCache.entity().name!)
-        request.returnsObjectsAsFaults = false
-
-        return try! context.fetch(request).first
-    }
-    
-    var localNews: [LocalNewsItem] {
-        return newsFeed.compactMap {
-            ($0 as? ManagedNewsItem)?.local
-        }
-    }
-}
-
-@objc(ManagedNewsItem)
-private class ManagedNewsItem: NSManagedObject {
-    @NSManaged var id: UUID
-    @NSManaged var title: String
-    @NSManaged var itemDescription: String
-    @NSManaged var imageURL: URL
-    @NSManaged var content: String
-    @NSManaged var cache: ManagedCache
- 
-    static func articles(from localNews: [LocalNewsItem], in context: NSManagedObjectContext) -> NSOrderedSet {
-        return NSOrderedSet(array: localNews.map { local in
-            let managed = ManagedNewsItem(context: context)
-            managed.id = local.id
-            managed.title = local.title
-            managed.itemDescription = local.description
-            managed.imageURL = local.imageURL
-            managed.content = local.content
-            
-            return managed
-        })
-    }
-    
-    var local: LocalNewsItem {
-        return LocalNewsItem(id: id, title: title, description: itemDescription, imageURL: imageURL, content: content)
-    }
-    
 }
